@@ -1,0 +1,37 @@
+[package]
+name = "paseo-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Paseo daemon core: agent actor, run slot, lanes, manager bus, published views and the provider bridge (agent-manager port)"
+
+[features]
+# `MockSession` / `MockClient` for tests of this crate and of downstream crates.
+testing = []
+
+[dependencies]
+arc-swap = "1"
+async-trait.workspace = true
+indexmap.workspace = true
+regex.workspace = true
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+thiserror.workspace = true
+tracing.workspace = true
+uuid = { workspace = true, features = ["v4"] }
+tokio = { workspace = true, features = ["sync", "rt", "time", "macros", "fs"] }
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-provider-api = { path = "../paseo-provider-api" }
+paseo-store = { path = "../paseo-store" }
+paseo-schedule = { path = "../paseo-schedule" }
+paseo-timeline = { path = "../paseo-timeline" }
+paseo-tool-detail = { path = "../paseo-tool-detail" }
+
+[dev-dependencies]
+paseo-core = { path = ".", features = ["testing"] }
+paseo-provider-host = { path = "../paseo-provider-host" }
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full", "test-util"] }
+
+[lints.rust]
+unsafe_code = "forbid"
