@@ -1,0 +1,19 @@
+{"argv":["--mode","rpc","--model","anthropic/claude-haiku-4-5","--no-session"],"synthetic":"synthetic: hand-written from the TS adapter schemas and tests (omp binary not installed)"}
+{"dir":"out","line":{"type":"ready","supportedProtocolVersions":[1,2],"maxFrameBytes":1048576,"maxReassembledFrameBytes":67108864}}
+{"dir":"in","line":{"type":"negotiate_protocol","protocolVersion":2,"id":"req_1"}}
+{"dir":"out","line":{"id":"req_1","type":"response","command":"negotiate_protocol","success":true,"data":{"protocolVersion":2}}}
+{"dir":"in","line":{"type":"get_state","id":"req_2"}}
+{"dir":"out","line":{"id":"req_2","type":"response","command":"get_state","success":true,"data":{"model":{"provider":"anthropic","id":"claude-haiku-4-5","name":"Claude Haiku 4.5","reasoning":true,"contextWindow":200000,"maxTokens":64000,"thinking":{"mode":"effort","efforts":["minimal","low","medium","high"],"defaultLevel":"medium"},"input":["text","image"]},"thinkingLevel":"medium","isStreaming":false,"isCompacting":false,"autoCompactionEnabled":true,"sessionFile":"/tmp/paseo-pi-fixture/omp/session.jsonl","sessionId":"omp-session-1","messageCount":0,"queuedMessageCount":0}}}
+{"dir":"in","line":{"type":"prompt","message":"Reply with exactly: pong","id":"req_3"}}
+{"dir":"out","line":{"id":"req_3","type":"response","command":"prompt","success":true,"data":{"agentInvoked":true}}}
+{"dir":"out","line":{"type":"agent_start"}}
+{"dir":"out","line":{"type":"turn_start"}}
+{"dir":"out","line":{"type":"message_start","message":{"role":"user","content":[{"type":"text","text":"Reply with exactly: pong"}],"timestamp":1}}}
+{"dir":"out","line":{"type":"message_end","message":{"role":"user","content":[{"type":"text","text":"Reply with exactly: pong"}],"timestamp":1}}}
+{"dir":"out","line":{"type":"message_start","message":{"role":"assistant","content":[],"provider":"anthropic","model":"claude-haiku-4-5","stopReason":"stop"}}}
+{"dir":"out","line":{"type":"message_update","message":{"role":"assistant","content":[{"type":"text","text":"po"}],"provider":"anthropic","model":"claude-haiku-4-5","stopReason":"stop"},"assistantMessageEvent":{"type":"text_delta","delta":"po"}}}
+{"dir":"out","line":{"type":"message_update","message":{"role":"assistant","content":[{"type":"text","text":"pong"}],"provider":"anthropic","model":"claude-haiku-4-5","stopReason":"stop"},"assistantMessageEvent":{"type":"text_delta","delta":"ng"}}}
+{"dir":"out","line":{"type":"message_end","message":{"role":"assistant","content":[{"type":"text","text":"pong"}],"provider":"anthropic","model":"claude-haiku-4-5","stopReason":"stop"}}}
+{"dir":"out","line":{"type":"agent_end","messages":[{"role":"user","content":[{"type":"text","text":"Reply with exactly: pong"}],"timestamp":1},{"role":"assistant","content":[{"type":"text","text":"pong"}],"provider":"anthropic","model":"claude-haiku-4-5","stopReason":"stop"}]}}
+{"dir":"out","line":{"type":"prompt_result","id":"req_3","agentInvoked":true,"status":"ok"}}
+{"exit":{"code":0,"signal":null}}

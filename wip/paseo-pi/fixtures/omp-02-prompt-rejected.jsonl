@@ -1,0 +1,11 @@
+{"argv":["--mode","rpc","--no-session"],"synthetic":"synthetic: hand-written from the TS adapter schemas and tests (omp binary not installed)"}
+{"dir":"out","line":{"type":"ready","supportedProtocolVersions":[1,2],"maxFrameBytes":1048576,"maxReassembledFrameBytes":67108864}}
+{"dir":"in","line":{"type":"negotiate_protocol","protocolVersion":2,"id":"req_1"}}
+{"dir":"out","line":{"id":"req_1","type":"response","command":"negotiate_protocol","success":true,"data":{"protocolVersion":2}}}
+{"dir":"in","line":{"type":"get_state","id":"req_2"}}
+{"dir":"out","line":{"id":"req_2","type":"response","command":"get_state","success":true,"data":{"model":{"provider":"anthropic","id":"claude-haiku-4-5","name":"Claude Haiku 4.5","reasoning":true,"contextWindow":200000,"maxTokens":64000,"thinking":{"mode":"effort","efforts":["minimal","low","medium","high"],"defaultLevel":"medium"},"input":["text","image"]},"thinkingLevel":"medium","isStreaming":false,"isCompacting":false,"autoCompactionEnabled":true,"sessionFile":"/tmp/paseo-pi-fixture/omp/session.jsonl","sessionId":"omp-session-1","messageCount":0,"queuedMessageCount":0}}}
+{"dir":"in","line":{"type":"prompt","message":"hello","id":"req_3"}}
+{"dir":"out","line":{"id":"req_3","type":"response","command":"prompt","success":true,"data":{}}}
+{"dir":"out","line":{"type":"prompt_result","id":"req_3","agentInvoked":false,"status":"error","error":{"message":"No API key found for anthropic."}}}
+{"dir":"out","line":{"type":"notice","level":"error","message":"No API key found for anthropic.","source":"auth"}}
+{"exit":{"code":1,"signal":null}}
