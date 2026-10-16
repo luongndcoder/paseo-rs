@@ -1,7 +1,7 @@
 //! History conversion (`convertClaudeHistoryEntry`, `ingestPersistedHistory`): the persisted
 //! transcript is replayed through the same mapper state as the live stream.
 //!
-//! Sidechain (subagent) transcripts are not replayed; see `DEVIATION(claude-subagent-frames-unmapped)`.
+//! Sidechain (subagent) transcripts are not replayed; see `DEVIATION(claude-subagent-replay-unmapped)`.
 
 use serde_json::{json, Map, Value};
 

@@ -23,10 +23,9 @@
 //! PARITY-QUIRK(claude-answer-first-pending-permission): a permission `control_response` in a
 //! capture answers the first pending request, whatever its `request_id` (the golden driver did).
 //!
-//! DEVIATION(claude-subagent-frames-unmapped): frames from inside a subagent
-//! (`parent_tool_use_id`), the task protocol (`task_started` / `task_progress`, synthetic Task
-//! cards) and the sidechain tracker are not ported yet. Such frames emit no events; main-session
-//! frames behave as in TS.
+//! DEVIATION(claude-subagent-replay-unmapped): live subagent frames, the task protocol and the
+//! sidechain tracker are ported (`subagents.rs`, `sidechain.rs`). On-disk subagent replay
+//! (`subagents/replay-source.ts`) and hook-fed effort are not.
 //!
 //! DEVIATION(claude-turn-id-on-untyped-events): `AgentStreamEvent::ThreadStarted` and `ModeChanged`
 //! carry no `turn_id`, so the runtime turn tag TS puts on them is not represented.
@@ -46,6 +45,8 @@ mod models;
 mod partial_json;
 mod permission_flow;
 mod permissions;
+mod sidechain;
+mod subagents;
 mod task_notification;
 mod task_state;
 mod text;
@@ -59,6 +60,8 @@ use serde_json::{json, Map, Value};
 use crate::{MapEnv, ProviderMapper};
 use assembler::TimelineAssembler;
 use permissions::{default_modes_value, is_permission_mode};
+use sidechain::{SidechainCtx, SidechainTracker};
+use subagents::{fold_observations, Observation, TaskProtocolSource};
 use task_state::TaskState;
 use text::{first_trimmed, js_truthy, obj_get, str_of};
 use usage::ContextUsageState;
@@ -128,6 +131,8 @@ pub struct ClaudeMapper {
     assembler: TimelineAssembler,
     context_usage: ContextUsageState,
     task_state: TaskState,
+    task_protocol: TaskProtocolSource,
+    sidechain: SidechainTracker,
 
     pending_permissions: Vec<PendingPermission>,
     pending_tool_requests: HashSet<String>,
@@ -169,6 +174,8 @@ impl ClaudeMapper {
             assembler: TimelineAssembler::default(),
             context_usage: ContextUsageState::default(),
             task_state: TaskState::default(),
+            task_protocol: TaskProtocolSource::default(),
+            sidechain: SidechainTracker::default(),
             pending_permissions: Vec::new(),
             pending_tool_requests: HashSet::new(),
         }
@@ -497,6 +504,20 @@ impl ClaudeMapper {
                 self.notify_timeline(item);
             }
         }
+        self.sidechain.clear();
+        // The task protocol's routing table is session-scoped: the turn ended, the session did
+        // not, so a backgrounded child that settles later still finds its descriptor.
+        let observations = self.task_protocol.cancel_running_foreground_tasks();
+        for event in fold_observations(&observations) {
+            self.notify(event);
+        }
+    }
+
+    /// `failRunningRuntimeTasks`: a lost Claude process terminates every task it owned.
+    #[allow(dead_code)]
+    fn fail_running_runtime_tasks(&mut self) {
+        let observations = self.task_protocol.fail_running_tasks();
+        self.dispatch_events(fold_observations(&observations));
     }
 
     // ---- pump ------------------------------------------------------------------------------------
@@ -618,12 +639,44 @@ impl ClaudeMapper {
     /// `translateMessageToEvents` with assistant text and reasoning suppressed (the assembler owns
     /// them on the pump path).
     fn translate_message_to_events(&mut self, message: &Value) -> Vec<Value> {
-        if parent_tool_use_id(message).is_some() {
-            return Vec::new(); // DEVIATION(claude-subagent-frames-unmapped)
+        if let Some(parent) = parent_tool_use_id(message) {
+            return self.translate_sidechain_frame_to_events(message, parent);
         }
         let mut events = Vec::new();
         if let Some(item) = self.task_state.observe(message) {
             events.push(json!({"type": "timeline", "provider": "claude", "item": item}));
+        }
+        // Subagent identity and lifecycle are announced by the task protocol, so they are read
+        // rather than inferred from sidechain frames.
+        let observations = {
+            let cache = &self.tool_use_cache;
+            let tool_input = |id: &str| {
+                cache
+                    .iter()
+                    .find(|e| e.id == id)
+                    .and_then(|e| e.input.clone())
+            };
+            self.task_protocol.observe(message, &tool_input)
+        };
+        events.extend(fold_observations(&observations));
+        for observation in &observations {
+            let Observation::Declared {
+                id,
+                title,
+                description,
+                parent_subagent_id,
+                ..
+            } = observation
+            else {
+                continue;
+            };
+            if !self.task_protocol.needs_synthetic_parent_tool_card(id) {
+                continue;
+            }
+            if let Some(card) = subagent_tool_call_card(id, title, description, parent_subagent_id)
+            {
+                events.push(json!({"type": "timeline", "provider": "claude", "item": card}));
+            }
         }
         let ty = str_of(message.get("type"));
         if ty != Some("system") {
@@ -639,7 +692,10 @@ impl ClaudeMapper {
         self.forget_started_message(message);
         match ty {
             Some("system") => self.append_system_message_events(message, &mut events),
-            Some("user") => self.append_user_message_events(message, &mut events),
+            Some("user") => {
+                self.append_user_message_events(message, &mut events);
+                self.append_sidechain_result_events(message, &mut events);
+            }
             Some("assistant") => {
                 let content = obj_get(message, "message").and_then(|m| m.get("content"));
                 if let Some(content) = content {
@@ -650,12 +706,70 @@ impl ClaudeMapper {
                             .push(json!({"type": "timeline", "item": item, "provider": "claude"}));
                     }
                 }
+                self.append_sidechain_result_events(message, &mut events);
             }
             Some("stream_event") => self.append_stream_event_events(message, &mut events),
             Some("result") => self.append_result_events(message, &mut events),
             _ => {}
         }
         events
+    }
+
+    /// `translateSidechainFrameToEvents`: a frame from inside a subagent, routed to that child
+    /// rather than the parent's transcript.
+    fn translate_sidechain_frame_to_events(&mut self, message: &Value, parent: &str) -> Vec<Value> {
+        let canonical = self.task_protocol.resolve_subagent_id(parent);
+        // Once a CLI announces its tasks it announces all of them, so a frame for one that was
+        // never declared is work the declaration filter already rejected.
+        if self.task_protocol.announces_tasks() && canonical.is_none() {
+            return Vec::new();
+        }
+        let routed = canonical.unwrap_or_else(|| parent.to_owned());
+        let mut events =
+            fold_observations(&self.task_protocol.observe_sidechain_frame(message, &routed));
+        let task_input = self.tool_input(&routed);
+        let ctx = SidechainCtx {
+            tool_input: task_input.as_ref(),
+            descriptor_owned_elsewhere: self.task_protocol.is_active(),
+            // The parent's tool call owns its card once its result arrives; a background child
+            // streams its frames after Claude has already answered the call.
+            needs_parent_card: self.tool_use_cache.iter().any(|e| e.id == routed)
+                && self.task_protocol.needs_synthetic_parent_tool_card(&routed),
+        };
+        events.extend(self.sidechain.handle_message(message, &routed, &ctx));
+        events
+    }
+
+    fn tool_input(&self, id: &str) -> Option<Value> {
+        self.tool_use_cache
+            .iter()
+            .find(|e| e.id == id)
+            .and_then(|e| e.input.clone())
+    }
+
+    /// `appendSidechainResultEvents`: a tool result in the parent transcript closes its child.
+    fn append_sidechain_result_events(&mut self, message: &Value, events: &mut Vec<Value>) {
+        let Some(content) = obj_get(message, "message")
+            .and_then(|m| m.get("content"))
+            .and_then(Value::as_array)
+        else {
+            return;
+        };
+        for block in content {
+            if !block.is_object() || str_of(block.get("type")) != Some("tool_result") {
+                continue;
+            }
+            let Some(id) = str_of(block.get("tool_use_id")) else {
+                continue;
+            };
+            let status = if block.get("is_error").is_some_and(js_truthy) {
+                "failed"
+            } else {
+                "completed"
+            };
+            let owned = self.task_protocol.is_active();
+            events.extend(self.sidechain.finish(id, status, owned));
+        }
     }
 
     fn forget_started_message(&mut self, message: &Value) {
@@ -753,12 +867,26 @@ impl ClaudeMapper {
                     .get("tool_use_id")
                     .and_then(Value::as_str)
                     .and_then(|id| self.tool_use_cache.iter().find(|e| e.id == id));
-                if cached.is_some_and(|e| matches!(e.name.as_str(), "Task" | "Agent" | "Workflow"))
+                let task_id = str_of(message.get("task_id")).unwrap_or("undefined");
+                // The task protocol owns provider-subagent identity; the cache is only a fallback
+                // for older Claude streams which do not announce tasks.
+                if self.task_protocol.is_declared_task(task_id)
+                    || cached
+                        .is_some_and(|e| matches!(e.name.as_str(), "Task" | "Agent" | "Workflow"))
                 {
                     return;
                 }
                 if let Some(item) = task_notification::map_system_record(message) {
-                    events.push(json!({"type": "timeline", "item": item, "provider": "claude"}));
+                    let owner = self
+                        .task_protocol
+                        .resolve_task_owner(task_id, str_of(message.get("tool_use_id")));
+                    match owner {
+                        Some(owner) => events.push(subagents::provider_subagent_event(
+                            json!({"type": "timeline", "id": owner, "item": item}),
+                        )),
+                        None => events
+                            .push(json!({"type": "timeline", "item": item, "provider": "claude"})),
+                    }
                 }
             }
             _ => {}
@@ -832,6 +960,8 @@ impl ClaudeMapper {
             .context_usage
             .build_result_usage(message, model.as_deref());
         if str_of(message.get("subtype")) == Some("success") {
+            let owned = self.task_protocol.is_active();
+            events.extend(self.sidechain.finish_all("completed", owned));
             let result_text = message
                 .get("result")
                 .and_then(Value::as_str)
@@ -870,6 +1000,8 @@ impl ClaudeMapper {
                     .join("\n")
             })
             .unwrap_or_else(|| "Claude run failed".to_owned());
+        let owned = self.task_protocol.is_active();
+        events.extend(self.sidechain.finish_all("failed", owned));
         events.push(self.build_turn_failed_event(&errors));
     }
 
@@ -893,7 +1025,21 @@ impl ClaudeMapper {
             return;
         };
         if let Some(item) = task_notification::map_user_content(content, message_id.as_deref()) {
-            events.push(json!({"type": "timeline", "item": item, "provider": "claude"}));
+            let metadata = item.get("metadata");
+            let task_id = str_of(metadata.and_then(|m| m.get("taskId")));
+            let tool_use_id = str_of(metadata.and_then(|m| m.get("toolUseId")));
+            if task_id.is_some_and(|t| self.task_protocol.is_declared_task(t)) {
+                return;
+            }
+            let owner = task_id.and_then(|t| self.task_protocol.resolve_task_owner(t, tool_use_id));
+            match owner {
+                Some(owner) => events.push(subagents::provider_subagent_event(
+                    json!({"type": "timeline", "id": owner, "item": item}),
+                )),
+                None => {
+                    events.push(json!({"type": "timeline", "item": item, "provider": "claude"}))
+                }
+            }
             return;
         }
         match content {
@@ -930,6 +1076,8 @@ impl ClaudeMapper {
     fn close_session(&mut self) {
         self.closed = true;
         self.reject_all_pending_permissions("Claude session closed");
+        self.sidechain.clear();
+        self.task_protocol.reset();
         if self.cancel_current_turn.is_some() {
             self.request_cancel();
         }
@@ -969,6 +1117,43 @@ pub(crate) enum PermissionAnswer {
 }
 
 // ---- free helpers ------------------------------------------------------------------------------
+
+/// `buildSubagentToolCallCard`: the parent's Task card, built from the declaration. A direct
+/// child only; a launching sidechain already owns the card of the grandchild it spawned.
+fn subagent_tool_call_card(
+    id: &str,
+    title: &Option<String>,
+    description: &Option<String>,
+    parent_subagent_id: &Option<String>,
+) -> Option<Value> {
+    if parent_subagent_id.is_some() {
+        return None;
+    }
+    let card = paseo_tool_detail::detail::claude::map_claude_running_tool_call(
+        &paseo_tool_detail::detail::claude::ClaudeToolCallParams {
+            call_id: Some(id),
+            name: "Task",
+            input: None,
+            output: None,
+            metadata: None,
+        },
+    )?;
+    let mut detail = Map::new();
+    detail.insert("type".into(), json!("sub_agent"));
+    if let Some(t) = title {
+        detail.insert("subAgentType".into(), json!(t));
+    }
+    if let Some(d) = description {
+        detail.insert("description".into(), json!(d));
+    }
+    detail.insert("log".into(), json!(""));
+    detail.insert("actions".into(), json!([]));
+    let mut value = card.to_value();
+    if let Some(o) = value.as_object_mut() {
+        o.insert("detail".into(), Value::Object(detail));
+    }
+    Some(value)
+}
 
 fn read_nonempty_string(v: Option<&Value>) -> Option<String> {
     v.and_then(Value::as_str)

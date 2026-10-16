@@ -124,3 +124,44 @@ pub fn context_window_max_tokens(model_id: Option<&str>) -> Option<u64> {
         .find(|(m, _)| *m == normalized)
         .map(|(_, w)| *w)
 }
+
+/// `CLAUDE_MODEL_MANIFEST` labels, parallel to `MANIFEST`.
+const LABELS: &[&str] = &[
+    "Opus 5.5",
+    "Opus 5",
+    "Mythos 5.1",
+    "Fable 5.1",
+    "Fable 5",
+    "Opus 4.8 1M",
+    "Opus 4.8",
+    "Sonnet 5.5",
+    "Sonnet 5",
+    "Sonnet 5 1M",
+    "Opus 4.7 1M",
+    "Opus 4.7",
+    "Opus 4.6 1M",
+    "Opus 4.6",
+    "Sonnet 4.6 1M",
+    "Sonnet 4.6",
+    "Haiku 5.5",
+    "Haiku 4.5",
+];
+
+/// `findClaudeModel(modelId)?.label`.
+pub fn find_model_label(model_id: &str) -> Option<&'static str> {
+    let normalized = normalize_runtime_model_id(Some(model_id))?;
+    MANIFEST
+        .iter()
+        .position(|(m, _)| *m == normalized)
+        .map(|i| LABELS[i])
+}
+
+/// `resolveObservedClaudeModelId`: the manifest id when known, else the raw trimmed string;
+/// `None` for placeholders and empty values.
+pub fn resolve_observed_model_id(value: Option<&str>) -> Option<String> {
+    let trimmed = paseo_tool_detail::js::js_trim(value?);
+    if trimmed.is_empty() || trimmed == "<synthetic>" {
+        return None;
+    }
+    Some(normalize_runtime_model_id(Some(trimmed)).unwrap_or_else(|| trimmed.to_owned()))
+}

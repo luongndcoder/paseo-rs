@@ -234,7 +234,7 @@ fn session_close_cancels_the_open_turn_and_rejects_pending_permissions() {
 }
 
 #[test]
-fn subagent_frames_are_not_mapped() {
+fn subagent_frames_never_reach_the_parent_transcript() {
     let rows = vec![
         user_prompt("go"),
         init("s1"),
@@ -245,6 +245,10 @@ fn subagent_frames_are_not_mapped() {
     ];
     let events = run(&rows);
     assert!(!types(&events).contains(&"timeline:assistant_message".to_owned()));
+    // Without a task announcement the tracker still routes the frame to its child.
+    assert!(subagent_events(&events)
+        .iter()
+        .any(|e| e["item"]["text"] == "inside the subagent"));
 }
 
 #[test]
@@ -392,4 +396,289 @@ fn plan_permission_allow_completes_the_native_call() {
         .expect("plan_approval call");
     assert_eq!(completed["item"]["callId"], "toolu_p");
     assert_eq!(completed["item"]["status"], "completed");
+}
+
+fn task_parent_assistant() -> Value {
+    out(json!({
+        "type": "assistant", "session_id": "s1", "parent_tool_use_id": null,
+        "message": {"id": "msg_p", "role": "assistant", "content": [
+            {"type": "tool_use", "id": "toolu_task", "name": "Task",
+             "input": {"description": "Find the bug", "subagent_type": "Explore", "prompt": "look"}}
+        ]},
+    }))
+}
+
+fn task_started(tool_use_id: &str, extra: Value) -> Value {
+    let mut line = json!({
+        "type": "system", "subtype": "task_started", "session_id": "s1", "task_id": "task-1",
+        "tool_use_id": tool_use_id, "description": "Find the bug", "subagent_type": "Explore",
+        "task_type": "local_agent", "prompt": "look around",
+    });
+    for (k, v) in extra.as_object().unwrap() {
+        line[k] = v.clone();
+    }
+    out(line)
+}
+
+fn sidechain_assistant(parent: &str, content: Value) -> Value {
+    out(json!({
+        "type": "assistant", "session_id": "s1", "parent_tool_use_id": parent,
+        "message": {"id": "msg_c", "role": "assistant", "model": "claude-haiku-4-5", "content": content},
+    }))
+}
+
+fn subagent_events(events: &[Value]) -> Vec<&Value> {
+    events
+        .iter()
+        .filter(|e| e["type"] == "provider_subagent")
+        .map(|e| &e["event"])
+        .collect()
+}
+
+fn sidechain_user_result(parent: &str, tool_use_id: &str, content: &str) -> Value {
+    out(
+        json!({"type": "user", "session_id": "s1", "parent_tool_use_id": parent,
+        "message": {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": tool_use_id, "content": content}]}}),
+    )
+}
+
+fn parent_tool_result(tool_use_id: &str, is_error: bool) -> Value {
+    out(json!({"type": "user", "session_id": "s1",
+        "message": {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": tool_use_id, "content": "done", "is_error": is_error}]}}))
+}
+
+fn task_card_logs(events: &[Value]) -> Vec<String> {
+    events
+        .iter()
+        .filter(|e| e["type"] == "timeline" && e["item"]["detail"]["type"] == "sub_agent")
+        .map(|e| e["item"]["detail"]["log"].as_str().unwrap().to_owned())
+        .collect()
+}
+
+#[test]
+fn task_protocol_declares_subagent_and_routes_sidechain_frames() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        task_started("toolu_task", json!({})),
+        sidechain_assistant(
+            "toolu_task",
+            json!([
+                {"type": "text", "text": " found it "},
+                {"type": "tool_use", "id": "toolu_r", "name": "Read", "input": {"file_path": "/work/a.rs"}}
+            ]),
+        ),
+        sidechain_user_result("toolu_task", "toolu_r", "fn main() {}"),
+        out(
+            json!({"type": "system", "subtype": "task_progress", "task_id": "task-1",
+            "usage": {"total_tokens": 1500}}),
+        ),
+        out(
+            json!({"type": "system", "subtype": "task_notification", "task_id": "task-1",
+            "tool_use_id": "toolu_task", "status": "completed"}),
+        ),
+        parent_tool_result("toolu_task", false),
+        result_ok("s1"),
+    ];
+    let events = run(&rows);
+    let sub = subagent_events(&events);
+    assert_eq!(
+        sub[0],
+        &json!({"type": "upsert", "id": "toolu_task", "title": "Explore",
+            "description": "Find the bug", "status": "running", "toolCallId": "toolu_task"})
+    );
+    assert_eq!(
+        sub[1],
+        &json!({"type": "timeline", "id": "toolu_task",
+            "item": {"type": "user_message", "text": "look around"}})
+    );
+    // The model read off the child's own frame, then its token usage, build one subtitle.
+    assert!(sub.contains(
+        &&json!({"type": "upsert", "id": "toolu_task", "subtitle": "Explore \u{b7} Haiku 4.5"})
+    ));
+    assert!(sub.contains(&&json!({"type": "upsert", "id": "toolu_task",
+        "subtitle": "Explore \u{b7} Haiku 4.5 \u{b7} 1.5k tokens"})));
+    assert!(
+        sub.contains(&&json!({"type": "timeline", "id": "toolu_task",
+        "item": {"type": "assistant_message", "text": "found it", "messageId": "msg_c"}}))
+    );
+    // Child tool calls land on the child, running then completed.
+    let child_reads: Vec<&str> = sub
+        .iter()
+        .filter(|e| e["type"] == "timeline" && e["item"]["callId"] == "toolu_r")
+        .map(|e| e["item"]["status"].as_str().unwrap())
+        .collect();
+    assert_eq!(child_reads, ["running", "completed"]);
+    // The task protocol owns the descriptor: the tracker adds no `Claude subagent` upsert and the
+    // parent's result does not close the child a second time.
+    assert!(!sub.iter().any(|e| e["title"] == "Claude subagent"));
+    assert_eq!(
+        sub.iter().filter(|e| e["status"] == "completed").count(),
+        1,
+        "{sub:?}"
+    );
+    // The synthetic Task card carries the child's action log.
+    assert_eq!(
+        task_card_logs(&events),
+        ["", "[Read] /work/a.rs", "[Read] /work/a.rs"]
+    );
+    // No sidechain frame leaks into the parent transcript.
+    assert!(!events
+        .iter()
+        .any(|e| e["type"] == "timeline" && e["item"]["text"] == "found it"));
+}
+
+#[test]
+fn task_call_name_wins_over_subagent_type() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        out(
+            json!({"type": "assistant", "session_id": "s1", "message": {"id": "m", "content": [
+            {"type": "tool_use", "id": "toolu_task", "name": "Task",
+             "input": {"name": "bug-hunter", "subagent_type": "Explore"}}]}}),
+        ),
+        task_started("toolu_task", json!({})),
+    ];
+    let events = run(&rows);
+    assert_eq!(subagent_events(&events)[0]["title"], "bug-hunter");
+}
+
+#[test]
+fn legacy_sidechain_derives_descriptor_from_frames_and_closes_on_result() {
+    // No `task_started`: an older Claude Code release, so the tracker owns the descriptor.
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        sidechain_assistant(
+            "toolu_task",
+            json!([{"type": "tool_use", "id": "toolu_r", "name": "Read", "input": {"file_path": "/work/a.rs"}}]),
+        ),
+        parent_tool_result("toolu_task", true),
+    ];
+    let events = run(&rows);
+    let sub = subagent_events(&events);
+    assert_eq!(
+        sub[0],
+        &json!({"type": "upsert", "id": "toolu_task", "title": "Explore",
+            "description": "Find the bug", "status": "running", "toolCallId": "toolu_task"})
+    );
+    assert_eq!(
+        sub.last().unwrap(),
+        &&json!({"type": "upsert", "id": "toolu_task", "title": "Explore",
+            "description": "Find the bug", "status": "failed", "toolCallId": "toolu_task"})
+    );
+    assert_eq!(task_card_logs(&events), ["[Read] /work/a.rs"]);
+}
+
+#[test]
+fn legacy_sidechain_finishes_as_completed_when_the_turn_succeeds() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        sidechain_assistant("toolu_task", json!([{"type": "text", "text": "hi"}])),
+        result_ok("s1"),
+    ];
+    let events = run(&rows);
+    let last = subagent_events(&events).into_iter().last().unwrap().clone();
+    assert_eq!(last["status"], "completed");
+    assert_eq!(last["toolCallId"], "toolu_task");
+}
+
+#[test]
+fn frames_for_undeclared_tasks_are_dropped_once_the_cli_announces_tasks() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        // A background shell is announced but is not a subagent.
+        out(
+            json!({"type": "system", "subtype": "task_started", "task_id": "task-b",
+            "tool_use_id": "toolu_bash", "task_type": "local_bash"}),
+        ),
+        sidechain_assistant("toolu_other", json!([{"type": "text", "text": "ghost"}])),
+    ];
+    let events = run(&rows);
+    assert!(subagent_events(&events).is_empty(), "{events:?}");
+}
+
+#[test]
+fn nested_tool_calls_make_their_tasks_children_of_the_emitting_subagent() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        task_started("toolu_task", json!({})),
+        sidechain_assistant(
+            "toolu_task",
+            json!([{"type": "tool_use", "id": "toolu_grand", "name": "Task",
+                "input": {"description": "inner", "subagent_type": "Explore"}}]),
+        ),
+        out(
+            json!({"type": "system", "subtype": "task_started", "task_id": "task-2",
+            "tool_use_id": "toolu_grand", "description": "inner", "subagent_type": "Explore",
+            "task_type": "local_agent"}),
+        ),
+    ];
+    let events = run(&rows);
+    let grandchild = subagent_events(&events)
+        .into_iter()
+        .find(|e| e["id"] == "toolu_grand" && e["type"] == "upsert")
+        .unwrap();
+    assert_eq!(grandchild["parentSubagentId"], "toolu_task");
+    // The launching sidechain already owns the grandchild's card.
+    assert!(!events.iter().any(|e| e["type"] == "timeline"
+        && e["item"]["callId"] == "toolu_grand"
+        && e["item"]["detail"]["type"] == "sub_agent"
+        && e["item"]["detail"]["log"] == ""));
+}
+
+#[test]
+fn subagent_handback_is_shown_as_the_childs_final_message_and_never_as_a_card() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        task_started("toolu_task", json!({})),
+        sidechain_assistant(
+            "toolu_task",
+            json!([{"type": "tool_use", "id": "toolu_hb", "name": "SubagentHandback",
+                "input": {"message": "all done"}}]),
+        ),
+        sidechain_user_result("toolu_task", "toolu_hb", "ack"),
+    ];
+    let events = run(&rows);
+    let sub = subagent_events(&events);
+    assert!(
+        sub.contains(&&json!({"type": "timeline", "id": "toolu_task",
+        "item": {"type": "assistant_message", "text": "all done", "messageId": "msg_c"}}))
+    );
+    assert!(!sub.iter().any(|e| e["item"]["callId"] == "toolu_hb"));
+}
+
+#[test]
+fn background_child_survives_an_interrupt_while_foreground_children_are_canceled() {
+    let rows = vec![
+        user_prompt("go"),
+        init("s1"),
+        task_parent_assistant(),
+        task_started("toolu_task", json!({})),
+        out(
+            json!({"type": "system", "subtype": "task_started", "task_id": "task-2",
+            "tool_use_id": "toolu_bg", "description": "bg", "subagent_type": "Explore",
+            "task_type": "local_agent", "is_backgrounded": true}),
+        ),
+        input(json!({"type": "control_request", "request": {"subtype": "interrupt"}})),
+    ];
+    let events = run(&rows);
+    let canceled: Vec<&str> = subagent_events(&events)
+        .iter()
+        .filter(|e| e["status"] == "canceled")
+        .map(|e| e["id"].as_str().unwrap())
+        .collect();
+    assert_eq!(canceled, ["toolu_task"]);
 }
