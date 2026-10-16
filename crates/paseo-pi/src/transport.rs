@@ -2,6 +2,7 @@
 
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::{Duration, Instant};
@@ -39,6 +40,8 @@ pub struct ProcessTransport {
     stdout: Mutex<BufReader<ChildStdout>>,
     child: Mutex<Child>,
     stderr: Arc<Mutex<Vec<u8>>>,
+    /// Set when the stderr drain thread hit EOF, so the tail is complete.
+    stderr_done: Arc<AtomicBool>,
     pid: u32,
 }
 
@@ -73,6 +76,8 @@ impl ProcessTransport {
         let mut stderr_pipe = child.stderr.take().expect("stderr is piped");
         let stderr = Arc::new(Mutex::new(Vec::new()));
         let sink = Arc::clone(&stderr);
+        let stderr_done = Arc::new(AtomicBool::new(false));
+        let done = Arc::clone(&stderr_done);
         thread::spawn(move || {
             let mut buf = [0u8; 4096];
             while let Ok(n) = std::io::Read::read(&mut stderr_pipe, &mut buf) {
@@ -86,12 +91,14 @@ impl ProcessTransport {
                     guard.drain(..cut);
                 }
             }
+            done.store(true, Ordering::SeqCst);
         });
         Ok(Self {
             stdin: Mutex::new(Some(stdin)),
             stdout: Mutex::new(BufReader::new(stdout)),
             child: Mutex::new(child),
             stderr,
+            stderr_done,
             pid,
         })
     }
@@ -165,6 +172,11 @@ impl Transport for ProcessTransport {
             }
             thread::sleep(Duration::from_millis(10));
         };
+        // The drain thread can lag the exit; a grandchild holding stderr open bounds the wait.
+        let drain_deadline = Instant::now() + Duration::from_millis(500);
+        while !self.stderr_done.load(Ordering::SeqCst) && Instant::now() < drain_deadline {
+            thread::sleep(Duration::from_millis(5));
+        }
         let stderr_tail = String::from_utf8_lossy(&self.stderr.lock().unwrap())
             .trim()
             .to_string();

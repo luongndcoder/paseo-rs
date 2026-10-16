@@ -332,6 +332,12 @@ impl RpcClient {
         match self.inner.transport.write_line(&line) {
             Ok(()) => Ok(()),
             Err(error) => {
+                // A child that died before we wrote surfaces as EPIPE on Linux before the reader
+                // thread has recorded the exit. Prefer the exit message (code + stderr tail).
+                if let Some(exit) = self.exit_after_broken_pipe(&error) {
+                    self.close_with(&exit);
+                    return Err(Error::Closed(exit));
+                }
                 let message = error.to_string();
                 self.close_with(&format!(
                     "{} stdin write failed: {message}",
@@ -339,6 +345,25 @@ impl RpcClient {
                 ));
                 Err(error)
             }
+        }
+    }
+
+    fn exit_after_broken_pipe(&self, error: &Error) -> Option<String> {
+        let Error::Io(io) = error else {
+            return None;
+        };
+        if io.kind() != std::io::ErrorKind::BrokenPipe {
+            return None;
+        }
+        let deadline = Instant::now() + Duration::from_secs(1);
+        loop {
+            if let Some(exit) = self.inner.ready.lock().unwrap().exit.clone() {
+                return Some(exit);
+            }
+            if Instant::now() >= deadline {
+                return None;
+            }
+            std::thread::sleep(Duration::from_millis(10));
         }
     }
 
