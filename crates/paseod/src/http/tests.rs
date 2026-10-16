@@ -688,7 +688,14 @@ async fn start_edge_with_mcp(backend: Arc<Backend>, mcp: Option<Router>) -> Sock
     ));
     let mut state = AppState::new(edge_config(None), backend, ws);
     if let Some(mcp) = mcp {
-        state = state.with_agent_mcp(mcp);
+        state = state.with_agent_mcp(
+            mcp,
+            mcp_guard::McpHttpGuard {
+                check_host: true,
+                allowed_origins: vec!["http://ok.test".into()],
+                ..Default::default()
+            },
+        );
     }
     let listener = bind(&ListenAddr::Tcp("127.0.0.1:0".parse().unwrap()))
         .await
@@ -726,4 +733,57 @@ async fn agent_mcp_is_served_in_process_only_when_mounted() {
     // Other paths still go to the backend.
     let reply = fetch(edge, "/api/health", &[]).await;
     assert_eq!(reply.text(), "ok");
+}
+
+#[tokio::test]
+async fn agent_mcp_enforces_host_allowlist_and_cors() {
+    let backend_addr = fake_backend().await;
+    let mcp = Router::new().route(
+        AGENT_MCP_ROUTE,
+        any(|req: Request| async move { format!("in-process:{}", req.method()) }),
+    );
+    let edge = start_edge_with_mcp(Backend::fixed(backend_addr, TOKEN), Some(mcp)).await;
+    // DNS-rebinding Host: rejected before the route.
+    let reply = request(
+        edge,
+        "POST",
+        AGENT_MCP_ROUTE,
+        &[("host", "evil.example")],
+        Body::empty(),
+    )
+    .await;
+    assert_eq!(reply.status, StatusCode::FORBIDDEN);
+    assert!(reply.text().contains("Invalid Host header"));
+    // Allowed origin gets CORS headers; unknown origin does not.
+    let reply = request(
+        edge,
+        "POST",
+        AGENT_MCP_ROUTE,
+        &[("origin", "http://ok.test")],
+        Body::empty(),
+    )
+    .await;
+    assert_eq!(
+        reply.header("access-control-allow-origin"),
+        Some("http://ok.test")
+    );
+    let reply = request(
+        edge,
+        "POST",
+        AGENT_MCP_ROUTE,
+        &[("origin", "http://bad.test")],
+        Body::empty(),
+    )
+    .await;
+    assert_eq!(reply.header("access-control-allow-origin"), None);
+    // Preflight answers 204 without reaching the route.
+    let reply = request(
+        edge,
+        "OPTIONS",
+        AGENT_MCP_ROUTE,
+        &[("origin", "http://ok.test")],
+        Body::empty(),
+    )
+    .await;
+    assert_eq!(reply.status, StatusCode::NO_CONTENT);
 }

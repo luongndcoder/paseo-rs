@@ -10,6 +10,7 @@ use std::sync::Arc;
 
 use paseo_tools::CoreApi;
 
+use crate::http::mcp_guard::McpHttpGuard;
 use crate::http::AppState;
 
 pub use paseo_mcp::{mcp_router, mcp_router_with, mint_capability_token, McpOptions};
@@ -21,8 +22,15 @@ pub fn core_rust_enabled(env: &dyn Fn(&str) -> Option<String>) -> bool {
 
 /// Serves `/mcp/agents` in process over `core`. `options.capability_token` is the token the core
 /// injects into the agents' `paseo` MCP entry; `options.password_hash` is the daemon password.
-pub fn mount(state: AppState, core: Arc<dyn CoreApi>, options: McpOptions) -> AppState {
-    state.with_agent_mcp(mcp_router_with(core, options))
+/// `guard` is the TS Host allowlist + CORS, mandatory so the open no-password endpoint is never
+/// reachable by a DNS-rebinding page.
+pub fn mount(
+    state: AppState,
+    core: Arc<dyn CoreApi>,
+    options: McpOptions,
+    guard: McpHttpGuard,
+) -> AppState {
+    state.with_agent_mcp(mcp_router_with(core, options), guard)
 }
 
 #[cfg(test)]

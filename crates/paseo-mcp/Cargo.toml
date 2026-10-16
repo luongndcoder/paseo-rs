@@ -1,0 +1,32 @@
+[package]
+name = "paseo-mcp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Stateless MCP streamable-HTTP endpoint (/mcp/agents) over the Paseo tool catalog"
+
+[dependencies]
+axum = "0.8"
+bcrypt = "0.17"
+bytes = "1"
+http = "1"
+serde_json = { workspace = true, features = ["preserve_order"] }
+subtle = "2"
+tokio = { workspace = true, features = ["sync", "time", "rt", "macros"] }
+tokio-util = { version = "0.7", default-features = false }
+tracing.workspace = true
+url = "2"
+uuid = { workspace = true, features = ["v4"] }
+paseo-core = { path = "../paseo-core" }
+paseo-tools = { path = "../paseo-tools" }
+
+[dev-dependencies]
+rmcp = { version = "3.5.1", default-features = false, features = ["client", "transport-streamable-http-client-reqwest"] }
+async-trait.workspace = true
+paseo-agent-types = { path = "../paseo-agent-types" }
+http-body-util = "0.1"
+tokio = { workspace = true, features = ["full", "test-util"] }
+tower = { version = "0.5", features = ["util"] }
+
+[lints.rust]
+unsafe_code = "forbid"

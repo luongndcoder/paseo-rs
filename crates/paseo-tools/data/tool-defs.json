@@ -1,0 +1,7105 @@
+[
+ {
+  "name": "speak",
+  "title": "Speak",
+  "description": "Speak text to the user via daemon-managed voice output. Blocks until playback completes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 4000
+    }
+   },
+   "required": [
+    "text"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ok": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "ok"
+   ]
+  }
+ },
+ {
+  "name": "browser_list_tabs",
+  "title": "List browser tabs",
+  "description": "List open Paseo browser tabs for this agent's workspace across connected browser automation hosts. Use returned browserId values with tab-scoped tools.",
+  "input": {
+   "type": "object",
+   "properties": {}
+  },
+  "output": null
+ },
+ {
+  "name": "browser_new_tab",
+  "title": "Create browser tab",
+  "description": "Create a new Paseo browser tab in this agent's workspace on the most recently connected browser automation host, opened in the background without switching the user's view. Pass an http(s) URL or a scheme-less host URL, which is treated as http; the returned browserId is used by tab-scoped tools.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "url": {
+     "type": "string"
+    }
+   }
+  },
+  "output": null
+ },
+ {
+  "name": "browser_snapshot",
+  "title": "Snapshot browser page",
+  "description": "Return a model-readable snapshot of a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_click",
+  "title": "Click browser element",
+  "description": "Click an element in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    },
+    "button": {
+     "type": "string",
+     "enum": [
+      "left",
+      "right",
+      "middle"
+     ]
+    },
+    "doubleClick": {
+     "type": "boolean"
+    },
+    "modifiers": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "enum": [
+       "Alt",
+       "Control",
+       "Meta",
+       "Shift"
+      ]
+     }
+    }
+   },
+   "required": [
+    "ref",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_fill",
+  "title": "Fill browser element",
+  "description": "Fill an input-like element in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "value": {
+     "type": "string"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "ref",
+    "value",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_wait",
+  "title": "Wait for browser condition",
+  "description": "Wait until a Paseo browser tab contains text or reaches a URL fragment. Use browserId from browser_new_tab or browser_list_tabs; waits up to 5s by default on the browser host.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string",
+     "minLength": 1
+    },
+    "url": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timeoutMs": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 30000
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_type",
+  "title": "Type into browser",
+  "description": "Type text into an element, or into the focused element when ref is omitted. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string"
+    },
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "text",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_keypress",
+  "title": "Press browser key",
+  "description": "Dispatch a keypress to an element, or to the focused element when ref is omitted. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "key": {
+     "type": "string",
+     "minLength": 1
+    },
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "key",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_navigate",
+  "title": "Navigate browser",
+  "description": "Navigate a Paseo browser tab to a URL. Use browserId from browser_new_tab or browser_list_tabs; pass an http(s) URL or a scheme-less host URL, which is treated as http.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "url": {
+     "type": "string"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "url",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_back",
+  "title": "Browser back",
+  "description": "Go back in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_forward",
+  "title": "Browser forward",
+  "description": "Go forward in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_reload",
+  "title": "Browser reload",
+  "description": "Reload a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_screenshot",
+  "title": "Capture browser screenshot",
+  "description": "Capture a PNG screenshot of a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs. Set fullPage to true to capture the full page.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    },
+    "fullPage": {
+     "default": false,
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_upload",
+  "title": "Upload files in browser",
+  "description": "Set workspace files on a file input in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "filePaths": {
+     "minItems": 1,
+     "type": "array",
+     "items": {
+      "type": "string",
+      "minLength": 1
+     }
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "ref",
+    "filePaths",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_hover",
+  "title": "Hover browser element",
+  "description": "Hover an element in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "ref",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_select",
+  "title": "Select browser option",
+  "description": "Set a select element in a Paseo browser tab to a value. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "value": {
+     "type": "string"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "ref",
+    "value",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_drag",
+  "title": "Drag browser element",
+  "description": "Drag one element onto another in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; refs come from the latest browser_snapshot of the same tab and expire when the page changes.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "sourceRef": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "targetRef": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "sourceRef",
+    "targetRef",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_logs",
+  "title": "Read browser logs",
+  "description": "Read recent console messages and browser performance network entries for a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; maxEntries defaults to 50.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "maxEntries": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 200
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_evaluate",
+  "title": "Evaluate browser JavaScript",
+  "description": "Evaluate a JavaScript function in a Paseo browser tab. Use browserId from browser_new_tab or browser_list_tabs; when ref is provided, refs come from the latest browser_snapshot and the resolved element is passed as the first argument.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "function": {
+     "type": "string",
+     "minLength": 1
+    },
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "function",
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_scroll",
+  "title": "Scroll browser",
+  "description": "Scroll a Paseo browser tab by deltaX/deltaY CSS pixels. Use browserId from browser_new_tab or browser_list_tabs; optional ref comes from the latest browser_snapshot and centers the wheel input over that element.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    },
+    "ref": {
+     "type": "string",
+     "pattern": "^@e\\d+$"
+    },
+    "deltaX": {
+     "type": "number"
+    },
+    "deltaY": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "browserId",
+    "deltaX",
+    "deltaY"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_resize",
+  "title": "Resize browser viewport",
+  "description": "Resize a Paseo browser tab's resident webview viewport. Use browserId from browser_new_tab or browser_list_tabs.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    },
+    "width": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    },
+    "height": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    }
+   },
+   "required": [
+    "browserId",
+    "width",
+    "height"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "browser_close_tab",
+  "title": "Close browser tab",
+  "description": "Close a Paseo browser tab, remove its resident webview, and unregister it from the browser automation host. Use browserId from browser_new_tab or browser_list_tabs.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "browserId": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^(?:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|\\d{13,}-[0-9a-f]+)$"
+    }
+   },
+   "required": [
+    "browserId"
+   ]
+  },
+  "output": null
+ },
+ {
+  "name": "create_workspace",
+  "title": "Create workspace",
+  "description": "Create a workspace using an existing local checkout or a new Paseo-managed worktree.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "isolation": {
+     "type": "string",
+     "enum": [
+      "local",
+      "worktree"
+     ]
+    },
+    "path": {
+     "description": "Local directory or source checkout. Defaults to your current workspace. Local isolation adopts an existing directory and never creates one.",
+     "type": "string"
+    },
+    "projectId": {
+     "description": "Existing project id to own the workspace.",
+     "type": "string"
+    },
+    "title": {
+     "type": "string",
+     "minLength": 1
+    },
+    "background": {
+     "description": "True hides the workspace from default lists and the sidebar while its contents remain durable and accessible; omit background to inherit your current workspace’s value (false without a caller), and override it only when the user explicitly asks.",
+     "type": "boolean"
+    },
+    "mode": {
+     "description": "Worktree creation mode. Defaults to branch-off.",
+     "type": "string",
+     "enum": [
+      "branch-off",
+      "checkout-branch",
+      "checkout-pr"
+     ]
+    },
+    "worktreeSlug": {
+     "type": "string",
+     "minLength": 1
+    },
+    "branchName": {
+     "description": "New branch name for branch-off mode.",
+     "type": "string",
+     "minLength": 1
+    },
+    "baseBranch": {
+     "description": "Base ref for branch-off mode.",
+     "type": "string",
+     "minLength": 1
+    },
+    "branch": {
+     "description": "Existing branch for checkout-branch mode.",
+     "type": "string",
+     "minLength": 1
+    },
+    "prNumber": {
+     "description": "Pull request or change request number for checkout-pr mode.",
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    },
+    "forge": {
+     "description": "Forge for checkout-pr mode. Defaults to the source checkout.",
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "required": [
+    "isolation"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string"
+    },
+    "projectId": {
+     "type": "string"
+    },
+    "cwd": {
+     "type": "string"
+    },
+    "isolation": {
+     "type": "string",
+     "enum": [
+      "local",
+      "worktree"
+     ]
+    },
+    "kind": {
+     "type": "string",
+     "enum": [
+      "directory",
+      "local_checkout",
+      "worktree"
+     ]
+    },
+    "title": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "background": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "workspaceId",
+    "projectId",
+    "cwd",
+    "isolation",
+    "kind",
+    "title"
+   ]
+  }
+ },
+ {
+  "name": "list_workspaces",
+  "title": "List workspaces",
+  "description": "List active workspaces.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "includeBackground": {
+     "default": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaces": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "workspaceId": {
+        "type": "string"
+       },
+       "projectId": {
+        "type": "string"
+       },
+       "cwd": {
+        "type": "string"
+       },
+       "isolation": {
+        "type": "string",
+        "enum": [
+         "local",
+         "worktree"
+        ]
+       },
+       "kind": {
+        "type": "string",
+        "enum": [
+         "directory",
+         "local_checkout",
+         "worktree"
+        ]
+       },
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "background": {
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "workspaceId",
+       "projectId",
+       "cwd",
+       "isolation",
+       "kind",
+       "title"
+      ]
+     }
+    }
+   },
+   "required": [
+    "workspaces"
+   ]
+  }
+ },
+ {
+  "name": "archive_workspace",
+  "title": "Archive workspace",
+  "description": "Archive a workspace and everything it owns.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "required": [
+    "workspaceId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string"
+    },
+    "archivedAgentIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "removedDirectory": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "workspaceId",
+    "archivedAgentIds",
+    "removedDirectory"
+   ]
+  }
+ },
+ {
+  "name": "create_agent",
+  "title": "Create agent",
+  "description": "Create an agent. Agent-scoped creation defaults to your workspace and creates your subagent. Top-level creation without workspaceId creates a new local workspace. Requires provider/model (for example codex/gpt-5.4) and an initial prompt. Do not guess; call list_providers and list_models first if uncertain.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "title": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 60,
+     "description": "Short descriptive title (<= 60 chars) summarizing the agent's focus."
+    },
+    "provider": {
+     "type": "string",
+     "description": "Required provider/model pair, for example codex/gpt-5.4."
+    },
+    "labels": {
+     "description": "Labels to set on the agent",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "settings": {
+     "description": "Initial runtime settings for the new agent.",
+     "type": "object",
+     "properties": {
+      "modeId": {
+       "description": "Session mode to configure before the first run.",
+       "type": "string"
+      },
+      "thinkingOptionId": {
+       "description": "Thinking option ID.",
+       "type": "string"
+      },
+      "features": {
+       "description": "Provider-specific feature values, for example { fast_mode: true } for Codex.",
+       "type": "object",
+       "propertyNames": {
+        "type": "string"
+       },
+       "additionalProperties": {}
+      }
+     },
+     "additionalProperties": false
+    },
+    "initialPrompt": {
+     "type": "string",
+     "minLength": 1,
+     "description": "Required first task to run immediately after creation."
+    },
+    "workspaceId": {
+     "description": "Existing workspace id. Agent-scoped calls default to the caller workspace; top-level calls create a new local workspace when omitted.",
+     "type": "string",
+     "minLength": 1
+    },
+    "notifyOnFinish": {
+     "default": false,
+     "description": "Agent-scoped only: get notified when the created agent finishes, errors, or needs permission.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "title",
+    "provider",
+    "initialPrompt"
+   ],
+   "additionalProperties": {}
+  },
+  "inputCaller": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "title": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 60,
+     "description": "Short descriptive title (<= 60 chars) summarizing the agent's focus."
+    },
+    "provider": {
+     "type": "string",
+     "description": "Required provider/model pair, for example codex/gpt-5.4."
+    },
+    "labels": {
+     "description": "Labels to set on the agent",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "settings": {
+     "description": "Initial runtime settings for the new agent.",
+     "type": "object",
+     "properties": {
+      "modeId": {
+       "description": "Session mode to configure before the first run.",
+       "type": "string"
+      },
+      "thinkingOptionId": {
+       "description": "Thinking option ID.",
+       "type": "string"
+      },
+      "features": {
+       "description": "Provider-specific feature values, for example { fast_mode: true } for Codex.",
+       "type": "object",
+       "propertyNames": {
+        "type": "string"
+       },
+       "additionalProperties": {}
+      }
+     },
+     "additionalProperties": false
+    },
+    "initialPrompt": {
+     "type": "string",
+     "minLength": 1,
+     "description": "Required first task to run immediately after creation."
+    },
+    "workspaceId": {
+     "description": "Existing workspace id. Agent-scoped calls default to the caller workspace; top-level calls create a new local workspace when omitted.",
+     "type": "string",
+     "minLength": 1
+    },
+    "notifyOnFinish": {
+     "default": true,
+     "description": "Get notified when the created agent finishes, errors, or needs permission. Set false only for truly fire-and-forget agents.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "title",
+    "provider",
+    "initialPrompt"
+   ],
+   "additionalProperties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "initializing",
+      "idle",
+      "running",
+      "error",
+      "closed"
+     ]
+    },
+    "cwd": {
+     "type": "string"
+    },
+    "workspaceId": {
+     "type": "string"
+    },
+    "currentModeId": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "availableModes": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "label": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "description": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "icon": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "colorTier": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id"
+      ],
+      "additionalProperties": {}
+     }
+    },
+    "guidance": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId",
+    "type",
+    "status",
+    "cwd",
+    "currentModeId",
+    "availableModes"
+   ]
+  }
+ },
+ {
+  "name": "send_agent_prompt",
+  "title": "Send agent prompt",
+  "description": "Send a task and return after dispatch acknowledgement. Calling agents receive finish notifications by default.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "prompt": {
+     "type": "string"
+    },
+    "sessionMode": {
+     "description": "Optional mode to set before running the prompt.",
+     "type": "string"
+    },
+    "notifyOnFinish": {
+     "default": false,
+     "description": "Agent-scoped only: get notified when the prompted agent finishes, errors, or needs permission.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "agentId",
+    "prompt"
+   ]
+  },
+  "inputCaller": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "prompt": {
+     "type": "string"
+    },
+    "sessionMode": {
+     "description": "Optional mode to set before running the prompt.",
+     "type": "string"
+    },
+    "notifyOnFinish": {
+     "default": true,
+     "description": "Get notified when the prompted agent finishes, errors, or needs permission. Set false only for truly fire-and-forget prompts.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "agentId",
+    "prompt"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    },
+    "disposition": {
+     "type": "string",
+     "enum": [
+      "turn_started",
+      "out_of_band"
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "initializing",
+      "idle",
+      "running",
+      "error",
+      "closed"
+     ]
+    },
+    "guidance": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "success",
+    "status"
+   ]
+  }
+ },
+ {
+  "name": "get_agent_status",
+  "title": "Get agent status",
+  "description": "Return the latest snapshot for an agent, including lifecycle state, capabilities, and pending permissions.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "status": {
+     "type": "string",
+     "enum": [
+      "initializing",
+      "idle",
+      "running",
+      "error",
+      "closed"
+     ]
+    },
+    "snapshot": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "string"
+      },
+      "provider": {
+       "type": "string"
+      },
+      "cwd": {
+       "type": "string"
+      },
+      "workspaceId": {
+       "type": "string"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "features": {
+       "type": "array",
+       "items": {
+        "oneOf": [
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "toggle"
+           },
+           "id": {
+            "type": "string"
+           },
+           "label": {
+            "type": "string"
+           },
+           "description": {
+            "type": "string"
+           },
+           "tooltip": {
+            "type": "string"
+           },
+           "icon": {
+            "type": "string"
+           },
+           "value": {
+            "type": "boolean"
+           }
+          },
+          "required": [
+           "type",
+           "id",
+           "label",
+           "value"
+          ]
+         },
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "select"
+           },
+           "id": {
+            "type": "string"
+           },
+           "label": {
+            "type": "string"
+           },
+           "description": {
+            "type": "string"
+           },
+           "tooltip": {
+            "type": "string"
+           },
+           "icon": {
+            "type": "string"
+           },
+           "desktopTrigger": {
+            "type": "string",
+            "enum": [
+             "icon",
+             "label"
+            ]
+           },
+           "value": {
+            "anyOf": [
+             {
+              "type": "string"
+             },
+             {
+              "type": "null"
+             }
+            ]
+           },
+           "options": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "properties": {
+              "id": {
+               "type": "string"
+              },
+              "label": {
+               "type": "string"
+              },
+              "description": {
+               "type": "string"
+              },
+              "isDefault": {
+               "type": "boolean"
+              },
+              "metadata": {
+               "type": "object",
+               "propertyNames": {
+                "type": "string"
+               },
+               "additionalProperties": {}
+              }
+             },
+             "required": [
+              "id",
+              "label"
+             ]
+            }
+           }
+          },
+          "required": [
+           "type",
+           "id",
+           "label",
+           "value",
+           "options"
+          ]
+         }
+        ]
+       }
+      },
+      "thinkingOptionId": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "effectiveThinkingOptionId": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "createdAt": {
+       "type": "string"
+      },
+      "updatedAt": {
+       "type": "string"
+      },
+      "lastUserMessageAt": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "status": {
+       "type": "string",
+       "enum": [
+        "initializing",
+        "idle",
+        "running",
+        "error",
+        "closed"
+       ]
+      },
+      "activeTurn": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "turnId": {
+           "type": "string"
+          },
+          "startedAt": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "null"
+            }
+           ]
+          }
+         },
+         "required": [
+          "turnId",
+          "startedAt"
+         ]
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "capabilities": {
+       "type": "object",
+       "properties": {
+        "supportsStreaming": {
+         "type": "boolean"
+        },
+        "supportsSessionPersistence": {
+         "type": "boolean"
+        },
+        "supportsSessionListing": {
+         "type": "boolean"
+        },
+        "supportsDynamicModes": {
+         "type": "boolean"
+        },
+        "supportsMcpServers": {
+         "type": "boolean"
+        },
+        "supportsReasoningStream": {
+         "type": "boolean"
+        },
+        "supportsToolInvocations": {
+         "type": "boolean"
+        },
+        "supportsRewindConversation": {
+         "default": false,
+         "type": "boolean"
+        },
+        "supportsRewindFiles": {
+         "default": false,
+         "type": "boolean"
+        },
+        "supportsRewindBoth": {
+         "default": false,
+         "type": "boolean"
+        }
+       },
+       "required": [
+        "supportsStreaming",
+        "supportsSessionPersistence",
+        "supportsDynamicModes",
+        "supportsMcpServers",
+        "supportsReasoningStream",
+        "supportsToolInvocations"
+       ],
+       "additionalProperties": {
+        "type": "boolean"
+       }
+      },
+      "currentModeId": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "availableModes": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "string"
+         },
+         "label": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "icon": {
+          "type": "string"
+         },
+         "colorTier": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "id",
+         "label"
+        ]
+       }
+      },
+      "pendingPermissions": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "string"
+         },
+         "provider": {
+          "type": "string"
+         },
+         "name": {
+          "type": "string"
+         },
+         "kind": {
+          "type": "string",
+          "enum": [
+           "tool",
+           "plan",
+           "question",
+           "mode",
+           "other"
+          ]
+         },
+         "title": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "input": {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         },
+         "detail": {
+          "oneOf": [
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "worktree_setup"
+             },
+             "worktreePath": {
+              "type": "string"
+             },
+             "branchName": {
+              "type": "string"
+             },
+             "log": {
+              "type": "string"
+             },
+             "commands": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "index": {
+                 "type": "integer",
+                 "exclusiveMinimum": 0,
+                 "maximum": 9007199254740991
+                },
+                "command": {
+                 "type": "string"
+                },
+                "cwd": {
+                 "type": "string"
+                },
+                "log": {
+                 "default": "",
+                 "type": "string"
+                },
+                "status": {
+                 "type": "string",
+                 "enum": [
+                  "running",
+                  "completed",
+                  "failed"
+                 ]
+                },
+                "exitCode": {
+                 "anyOf": [
+                  {
+                   "type": "number"
+                  },
+                  {
+                   "type": "null"
+                  }
+                 ]
+                },
+                "durationMs": {
+                 "type": "number",
+                 "minimum": 0
+                }
+               },
+               "required": [
+                "index",
+                "command",
+                "cwd",
+                "status",
+                "exitCode"
+               ]
+              }
+             },
+             "truncated": {
+              "type": "boolean"
+             }
+            },
+            "required": [
+             "type",
+             "worktreePath",
+             "branchName",
+             "log",
+             "commands"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "shell"
+             },
+             "command": {
+              "type": "string"
+             },
+             "cwd": {
+              "type": "string"
+             },
+             "output": {
+              "type": "string"
+             },
+             "exitCode": {
+              "anyOf": [
+               {
+                "type": "number"
+               },
+               {
+                "type": "null"
+               }
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "command"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "read"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "content": {
+              "type": "string"
+             },
+             "offset": {
+              "type": "number"
+             },
+             "limit": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "edit"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "oldString": {
+              "type": "string"
+             },
+             "newString": {
+              "type": "string"
+             },
+             "unifiedDiff": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "write"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "content": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "search"
+             },
+             "query": {
+              "type": "string"
+             },
+             "toolName": {
+              "type": "string",
+              "enum": [
+               "search",
+               "grep",
+               "glob",
+               "web_search"
+              ]
+             },
+             "content": {
+              "type": "string"
+             },
+             "filePaths": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "webResults": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "title": {
+                 "type": "string"
+                },
+                "url": {
+                 "type": "string"
+                }
+               },
+               "required": [
+                "title",
+                "url"
+               ]
+              }
+             },
+             "annotations": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "numFiles": {
+              "type": "number"
+             },
+             "numMatches": {
+              "type": "number"
+             },
+             "durationMs": {
+              "type": "number"
+             },
+             "durationSeconds": {
+              "type": "number"
+             },
+             "truncated": {
+              "type": "boolean"
+             },
+             "mode": {
+              "type": "string",
+              "enum": [
+               "content",
+               "files_with_matches",
+               "count"
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "query"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "fetch"
+             },
+             "url": {
+              "type": "string"
+             },
+             "prompt": {
+              "type": "string"
+             },
+             "result": {
+              "type": "string"
+             },
+             "code": {
+              "type": "number"
+             },
+             "codeText": {
+              "type": "string"
+             },
+             "bytes": {
+              "type": "number"
+             },
+             "durationMs": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "type",
+             "url"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "sub_agent"
+             },
+             "subAgentType": {
+              "type": "string"
+             },
+             "description": {
+              "type": "string"
+             },
+             "childSessionId": {
+              "type": "string"
+             },
+             "log": {
+              "type": "string"
+             },
+             "actions": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "index": {
+                 "type": "integer",
+                 "exclusiveMinimum": 0,
+                 "maximum": 9007199254740991
+                },
+                "toolName": {
+                 "type": "string"
+                },
+                "summary": {
+                 "type": "string"
+                }
+               },
+               "required": [
+                "index",
+                "toolName"
+               ]
+              }
+             }
+            },
+            "required": [
+             "type",
+             "log"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "plain_text"
+             },
+             "label": {
+              "type": "string"
+             },
+             "text": {
+              "type": "string"
+             },
+             "icon": {
+              "type": "string",
+              "enum": [
+               "wrench",
+               "square_terminal",
+               "eye",
+               "pencil",
+               "search",
+               "bot",
+               "sparkles",
+               "brain",
+               "mic_vocal"
+              ]
+             }
+            },
+            "required": [
+             "type"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "plan"
+             },
+             "text": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "text"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "unknown"
+             },
+             "input": {
+              "anyOf": [
+               {
+                "type": "null"
+               },
+               {
+                "type": "boolean"
+               },
+               {
+                "type": "number"
+               },
+               {
+                "type": "string"
+               },
+               {
+                "type": "array",
+                "items": {}
+               },
+               {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+               }
+              ]
+             },
+             "output": {
+              "anyOf": [
+               {
+                "type": "null"
+               },
+               {
+                "type": "boolean"
+               },
+               {
+                "type": "number"
+               },
+               {
+                "type": "string"
+               },
+               {
+                "type": "array",
+                "items": {}
+               },
+               {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+               }
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "input",
+             "output"
+            ]
+           }
+          ]
+         },
+         "suggestions": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "actions": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string"
+            },
+            "label": {
+             "type": "string"
+            },
+            "behavior": {
+             "type": "string",
+             "enum": [
+              "allow",
+              "deny"
+             ]
+            },
+            "variant": {
+             "type": "string",
+             "enum": [
+              "primary",
+              "secondary",
+              "danger"
+             ]
+            },
+            "intent": {
+             "type": "string",
+             "enum": [
+              "implement",
+              "implement_resume",
+              "dismiss"
+             ]
+            }
+           },
+           "required": [
+            "id",
+            "label",
+            "behavior"
+           ]
+          }
+         },
+         "metadata": {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         }
+        },
+        "required": [
+         "id",
+         "provider",
+         "name",
+         "kind"
+        ]
+       }
+      },
+      "persistence": {
+       "anyOf": [
+        {
+         "anyOf": [
+          {
+           "type": "object",
+           "properties": {
+            "provider": {
+             "type": "string"
+            },
+            "sessionId": {
+             "type": "string"
+            },
+            "nativeHandle": {
+             "type": "string"
+            },
+            "metadata": {
+             "type": "object",
+             "propertyNames": {
+              "type": "string"
+             },
+             "additionalProperties": {}
+            }
+           },
+           "required": [
+            "provider",
+            "sessionId"
+           ]
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "runtimeInfo": {
+       "type": "object",
+       "properties": {
+        "provider": {
+         "type": "string"
+        },
+        "sessionId": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "model": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "thinkingOptionId": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "modeId": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "extra": {
+         "type": "object",
+         "propertyNames": {
+          "type": "string"
+         },
+         "additionalProperties": {}
+        }
+       },
+       "required": [
+        "provider",
+        "sessionId"
+       ]
+      },
+      "lastUsage": {
+       "type": "object",
+       "properties": {
+        "inputTokens": {
+         "type": "number"
+        },
+        "cachedInputTokens": {
+         "type": "number"
+        },
+        "outputTokens": {
+         "type": "number"
+        },
+        "totalCostUsd": {
+         "type": "number"
+        },
+        "contextWindowMaxTokens": {
+         "type": "number"
+        },
+        "contextWindowUsedTokens": {
+         "type": "number"
+        }
+       }
+      },
+      "lastError": {
+       "type": "string"
+      },
+      "title": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "labels": {
+       "default": {},
+       "type": "object",
+       "propertyNames": {
+        "type": "string"
+       },
+       "additionalProperties": {
+        "type": "string"
+       }
+      },
+      "requiresAttention": {
+       "type": "boolean"
+      },
+      "attentionReason": {
+       "anyOf": [
+        {
+         "type": "string",
+         "enum": [
+          "finished",
+          "error",
+          "permission"
+         ]
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "attentionTimestamp": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "archivedAt": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "providerUnavailable": {
+       "type": "boolean"
+      },
+      "internal": {
+       "type": "boolean"
+      }
+     },
+     "required": [
+      "id",
+      "provider",
+      "cwd",
+      "model",
+      "createdAt",
+      "updatedAt",
+      "lastUserMessageAt",
+      "status",
+      "capabilities",
+      "currentModeId",
+      "availableModes",
+      "pendingPermissions",
+      "persistence",
+      "title"
+     ]
+    }
+   },
+   "required": [
+    "status",
+    "snapshot"
+   ]
+  }
+ },
+ {
+  "name": "list_agents",
+  "title": "List agents",
+  "description": "List recent agents as compact metadata.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "includeBackground": {
+     "default": false,
+     "type": "boolean"
+    },
+    "includeArchived": {
+     "default": false,
+     "type": "boolean"
+    },
+    "cwd": {
+     "type": "string"
+    },
+    "sinceHours": {
+     "default": 48,
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 720
+    },
+    "statuses": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "enum": [
+       "initializing",
+       "idle",
+       "running",
+       "error",
+       "closed"
+      ]
+     }
+    },
+    "limit": {
+     "default": 50,
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 200
+    }
+   }
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agents": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "shortId": {
+        "type": "string"
+       },
+       "title": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "provider": {
+        "type": "string"
+       },
+       "model": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "thinkingOptionId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "effectiveThinkingOptionId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "initializing",
+         "idle",
+         "running",
+         "error",
+         "closed"
+        ]
+       },
+       "cwd": {
+        "type": "string"
+       },
+       "createdAt": {
+        "type": "string"
+       },
+       "updatedAt": {
+        "type": "string"
+       },
+       "lastUserMessageAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "archivedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "requiresAttention": {
+        "type": "boolean"
+       },
+       "attentionReason": {
+        "anyOf": [
+         {
+          "type": "string",
+          "enum": [
+           "finished",
+           "error",
+           "permission"
+          ]
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "attentionTimestamp": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "labels": {
+        "default": {},
+        "type": "object",
+        "propertyNames": {
+         "type": "string"
+        },
+        "additionalProperties": {
+         "type": "string"
+        }
+       },
+       "providerUnavailable": {
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "id",
+       "shortId",
+       "title",
+       "provider",
+       "model",
+       "status",
+       "cwd",
+       "createdAt",
+       "updatedAt",
+       "lastUserMessageAt"
+      ]
+     }
+    }
+   },
+   "required": [
+    "agents"
+   ]
+  }
+ },
+ {
+  "name": "cancel_agent",
+  "title": "Cancel agent run",
+  "description": "Abort the agent's current run but keep the agent alive for future tasks.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "archive_agent",
+  "title": "Archive agent",
+  "description": "Archive an agent (soft-delete). The agent is interrupted if running and removed from the active list.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "kill_agent",
+  "title": "Kill agent",
+  "description": "Terminate an agent session permanently.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "update_agent",
+  "title": "Update agent",
+  "description": "Update an agent name, labels, and/or runtime settings.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "labels": {
+     "description": "Labels to set on the agent",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "settings": {
+     "description": "Runtime settings to apply to the agent.",
+     "type": "object",
+     "properties": {
+      "modeId": {
+       "description": "Session mode ID.",
+       "type": "string"
+      },
+      "model": {
+       "description": "Model ID. Pass null to clear.",
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "thinkingOptionId": {
+       "description": "Thinking option ID. Pass null to clear.",
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "features": {
+       "description": "Provider-specific feature values, for example { fast_mode: true } for Codex.",
+       "type": "object",
+       "propertyNames": {
+        "type": "string"
+       },
+       "additionalProperties": {}
+      }
+     },
+     "additionalProperties": false
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "rename_workspace",
+  "title": "Rename workspace",
+  "description": "Rename a workspace by setting its user-visible title. Omit workspaceId to rename your current workspace.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "description": "Workspace id to rename. Omit to rename your current workspace.",
+     "type": "string",
+     "minLength": 1
+    },
+    "title": {
+     "type": "string",
+     "minLength": 1,
+     "description": "New user-visible workspace title."
+    }
+   },
+   "required": [
+    "title"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    },
+    "workspaceId": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "success",
+    "workspaceId",
+    "title"
+   ]
+  }
+ },
+ {
+  "name": "list_workspace_scripts",
+  "title": "List workspace scripts",
+  "description": "List configured workspace scripts and their lifecycle, service port, proxy URL, health, and terminal ID.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string",
+     "description": "Workspace ID whose configured scripts to list."
+    }
+   },
+   "required": [
+    "workspaceId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "scripts": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "scriptName": {
+        "type": "string"
+       },
+       "type": {
+        "default": "service",
+        "type": "string",
+        "enum": [
+         "script",
+         "service"
+        ]
+       },
+       "hostname": {
+        "type": "string"
+       },
+       "port": {
+        "anyOf": [
+         {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "localProxyUrl": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "publicProxyUrl": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "proxyUrl": {
+        "default": null,
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "lifecycle": {
+        "type": "string",
+        "enum": [
+         "running",
+         "stopped"
+        ]
+       },
+       "health": {
+        "anyOf": [
+         {
+          "type": "string",
+          "enum": [
+           "healthy",
+           "unhealthy"
+          ]
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "exitCode": {
+        "default": null,
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "terminalId": {
+        "default": null,
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "scriptName",
+       "hostname",
+       "port",
+       "lifecycle",
+       "health"
+      ]
+     }
+    }
+   },
+   "required": [
+    "scripts"
+   ]
+  }
+ },
+ {
+  "name": "start_workspace_script",
+  "title": "Start workspace script",
+  "description": "Start one configured workspace script through Paseo's managed workspace-script launcher.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string",
+     "description": "Workspace ID containing the configured script."
+    },
+    "scriptName": {
+     "type": "string",
+     "minLength": 1,
+     "description": "Configured paseo.json script name to start."
+    }
+   },
+   "required": [
+    "workspaceId",
+    "scriptName"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "script": {
+     "type": "object",
+     "properties": {
+      "scriptName": {
+       "type": "string"
+      },
+      "type": {
+       "default": "service",
+       "type": "string",
+       "enum": [
+        "script",
+        "service"
+       ]
+      },
+      "hostname": {
+       "type": "string"
+      },
+      "port": {
+       "anyOf": [
+        {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "localProxyUrl": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "publicProxyUrl": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "proxyUrl": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "lifecycle": {
+       "type": "string",
+       "enum": [
+        "running",
+        "stopped"
+       ]
+      },
+      "health": {
+       "anyOf": [
+        {
+         "type": "string",
+         "enum": [
+          "healthy",
+          "unhealthy"
+         ]
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "exitCode": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "terminalId": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      }
+     },
+     "required": [
+      "scriptName",
+      "hostname",
+      "port",
+      "lifecycle",
+      "health"
+     ]
+    }
+   },
+   "required": [
+    "script"
+   ]
+  }
+ },
+ {
+  "name": "stop_workspace_script",
+  "title": "Stop workspace script",
+  "description": "Stop a running workspace script through its supervised terminal lifecycle.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "workspaceId": {
+     "type": "string",
+     "description": "Workspace ID containing the running script."
+    },
+    "scriptName": {
+     "type": "string",
+     "minLength": 1,
+     "description": "Configured paseo.json script name to stop."
+    }
+   },
+   "required": [
+    "workspaceId",
+    "scriptName"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "script": {
+     "type": "object",
+     "properties": {
+      "scriptName": {
+       "type": "string"
+      },
+      "type": {
+       "default": "service",
+       "type": "string",
+       "enum": [
+        "script",
+        "service"
+       ]
+      },
+      "hostname": {
+       "type": "string"
+      },
+      "port": {
+       "anyOf": [
+        {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "localProxyUrl": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "publicProxyUrl": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "proxyUrl": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "lifecycle": {
+       "type": "string",
+       "enum": [
+        "running",
+        "stopped"
+       ]
+      },
+      "health": {
+       "anyOf": [
+        {
+         "type": "string",
+         "enum": [
+          "healthy",
+          "unhealthy"
+         ]
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "exitCode": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "terminalId": {
+       "default": null,
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      }
+     },
+     "required": [
+      "scriptName",
+      "hostname",
+      "port",
+      "lifecycle",
+      "health"
+     ]
+    }
+   },
+   "required": [
+    "script"
+   ]
+  }
+ },
+ {
+  "name": "list_terminals",
+  "title": "List terminals",
+  "description": "List terminals for a working directory or across all working directories.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "cwd": {
+     "description": "Optional working directory. Defaults to your current working directory.",
+     "type": "string"
+    },
+    "all": {
+     "description": "List terminals across all working directories.",
+     "type": "boolean"
+    }
+   }
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "terminals": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "name": {
+        "type": "string"
+       },
+       "cwd": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "name",
+       "cwd"
+      ]
+     }
+    }
+   },
+   "required": [
+    "terminals"
+   ]
+  }
+ },
+ {
+  "name": "create_terminal",
+  "title": "Create terminal",
+  "description": "Create a terminal session for a working directory.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "cwd": {
+     "description": "Optional working directory. Defaults to your current working directory.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Optional terminal name.",
+     "type": "string"
+    }
+   }
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "cwd": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "cwd"
+   ]
+  }
+ },
+ {
+  "name": "kill_terminal",
+  "title": "Kill terminal",
+  "description": "Kill an existing terminal session.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "terminalId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "terminalId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "capture_terminal",
+  "title": "Capture terminal",
+  "description": "Capture plain-text terminal output lines from a terminal session.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "terminalId": {
+     "type": "string"
+    },
+    "start": {
+     "type": "number"
+    },
+    "end": {
+     "type": "number"
+    },
+    "scrollback": {
+     "type": "boolean"
+    },
+    "stripAnsi": {
+     "default": true,
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "terminalId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "terminalId": {
+     "type": "string"
+    },
+    "lines": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "totalLines": {
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 9007199254740991
+    }
+   },
+   "required": [
+    "terminalId",
+    "lines",
+    "totalLines"
+   ]
+  }
+ },
+ {
+  "name": "send_terminal_keys",
+  "title": "Send terminal keys",
+  "description": "Send literal text or special key tokens to a terminal session.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "terminalId": {
+     "type": "string"
+    },
+    "keys": {
+     "type": "string"
+    },
+    "literal": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "terminalId",
+    "keys"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "create_schedule",
+  "title": "Create schedule",
+  "description": "Create a recurring schedule that starts a new agent on a cron cadence.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cron": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timezone": {
+     "description": "IANA time zone for the cron cadence. For example: America/New_York.",
+     "type": "string",
+     "minLength": 1
+    },
+    "name": {
+     "type": "string"
+    },
+    "provider": {
+     "type": "string",
+     "description": "Provider, or provider/model (for example: codex or codex/gpt-5.4). Defaults to the caller's provider in an agent-scoped session."
+    },
+    "cwd": {
+     "type": "string"
+    },
+    "isolation": {
+     "type": "string",
+     "enum": [
+      "local",
+      "worktree"
+     ]
+    },
+    "maxRuns": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    },
+    "expiresIn": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "prompt",
+    "cron",
+    "provider"
+   ]
+  },
+  "inputCaller": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cron": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timezone": {
+     "description": "IANA time zone for the cron cadence. For example: America/New_York.",
+     "type": "string",
+     "minLength": 1
+    },
+    "name": {
+     "type": "string"
+    },
+    "provider": {
+     "description": "Provider, or provider/model (for example: codex or codex/gpt-5.4). Defaults to the caller's provider in an agent-scoped session.",
+     "type": "string"
+    },
+    "cwd": {
+     "type": "string"
+    },
+    "isolation": {
+     "type": "string",
+     "enum": [
+      "local",
+      "worktree"
+     ]
+    },
+    "maxRuns": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    },
+    "expiresIn": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "prompt",
+    "cron"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cadence": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "every"
+        },
+        "everyMs": {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        }
+       },
+       "required": [
+        "type",
+        "everyMs"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "cron"
+        },
+        "expression": {
+         "type": "string",
+         "minLength": 1
+        },
+        "timezone": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "type",
+        "expression"
+       ]
+      }
+     ]
+    },
+    "target": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "agent"
+        },
+        "agentId": {
+         "type": "string",
+         "format": "uuid",
+         "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+        }
+       },
+       "required": [
+        "type",
+        "agentId"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "new-agent"
+        },
+        "config": {
+         "type": "object",
+         "properties": {
+          "provider": {
+           "type": "string"
+          },
+          "cwd": {
+           "type": "string",
+           "minLength": 1
+          },
+          "modeId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "model": {
+           "type": "string",
+           "minLength": 1
+          },
+          "thinkingOptionId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "archiveOnFinish": {
+           "type": "boolean"
+          },
+          "isolation": {
+           "type": "string",
+           "enum": [
+            "local",
+            "worktree"
+           ]
+          },
+          "title": {
+           "anyOf": [
+            {
+             "type": "string",
+             "minLength": 1
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "providerOptions": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "featureValues": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "systemPrompt": {
+           "type": "string"
+          },
+          "mcpServers": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "required": [
+          "provider",
+          "cwd"
+         ]
+        }
+       },
+       "required": [
+        "type",
+        "config"
+       ]
+      }
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "active",
+      "paused",
+      "completed"
+     ]
+    },
+    "createdAt": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "string"
+    },
+    "nextRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "lastRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "pausedAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "expiresAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "maxRuns": {
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "prompt",
+    "cadence",
+    "target",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "nextRunAt",
+    "lastRunAt",
+    "pausedAt",
+    "expiresAt",
+    "maxRuns"
+   ]
+  }
+ },
+ {
+  "name": "create_heartbeat",
+  "title": "Create heartbeat",
+  "description": "Create a recurring heartbeat that sends you a prompt on a cron cadence.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cron": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timezone": {
+     "description": "IANA time zone for the cron cadence. For example: America/New_York.",
+     "type": "string",
+     "minLength": 1
+    },
+    "name": {
+     "type": "string"
+    },
+    "maxRuns": {
+     "type": "integer",
+     "exclusiveMinimum": 0,
+     "maximum": 9007199254740991
+    },
+    "expiresIn": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "prompt",
+    "cron"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cadence": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "every"
+        },
+        "everyMs": {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        }
+       },
+       "required": [
+        "type",
+        "everyMs"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "cron"
+        },
+        "expression": {
+         "type": "string",
+         "minLength": 1
+        },
+        "timezone": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "type",
+        "expression"
+       ]
+      }
+     ]
+    },
+    "target": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "agent"
+        },
+        "agentId": {
+         "type": "string",
+         "format": "uuid",
+         "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+        }
+       },
+       "required": [
+        "type",
+        "agentId"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "new-agent"
+        },
+        "config": {
+         "type": "object",
+         "properties": {
+          "provider": {
+           "type": "string"
+          },
+          "cwd": {
+           "type": "string",
+           "minLength": 1
+          },
+          "modeId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "model": {
+           "type": "string",
+           "minLength": 1
+          },
+          "thinkingOptionId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "archiveOnFinish": {
+           "type": "boolean"
+          },
+          "isolation": {
+           "type": "string",
+           "enum": [
+            "local",
+            "worktree"
+           ]
+          },
+          "title": {
+           "anyOf": [
+            {
+             "type": "string",
+             "minLength": 1
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "providerOptions": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "featureValues": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "systemPrompt": {
+           "type": "string"
+          },
+          "mcpServers": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "required": [
+          "provider",
+          "cwd"
+         ]
+        }
+       },
+       "required": [
+        "type",
+        "config"
+       ]
+      }
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "active",
+      "paused",
+      "completed"
+     ]
+    },
+    "createdAt": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "string"
+    },
+    "nextRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "lastRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "pausedAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "expiresAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "maxRuns": {
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "prompt",
+    "cadence",
+    "target",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "nextRunAt",
+    "lastRunAt",
+    "pausedAt",
+    "expiresAt",
+    "maxRuns"
+   ]
+  }
+ },
+ {
+  "name": "delete_heartbeat",
+  "title": "Delete heartbeat",
+  "description": "Delete one of your heartbeats.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "list_schedules",
+  "title": "List schedules",
+  "description": "List all schedules managed by the daemon.",
+  "input": {
+   "type": "object",
+   "properties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "schedules": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "name": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "prompt": {
+        "type": "string",
+        "minLength": 1
+       },
+       "cadence": {
+        "oneOf": [
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "every"
+           },
+           "everyMs": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+           }
+          },
+          "required": [
+           "type",
+           "everyMs"
+          ]
+         },
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "cron"
+           },
+           "expression": {
+            "type": "string",
+            "minLength": 1
+           },
+           "timezone": {
+            "type": "string",
+            "minLength": 1
+           }
+          },
+          "required": [
+           "type",
+           "expression"
+          ]
+         }
+        ]
+       },
+       "target": {
+        "oneOf": [
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "agent"
+           },
+           "agentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+           }
+          },
+          "required": [
+           "type",
+           "agentId"
+          ]
+         },
+         {
+          "type": "object",
+          "properties": {
+           "type": {
+            "type": "string",
+            "const": "new-agent"
+           },
+           "config": {
+            "type": "object",
+            "properties": {
+             "provider": {
+              "type": "string"
+             },
+             "cwd": {
+              "type": "string",
+              "minLength": 1
+             },
+             "modeId": {
+              "type": "string",
+              "minLength": 1
+             },
+             "model": {
+              "type": "string",
+              "minLength": 1
+             },
+             "thinkingOptionId": {
+              "type": "string",
+              "minLength": 1
+             },
+             "archiveOnFinish": {
+              "type": "boolean"
+             },
+             "isolation": {
+              "type": "string",
+              "enum": [
+               "local",
+               "worktree"
+              ]
+             },
+             "title": {
+              "anyOf": [
+               {
+                "type": "string",
+                "minLength": 1
+               },
+               {
+                "type": "null"
+               }
+              ]
+             },
+             "providerOptions": {
+              "type": "object",
+              "propertyNames": {
+               "type": "string"
+              },
+              "additionalProperties": {}
+             },
+             "featureValues": {
+              "type": "object",
+              "propertyNames": {
+               "type": "string"
+              },
+              "additionalProperties": {}
+             },
+             "systemPrompt": {
+              "type": "string"
+             },
+             "mcpServers": {
+              "type": "object",
+              "propertyNames": {
+               "type": "string"
+              },
+              "additionalProperties": {}
+             }
+            },
+            "required": [
+             "provider",
+             "cwd"
+            ]
+           }
+          },
+          "required": [
+           "type",
+           "config"
+          ]
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "active",
+         "paused",
+         "completed"
+        ]
+       },
+       "createdAt": {
+        "type": "string"
+       },
+       "updatedAt": {
+        "type": "string"
+       },
+       "nextRunAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "lastRunAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "pausedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "expiresAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "maxRuns": {
+        "anyOf": [
+         {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "name",
+       "prompt",
+       "cadence",
+       "target",
+       "status",
+       "createdAt",
+       "updatedAt",
+       "nextRunAt",
+       "lastRunAt",
+       "pausedAt",
+       "expiresAt",
+       "maxRuns"
+      ]
+     }
+    }
+   },
+   "required": [
+    "schedules"
+   ]
+  }
+ },
+ {
+  "name": "inspect_schedule",
+  "title": "Inspect schedule",
+  "description": "Inspect a schedule and its run history.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cadence": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "every"
+        },
+        "everyMs": {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        }
+       },
+       "required": [
+        "type",
+        "everyMs"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "cron"
+        },
+        "expression": {
+         "type": "string",
+         "minLength": 1
+        },
+        "timezone": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "type",
+        "expression"
+       ]
+      }
+     ]
+    },
+    "target": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "agent"
+        },
+        "agentId": {
+         "type": "string",
+         "format": "uuid",
+         "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+        }
+       },
+       "required": [
+        "type",
+        "agentId"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "new-agent"
+        },
+        "config": {
+         "type": "object",
+         "properties": {
+          "provider": {
+           "type": "string"
+          },
+          "cwd": {
+           "type": "string",
+           "minLength": 1
+          },
+          "modeId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "model": {
+           "type": "string",
+           "minLength": 1
+          },
+          "thinkingOptionId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "archiveOnFinish": {
+           "type": "boolean"
+          },
+          "isolation": {
+           "type": "string",
+           "enum": [
+            "local",
+            "worktree"
+           ]
+          },
+          "title": {
+           "anyOf": [
+            {
+             "type": "string",
+             "minLength": 1
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "providerOptions": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "featureValues": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "systemPrompt": {
+           "type": "string"
+          },
+          "mcpServers": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "required": [
+          "provider",
+          "cwd"
+         ]
+        }
+       },
+       "required": [
+        "type",
+        "config"
+       ]
+      }
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "active",
+      "paused",
+      "completed"
+     ]
+    },
+    "createdAt": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "string"
+    },
+    "nextRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "lastRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "pausedAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "expiresAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "maxRuns": {
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "runs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "scheduledFor": {
+        "type": "string"
+       },
+       "startedAt": {
+        "type": "string"
+       },
+       "endedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "running",
+         "succeeded",
+         "failed"
+        ]
+       },
+       "agentId": {
+        "anyOf": [
+         {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "workspaceId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "output": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "error": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "scheduledFor",
+       "startedAt",
+       "endedAt",
+       "status",
+       "agentId",
+       "output",
+       "error"
+      ]
+     }
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "prompt",
+    "cadence",
+    "target",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "nextRunAt",
+    "lastRunAt",
+    "pausedAt",
+    "expiresAt",
+    "maxRuns",
+    "runs"
+   ]
+  }
+ },
+ {
+  "name": "pause_schedule",
+  "title": "Pause schedule",
+  "description": "Pause an active schedule.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "resume_schedule",
+  "title": "Resume schedule",
+  "description": "Resume a paused schedule.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "delete_schedule",
+  "title": "Delete schedule",
+  "description": "Delete a schedule permanently.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ },
+ {
+  "name": "update_schedule",
+  "title": "Update schedule",
+  "description": "Update an existing schedule. Only provided fields are changed; omitted fields remain unchanged.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "cron": {
+     "description": "New cron expression.",
+     "type": "string"
+    },
+    "timezone": {
+     "description": "IANA time zone for cron cadence; requires cron. For example: America/New_York.",
+     "type": "string",
+     "minLength": 1
+    },
+    "name": {
+     "description": "New name (null to clear).",
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "description": "New prompt text.",
+     "type": "string",
+     "minLength": 1
+    },
+    "maxRuns": {
+     "description": "New max runs limit (null to clear).",
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "provider": {
+     "description": "New provider for new-agent target.",
+     "type": "string",
+     "minLength": 1
+    },
+    "model": {
+     "description": "New model for new-agent target (null to clear).",
+     "anyOf": [
+      {
+       "type": "string",
+       "minLength": 1
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "mode": {
+     "description": "New mode for new-agent target (null to clear).",
+     "anyOf": [
+      {
+       "type": "string",
+       "minLength": 1
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "cwd": {
+     "description": "New cwd for new-agent target.",
+     "type": "string",
+     "minLength": 1
+    },
+    "expiresIn": {
+     "description": "New relative expiry duration (for example: 1h, 2d).",
+     "type": "string"
+    },
+    "clearExpires": {
+     "description": "Clear any schedule expiry.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "additionalProperties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cadence": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "every"
+        },
+        "everyMs": {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        }
+       },
+       "required": [
+        "type",
+        "everyMs"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "cron"
+        },
+        "expression": {
+         "type": "string",
+         "minLength": 1
+        },
+        "timezone": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "type",
+        "expression"
+       ]
+      }
+     ]
+    },
+    "target": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "agent"
+        },
+        "agentId": {
+         "type": "string",
+         "format": "uuid",
+         "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+        }
+       },
+       "required": [
+        "type",
+        "agentId"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "new-agent"
+        },
+        "config": {
+         "type": "object",
+         "properties": {
+          "provider": {
+           "type": "string"
+          },
+          "cwd": {
+           "type": "string",
+           "minLength": 1
+          },
+          "modeId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "model": {
+           "type": "string",
+           "minLength": 1
+          },
+          "thinkingOptionId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "archiveOnFinish": {
+           "type": "boolean"
+          },
+          "isolation": {
+           "type": "string",
+           "enum": [
+            "local",
+            "worktree"
+           ]
+          },
+          "title": {
+           "anyOf": [
+            {
+             "type": "string",
+             "minLength": 1
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "providerOptions": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "featureValues": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "systemPrompt": {
+           "type": "string"
+          },
+          "mcpServers": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "required": [
+          "provider",
+          "cwd"
+         ]
+        }
+       },
+       "required": [
+        "type",
+        "config"
+       ]
+      }
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "active",
+      "paused",
+      "completed"
+     ]
+    },
+    "createdAt": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "string"
+    },
+    "nextRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "lastRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "pausedAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "expiresAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "maxRuns": {
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "runs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "scheduledFor": {
+        "type": "string"
+       },
+       "startedAt": {
+        "type": "string"
+       },
+       "endedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "running",
+         "succeeded",
+         "failed"
+        ]
+       },
+       "agentId": {
+        "anyOf": [
+         {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "workspaceId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "output": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "error": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "scheduledFor",
+       "startedAt",
+       "endedAt",
+       "status",
+       "agentId",
+       "output",
+       "error"
+      ]
+     }
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "prompt",
+    "cadence",
+    "target",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "nextRunAt",
+    "lastRunAt",
+    "pausedAt",
+    "expiresAt",
+    "maxRuns",
+    "runs"
+   ]
+  }
+ },
+ {
+  "name": "schedule_logs",
+  "title": "Schedule logs",
+  "description": "Get the run history (logs) for a schedule.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "runs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "scheduledFor": {
+        "type": "string"
+       },
+       "startedAt": {
+        "type": "string"
+       },
+       "endedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "running",
+         "succeeded",
+         "failed"
+        ]
+       },
+       "agentId": {
+        "anyOf": [
+         {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "workspaceId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "output": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "error": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "scheduledFor",
+       "startedAt",
+       "endedAt",
+       "status",
+       "agentId",
+       "output",
+       "error"
+      ]
+     }
+    }
+   },
+   "required": [
+    "runs"
+   ]
+  }
+ },
+ {
+  "name": "run_schedule_once",
+  "title": "Run schedule once",
+  "description": "Run a schedule immediately without changing its cron cadence.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "required": [
+    "id"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "prompt": {
+     "type": "string",
+     "minLength": 1
+    },
+    "cadence": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "every"
+        },
+        "everyMs": {
+         "type": "integer",
+         "exclusiveMinimum": 0,
+         "maximum": 9007199254740991
+        }
+       },
+       "required": [
+        "type",
+        "everyMs"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "cron"
+        },
+        "expression": {
+         "type": "string",
+         "minLength": 1
+        },
+        "timezone": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "type",
+        "expression"
+       ]
+      }
+     ]
+    },
+    "target": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "agent"
+        },
+        "agentId": {
+         "type": "string",
+         "format": "uuid",
+         "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+        }
+       },
+       "required": [
+        "type",
+        "agentId"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "const": "new-agent"
+        },
+        "config": {
+         "type": "object",
+         "properties": {
+          "provider": {
+           "type": "string"
+          },
+          "cwd": {
+           "type": "string",
+           "minLength": 1
+          },
+          "modeId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "model": {
+           "type": "string",
+           "minLength": 1
+          },
+          "thinkingOptionId": {
+           "type": "string",
+           "minLength": 1
+          },
+          "archiveOnFinish": {
+           "type": "boolean"
+          },
+          "isolation": {
+           "type": "string",
+           "enum": [
+            "local",
+            "worktree"
+           ]
+          },
+          "title": {
+           "anyOf": [
+            {
+             "type": "string",
+             "minLength": 1
+            },
+            {
+             "type": "null"
+            }
+           ]
+          },
+          "providerOptions": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "featureValues": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          },
+          "systemPrompt": {
+           "type": "string"
+          },
+          "mcpServers": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "required": [
+          "provider",
+          "cwd"
+         ]
+        }
+       },
+       "required": [
+        "type",
+        "config"
+       ]
+      }
+     ]
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "active",
+      "paused",
+      "completed"
+     ]
+    },
+    "createdAt": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "string"
+    },
+    "nextRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "lastRunAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "pausedAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "expiresAt": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "maxRuns": {
+     "anyOf": [
+      {
+       "type": "integer",
+       "exclusiveMinimum": 0,
+       "maximum": 9007199254740991
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "runs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "scheduledFor": {
+        "type": "string"
+       },
+       "startedAt": {
+        "type": "string"
+       },
+       "endedAt": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "running",
+         "succeeded",
+         "failed"
+        ]
+       },
+       "agentId": {
+        "anyOf": [
+         {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "workspaceId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "output": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "error": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "scheduledFor",
+       "startedAt",
+       "endedAt",
+       "status",
+       "agentId",
+       "output",
+       "error"
+      ]
+     }
+    }
+   },
+   "required": [
+    "id",
+    "name",
+    "prompt",
+    "cadence",
+    "target",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "nextRunAt",
+    "lastRunAt",
+    "pausedAt",
+    "expiresAt",
+    "maxRuns",
+    "runs"
+   ]
+  }
+ },
+ {
+  "name": "list_providers",
+  "title": "List providers",
+  "description": "List configured agent providers, availability, and their modes.",
+  "input": {
+   "type": "object",
+   "properties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "providers": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "label": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "description": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "enabled": {
+        "default": true,
+        "type": "boolean"
+       },
+       "modes": {
+        "anyOf": [
+         {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string"
+            },
+            "label": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "description": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "icon": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "colorTier": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            }
+           },
+           "required": [
+            "id"
+           ],
+           "additionalProperties": {}
+          }
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "id"
+      ],
+      "additionalProperties": {}
+     }
+    }
+   },
+   "required": [
+    "providers"
+   ]
+  }
+ },
+ {
+  "name": "list_models",
+  "title": "List models",
+  "description": "List models for an agent provider.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "provider": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "provider"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "provider": {
+     "type": "string"
+    },
+    "models": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "provider": {
+        "type": "string"
+       },
+       "id": {
+        "type": "string"
+       },
+       "label": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "description": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "isDefault": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "metadata": {
+        "anyOf": [
+         {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "thinkingOptions": {
+        "anyOf": [
+         {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string"
+            },
+            "label": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "description": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "isDefault": {
+             "anyOf": [
+              {
+               "type": "boolean"
+              },
+              {
+               "type": "null"
+              }
+             ]
+            },
+            "metadata": {
+             "anyOf": [
+              {
+               "type": "object",
+               "propertyNames": {
+                "type": "string"
+               },
+               "additionalProperties": {}
+              },
+              {
+               "type": "null"
+              }
+             ]
+            }
+           },
+           "required": [
+            "id"
+           ],
+           "additionalProperties": {}
+          }
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "defaultThinkingOptionId": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "provider",
+       "id"
+      ],
+      "additionalProperties": {}
+     }
+    }
+   },
+   "required": [
+    "provider",
+    "models"
+   ]
+  }
+ },
+ {
+  "name": "list_profiles",
+  "title": "List agent profiles",
+  "description": "List agent profiles: named provider/model/mode bundles a human configured for specific kinds of work. Read each profile's `notes` to pick the one that fits the task you're delegating, then copy its `provider`, `model`, `modeId`, `thinkingOptionId`, and `featureValues` into create_agent (there is no `profile` parameter). Returns an empty list if none are configured.",
+  "input": {
+   "type": "object",
+   "properties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "profiles": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "name": {
+        "type": "string"
+       },
+       "icon": {
+        "type": "string"
+       },
+       "color": {
+        "type": "string"
+       },
+       "provider": {
+        "type": "string"
+       },
+       "model": {
+        "type": "string"
+       },
+       "modeId": {
+        "type": "string"
+       },
+       "thinkingOptionId": {
+        "type": "string"
+       },
+       "featureValues": {
+        "type": "object",
+        "propertyNames": {
+         "type": "string"
+        },
+        "additionalProperties": {}
+       },
+       "notes": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "name",
+       "provider"
+      ],
+      "additionalProperties": {}
+     }
+    }
+   },
+   "required": [
+    "profiles"
+   ]
+  }
+ },
+ {
+  "name": "inspect_provider",
+  "title": "Inspect provider",
+  "description": "Inspect compact provider capabilities for orchestration, including modes and draft feature settings. Use list_models for the full model list.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "provider": {
+     "type": "string",
+     "minLength": 1,
+     "description": "Provider ID, optionally with a model ID (for example codex or codex/gpt-5.4)."
+    },
+    "cwd": {
+     "description": "Working directory used to resolve provider feature availability.",
+     "type": "string"
+    },
+    "settings": {
+     "description": "Draft provider settings used to compute available features.",
+     "type": "object",
+     "properties": {
+      "modeId": {
+       "description": "Draft session mode ID.",
+       "type": "string"
+      },
+      "model": {
+       "description": "Draft model ID.",
+       "type": "string"
+      },
+      "thinkingOptionId": {
+       "description": "Draft thinking option ID.",
+       "type": "string"
+      },
+      "features": {
+       "description": "Draft provider feature values.",
+       "type": "object",
+       "propertyNames": {
+        "type": "string"
+       },
+       "additionalProperties": {}
+      }
+     },
+     "additionalProperties": false
+    }
+   },
+   "required": [
+    "provider"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "provider": {
+     "type": "string"
+    },
+    "label": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "description": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "enabled": {
+     "type": "boolean"
+    },
+    "status": {
+     "type": "string"
+    },
+    "modes": {
+     "anyOf": [
+      {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "string"
+         },
+         "label": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "description": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "icon": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "colorTier": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         }
+        },
+        "required": [
+         "id"
+        ],
+        "additionalProperties": {}
+       }
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "selectedModel": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "features": {
+     "type": "array",
+     "items": {
+      "oneOf": [
+       {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string",
+          "const": "toggle"
+         },
+         "id": {
+          "type": "string"
+         },
+         "label": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "tooltip": {
+          "type": "string"
+         },
+         "icon": {
+          "type": "string"
+         },
+         "value": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "type",
+         "id",
+         "label",
+         "value"
+        ]
+       },
+       {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string",
+          "const": "select"
+         },
+         "id": {
+          "type": "string"
+         },
+         "label": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "tooltip": {
+          "type": "string"
+         },
+         "icon": {
+          "type": "string"
+         },
+         "desktopTrigger": {
+          "type": "string",
+          "enum": [
+           "icon",
+           "label"
+          ]
+         },
+         "value": {
+          "anyOf": [
+           {
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "options": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string"
+            },
+            "label": {
+             "type": "string"
+            },
+            "description": {
+             "type": "string"
+            },
+            "isDefault": {
+             "type": "boolean"
+            },
+            "metadata": {
+             "type": "object",
+             "propertyNames": {
+              "type": "string"
+             },
+             "additionalProperties": {}
+            }
+           },
+           "required": [
+            "id",
+            "label"
+           ]
+          }
+         }
+        },
+        "required": [
+         "type",
+         "id",
+         "label",
+         "value",
+         "options"
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "required": [
+    "provider",
+    "enabled",
+    "status",
+    "selectedModel",
+    "features"
+   ]
+  }
+ },
+ {
+  "name": "get_agent_activity",
+  "title": "Get agent activity",
+  "description": "Return recent agent timeline entries as a curated summary.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "limit": {
+     "description": "Optional limit for number of activities to include (most recent first).",
+     "type": "number"
+    }
+   },
+   "required": [
+    "agentId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "updateCount": {
+     "type": "number"
+    },
+    "currentModeId": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "content": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId",
+    "updateCount",
+    "currentModeId",
+    "content"
+   ]
+  }
+ },
+ {
+  "name": "set_agent_mode",
+  "title": "Set agent session mode",
+  "description": "Switch the agent's session mode (plan, bypassPermissions, read-only, auto, etc.).",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "modeId": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "agentId",
+    "modeId"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    },
+    "newMode": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "success",
+    "newMode"
+   ]
+  }
+ },
+ {
+  "name": "list_pending_permissions",
+  "title": "List pending permissions",
+  "description": "Return all pending permission requests across all agents with the normalized payloads.",
+  "input": {
+   "type": "object",
+   "properties": {}
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "permissions": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "agentId": {
+        "type": "string"
+       },
+       "status": {
+        "type": "string",
+        "enum": [
+         "initializing",
+         "idle",
+         "running",
+         "error",
+         "closed"
+        ]
+       },
+       "request": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "string"
+         },
+         "provider": {
+          "type": "string"
+         },
+         "name": {
+          "type": "string"
+         },
+         "kind": {
+          "type": "string",
+          "enum": [
+           "tool",
+           "plan",
+           "question",
+           "mode",
+           "other"
+          ]
+         },
+         "title": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         },
+         "input": {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         },
+         "detail": {
+          "oneOf": [
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "worktree_setup"
+             },
+             "worktreePath": {
+              "type": "string"
+             },
+             "branchName": {
+              "type": "string"
+             },
+             "log": {
+              "type": "string"
+             },
+             "commands": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "index": {
+                 "type": "integer",
+                 "exclusiveMinimum": 0,
+                 "maximum": 9007199254740991
+                },
+                "command": {
+                 "type": "string"
+                },
+                "cwd": {
+                 "type": "string"
+                },
+                "log": {
+                 "default": "",
+                 "type": "string"
+                },
+                "status": {
+                 "type": "string",
+                 "enum": [
+                  "running",
+                  "completed",
+                  "failed"
+                 ]
+                },
+                "exitCode": {
+                 "anyOf": [
+                  {
+                   "type": "number"
+                  },
+                  {
+                   "type": "null"
+                  }
+                 ]
+                },
+                "durationMs": {
+                 "type": "number",
+                 "minimum": 0
+                }
+               },
+               "required": [
+                "index",
+                "command",
+                "cwd",
+                "status",
+                "exitCode"
+               ]
+              }
+             },
+             "truncated": {
+              "type": "boolean"
+             }
+            },
+            "required": [
+             "type",
+             "worktreePath",
+             "branchName",
+             "log",
+             "commands"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "shell"
+             },
+             "command": {
+              "type": "string"
+             },
+             "cwd": {
+              "type": "string"
+             },
+             "output": {
+              "type": "string"
+             },
+             "exitCode": {
+              "anyOf": [
+               {
+                "type": "number"
+               },
+               {
+                "type": "null"
+               }
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "command"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "read"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "content": {
+              "type": "string"
+             },
+             "offset": {
+              "type": "number"
+             },
+             "limit": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "edit"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "oldString": {
+              "type": "string"
+             },
+             "newString": {
+              "type": "string"
+             },
+             "unifiedDiff": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "write"
+             },
+             "filePath": {
+              "type": "string"
+             },
+             "content": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "filePath"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "search"
+             },
+             "query": {
+              "type": "string"
+             },
+             "toolName": {
+              "type": "string",
+              "enum": [
+               "search",
+               "grep",
+               "glob",
+               "web_search"
+              ]
+             },
+             "content": {
+              "type": "string"
+             },
+             "filePaths": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "webResults": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "title": {
+                 "type": "string"
+                },
+                "url": {
+                 "type": "string"
+                }
+               },
+               "required": [
+                "title",
+                "url"
+               ]
+              }
+             },
+             "annotations": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "numFiles": {
+              "type": "number"
+             },
+             "numMatches": {
+              "type": "number"
+             },
+             "durationMs": {
+              "type": "number"
+             },
+             "durationSeconds": {
+              "type": "number"
+             },
+             "truncated": {
+              "type": "boolean"
+             },
+             "mode": {
+              "type": "string",
+              "enum": [
+               "content",
+               "files_with_matches",
+               "count"
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "query"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "fetch"
+             },
+             "url": {
+              "type": "string"
+             },
+             "prompt": {
+              "type": "string"
+             },
+             "result": {
+              "type": "string"
+             },
+             "code": {
+              "type": "number"
+             },
+             "codeText": {
+              "type": "string"
+             },
+             "bytes": {
+              "type": "number"
+             },
+             "durationMs": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "type",
+             "url"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "sub_agent"
+             },
+             "subAgentType": {
+              "type": "string"
+             },
+             "description": {
+              "type": "string"
+             },
+             "childSessionId": {
+              "type": "string"
+             },
+             "log": {
+              "type": "string"
+             },
+             "actions": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "properties": {
+                "index": {
+                 "type": "integer",
+                 "exclusiveMinimum": 0,
+                 "maximum": 9007199254740991
+                },
+                "toolName": {
+                 "type": "string"
+                },
+                "summary": {
+                 "type": "string"
+                }
+               },
+               "required": [
+                "index",
+                "toolName"
+               ]
+              }
+             }
+            },
+            "required": [
+             "type",
+             "log"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "plain_text"
+             },
+             "label": {
+              "type": "string"
+             },
+             "text": {
+              "type": "string"
+             },
+             "icon": {
+              "type": "string",
+              "enum": [
+               "wrench",
+               "square_terminal",
+               "eye",
+               "pencil",
+               "search",
+               "bot",
+               "sparkles",
+               "brain",
+               "mic_vocal"
+              ]
+             }
+            },
+            "required": [
+             "type"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "plan"
+             },
+             "text": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "type",
+             "text"
+            ]
+           },
+           {
+            "type": "object",
+            "properties": {
+             "type": {
+              "type": "string",
+              "const": "unknown"
+             },
+             "input": {
+              "anyOf": [
+               {
+                "type": "null"
+               },
+               {
+                "type": "boolean"
+               },
+               {
+                "type": "number"
+               },
+               {
+                "type": "string"
+               },
+               {
+                "type": "array",
+                "items": {}
+               },
+               {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+               }
+              ]
+             },
+             "output": {
+              "anyOf": [
+               {
+                "type": "null"
+               },
+               {
+                "type": "boolean"
+               },
+               {
+                "type": "number"
+               },
+               {
+                "type": "string"
+               },
+               {
+                "type": "array",
+                "items": {}
+               },
+               {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+               }
+              ]
+             }
+            },
+            "required": [
+             "type",
+             "input",
+             "output"
+            ]
+           }
+          ]
+         },
+         "suggestions": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "propertyNames": {
+            "type": "string"
+           },
+           "additionalProperties": {}
+          }
+         },
+         "actions": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "id": {
+             "type": "string"
+            },
+            "label": {
+             "type": "string"
+            },
+            "behavior": {
+             "type": "string",
+             "enum": [
+              "allow",
+              "deny"
+             ]
+            },
+            "variant": {
+             "type": "string",
+             "enum": [
+              "primary",
+              "secondary",
+              "danger"
+             ]
+            },
+            "intent": {
+             "type": "string",
+             "enum": [
+              "implement",
+              "implement_resume",
+              "dismiss"
+             ]
+            }
+           },
+           "required": [
+            "id",
+            "label",
+            "behavior"
+           ]
+          }
+         },
+         "metadata": {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         }
+        },
+        "required": [
+         "id",
+         "provider",
+         "name",
+         "kind"
+        ]
+       }
+      },
+      "required": [
+       "agentId",
+       "status",
+       "request"
+      ]
+     }
+    }
+   },
+   "required": [
+    "permissions"
+   ]
+  }
+ },
+ {
+  "name": "respond_to_permission",
+  "title": "Respond to permission",
+  "description": "Approve or deny a pending permission request with an AgentManager-compatible response payload.",
+  "input": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "agentId": {
+     "type": "string"
+    },
+    "requestId": {
+     "type": "string"
+    },
+    "response": {
+     "oneOf": [
+      {
+       "type": "object",
+       "properties": {
+        "behavior": {
+         "type": "string",
+         "const": "allow"
+        },
+        "selectedActionId": {
+         "type": "string"
+        },
+        "updatedInput": {
+         "type": "object",
+         "propertyNames": {
+          "type": "string"
+         },
+         "additionalProperties": {}
+        },
+        "updatedPermissions": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "propertyNames": {
+           "type": "string"
+          },
+          "additionalProperties": {}
+         }
+        }
+       },
+       "required": [
+        "behavior"
+       ]
+      },
+      {
+       "type": "object",
+       "properties": {
+        "behavior": {
+         "type": "string",
+         "const": "deny"
+        },
+        "selectedActionId": {
+         "type": "string"
+        },
+        "message": {
+         "type": "string"
+        },
+        "interrupt": {
+         "type": "boolean"
+        }
+       },
+       "required": [
+        "behavior"
+       ]
+      }
+     ]
+    }
+   },
+   "required": [
+    "agentId",
+    "requestId",
+    "response"
+   ]
+  },
+  "output": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "success": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "success"
+   ]
+  }
+ }
+]

@@ -1,0 +1,29 @@
+[package]
+name = "paseo-tools"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Paseo tool catalog (the tools agents call over MCP and native host tools): definitions, input validation, text synthesis, and the tools over the CoreApi seam"
+
+[dependencies]
+async-trait.workspace = true
+indexmap.workspace = true
+regex.workspace = true
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+thiserror.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["sync", "time", "rt", "macros"] }
+tokio-util = { version = "0.7", default-features = false }
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-core = { path = "../paseo-core" }
+paseo-schedule = { path = "../paseo-schedule" }
+paseo-store = { path = "../paseo-store" }
+paseo-timeline = { path = "../paseo-timeline" }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full", "test-util"] }
+
+[lints.rust]
+unsafe_code = "forbid"

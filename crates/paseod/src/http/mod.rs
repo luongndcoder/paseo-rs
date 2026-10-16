@@ -34,6 +34,7 @@ use crate::config::{EdgeConfig, ListenAddr};
 use crate::error::{EdgeError, Result};
 use crate::ws::WsProxy;
 
+pub mod mcp_guard;
 pub mod proxy;
 pub mod rpc;
 pub mod static_ui;
@@ -75,10 +76,11 @@ impl AppState {
     }
 
     /// Serves `/mcp/agents` in process. The endpoint does its own auth (capability token or the
-    /// daemon password), so it bypasses the TS middleware chain like the TS route does for the
-    /// bearer check; the Host allowlist and CORS that TS applies first are not applied here.
-    pub fn with_agent_mcp(mut self, router: Router) -> Self {
-        self.agent_mcp = Some(router);
+    /// daemon password), so it bypasses the TS bearer check like the TS route does; the Host
+    /// allowlist and CORS that TS applies first run in `guard`, so there is no unguarded mount.
+    /// The guard is a snapshot of `hostnames` / `cors.allowedOrigins` taken at mount time.
+    pub fn with_agent_mcp(mut self, router: Router, guard: mcp_guard::McpHttpGuard) -> Self {
+        self.agent_mcp = Some(guard.wrap(router));
         self
     }
 }
