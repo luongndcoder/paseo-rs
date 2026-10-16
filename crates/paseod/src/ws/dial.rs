@@ -11,7 +11,7 @@ use tokio_tungstenite::{MaybeTlsStream, WebSocketStream};
 
 use super::{BackendLink, ClientInfo, Transport, UpgradeRejection, WsProxy};
 use crate::internal::{
-    HEADER_CONNECTION_ID, HEADER_REMOTE_ADDR, HEADER_TOKEN, HEADER_TRANSPORT,
+    HEADER_CONNECTION_ID, HEADER_REMOTE_ADDR, HEADER_SOCKET_ID, HEADER_TOKEN, HEADER_TRANSPORT,
     STRIPPED_CLIENT_HEADERS,
 };
 
@@ -88,6 +88,8 @@ pub(super) async fn dial(
         }
     };
     set(HEADER_TOKEN, &token);
+    let socket_id = proxy.next_socket_id();
+    set(HEADER_SOCKET_ID, &socket_id.0.to_string());
     match &info.transport {
         Transport::Direct { remote } => {
             set(HEADER_TRANSPORT, "direct");
@@ -118,6 +120,7 @@ pub(super) async fn dial(
             Ok(BackendLink {
                 selected_protocol,
                 stream,
+                socket_id,
             })
         }
         Ok(Err(WsError::Http(resp))) => {

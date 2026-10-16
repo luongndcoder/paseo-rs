@@ -27,13 +27,19 @@ pub const HEADER_CONNECTION_ID: &str = "x-paseo-edge-connection-id";
 /// own their `/ws`, so the edge tunnels them raw instead of terminating the daemon protocol.
 pub const HOST_CLASS_PATH: &str = "/__paseo_edge/host-class";
 
+/// Id of the physical client socket behind an internal `/ws` dial (decimal `u64`). It is the
+/// `sourceId` of every `internal.delivery.*` RPC about that socket, so a TS-resident controller
+/// can register owned subscriptions on the one Source registry (spec section 9).
+pub const HEADER_SOCKET_ID: &str = "x-paseo-edge-socket-id";
+
 /// Headers the edge strips from every inbound client request before forwarding,
 /// so a client can never forge edge identity.
-pub const STRIPPED_CLIENT_HEADERS: [&str; 4] = [
+pub const STRIPPED_CLIENT_HEADERS: [&str; 5] = [
     HEADER_TOKEN,
     HEADER_TRANSPORT,
     HEADER_REMOTE_ADDR,
     HEADER_CONNECTION_ID,
+    HEADER_SOCKET_ID,
 ];
 
 /// A TS worker stdout line starting with this prefix is a lifecycle event (JSON after the prefix).

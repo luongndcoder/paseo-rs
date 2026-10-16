@@ -106,8 +106,9 @@ The edge in turn watches its own stdin when `PASEO_EDGE_PARENT_STDIN=1` (set by 
 - `x-paseo-edge-transport`: `direct` | `relay`.
 - `x-paseo-edge-remote-addr`: real client `ip:port`. Without it every client looks like loopback (`resolveConnectionPeer` `websocket-server.ts:2819` uses the socket address). Today `peer` feeds logs/identity only, and authz comes from `hello`/permissions, so a missing header is not a security bug but would corrupt logs and any future peer-based policy.
 - `x-paseo-edge-connection-id`: relay `connectionId`.
+- `x-paseo-edge-socket-id`: the edge's number for this physical client socket (decimal). Only meaningful with `PASEO_CORE=rust`, where it is the `sourceId` of `internal.delivery.*` RPCs about that socket (`src/internal_rpc.rs`).
 
-The edge strips these four from every client request before adding its own, so clients cannot forge them. `Host`, `Origin`, `Authorization`, `Sec-WebSocket-Protocol`, `User-Agent` pass unchanged. Express `trust proxy` defaults to `["loopback"]` (`bootstrap.ts` `resolveExpressTrustProxySetting`), so `X-Forwarded-For` from the edge would also be trusted; the edge sets `X-Forwarded-For` to the real client address and drops any inbound value (no chaining).
+The edge strips these five from every client request before adding its own, so clients cannot forge them. `Host`, `Origin`, `Authorization`, `Sec-WebSocket-Protocol`, `User-Agent` pass unchanged. Express `trust proxy` defaults to `["loopback"]` (`bootstrap.ts` `resolveExpressTrustProxySetting`), so `X-Forwarded-For` from the edge would also be trusted; the edge sets `X-Forwarded-For` to the real client address and drops any inbound value (no chaining).
 
 **Relay clients on the TS side.** With a valid token and `transport=relay`, TS must route the internal `/ws` socket to `attachExternalSocket(ws, {transport:"relay", externalSessionKey:"session:<connectionId>", relayConnectionId})` instead of `attachAuthenticatedSocket`, so relay admission rules (no `hello.auth` required, `session-admission-auth.ts:20`) and session keys are unchanged.
 

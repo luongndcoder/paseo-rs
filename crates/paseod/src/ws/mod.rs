@@ -51,7 +51,13 @@ mod pump;
 
 pub use dial::BackendStream;
 pub use direct::{handle_upgrade, ws_router, DirectSocket};
-pub use pump::{Dispatch, Dispatcher, ForwardAll, Replier};
+pub use pump::{Dispatch, Dispatcher, ForwardAll, Replier, SocketCtx, SocketWriter};
+
+/// One physical client socket, numbered by the edge in the order they are dialed. The id is sent
+/// to the backend in [`crate::internal::HEADER_SOCKET_ID`] and names the socket in
+/// `internal.delivery.*`. Never reused within a process.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub struct SocketId(pub u64);
 
 /// An owned WebSocket data frame. Control frames never reach this layer.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -163,6 +169,7 @@ pub struct WsProxy {
     pub owned: Arc<OwnedTypes>,
     pub limits: Limits,
     pub dispatcher: Arc<dyn Dispatcher>,
+    next_socket: Arc<std::sync::atomic::AtomicU64>,
 }
 
 impl WsProxy {
@@ -172,6 +179,7 @@ impl WsProxy {
             owned,
             limits,
             dispatcher: Arc::new(ForwardAll),
+            next_socket: Arc::new(std::sync::atomic::AtomicU64::new(1)),
         }
     }
 
@@ -190,7 +198,15 @@ impl WsProxy {
             owned,
             limits,
             dispatcher: Arc::new(ForwardAll),
+            next_socket: Arc::new(std::sync::atomic::AtomicU64::new(1)),
         }
+    }
+
+    pub(crate) fn next_socket_id(&self) -> SocketId {
+        SocketId(
+            self.next_socket
+                .fetch_add(1, std::sync::atomic::Ordering::SeqCst),
+        )
     }
 
     /// Installs the handler that receives frames whose route is [`crate::routing::Route::Owned`].
@@ -237,6 +253,8 @@ pub struct BackendLink {
     /// Subprotocol TS selected (`paseo.bearer.<token>` when a password is set); echo to the client.
     pub selected_protocol: Option<String>,
     pub(crate) stream: BackendStream,
+    /// The id this socket carries in `x-paseo-edge-socket-id`.
+    pub socket_id: SocketId,
 }
 
 #[derive(Debug, Clone)]

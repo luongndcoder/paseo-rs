@@ -15,8 +15,10 @@ use std::time::Duration;
 
 use paseod::backend::{Backend, BackendState};
 use paseod::config::EdgeConfig;
+use paseod::core_runtime::{CoreRuntime, CoreRuntimeOptions};
 use paseod::http::{self, AppState};
 use paseod::internal::{LifecycleEvent, LIFECYCLE_PREFIX};
+use paseod::internal_rpc::InternalRpc;
 use paseod::relay::RelaySwitch;
 use paseod::routing::OwnedTypes;
 use paseod::ws::WsProxy;
@@ -70,11 +72,27 @@ async fn main() -> anyhow::Result<()> {
         Some(attach) => Backend::fixed(attach.addr, attach.token.clone()),
         None => Backend::spawn(&config.backend, &public).await?,
     };
-    let ws = Arc::new(WsProxy::new(
+    // `PASEO_CORE=rust`: the Rust core owns the claimed message types (see `core_routes`).
+    // Everything else, and everything when the flag is off, is forwarded as raw bytes.
+    let core = if paseod::agent_mcp::core_rust_enabled(&env) {
+        let runtime = CoreRuntime::build(&config.paseo_home, CoreRuntimeOptions::default()).await?;
+        tracing::info!("PASEO_CORE=rust: core session layer enabled");
+        Some(runtime)
+    } else {
+        None
+    };
+    let mut proxy = WsProxy::new(
         backend.clone(),
-        Arc::new(OwnedTypes::empty()),
+        Arc::new(
+            core.as_ref()
+                .map_or_else(OwnedTypes::empty, CoreRuntime::owned_types),
+        ),
         config.limits.clone(),
-    ));
+    );
+    if let Some(core) = &core {
+        proxy = proxy.with_dispatcher(core.dispatcher.clone());
+    }
+    let ws = Arc::new(proxy);
     let relay = Arc::new(RelaySwitch::new(
         config.relay.clone(),
         config.paseo_home.clone(),
@@ -89,7 +107,11 @@ async fn main() -> anyhow::Result<()> {
             }
         });
     }
-    let state = AppState::new(config.clone(), backend.clone(), ws);
+    let mut state = AppState::new(config.clone(), backend.clone(), ws);
+    if let Some(core) = &core {
+        let rpc = InternalRpc::new(core.sessions.clone());
+        state = state.with_internal_rpc(http::rpc::router(rpc, backend.edge_token().to_owned()));
+    }
 
     // First writer wins: the exit code the process ends with.
     let (stop_tx, stop_rx) = watch::channel::<Option<i32>>(None);
@@ -183,6 +205,9 @@ async fn main() -> anyhow::Result<()> {
     let code = tokio::select! {
         _ = wait_rx.wait_for(|v| v.is_some()) => {
             let code = (*stop_rx.borrow()).unwrap_or(0);
+            if let Some(core) = &core {
+                core.shutdown().await;
+            }
             if let Err(err) = backend.shutdown().await {
                 tracing::warn!(%err, "backend shutdown");
             }

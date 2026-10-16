@@ -679,3 +679,51 @@ fn service_host_candidates_skip_ips_and_localhost() {
     assert_eq!(c("svc.localhost:6767"), Some("svc.localhost:6767"));
     assert_eq!(c("daemon.example"), Some("daemon.example"));
 }
+
+async fn start_edge_with_mcp(backend: Arc<Backend>, mcp: Option<Router>) -> SocketAddr {
+    let ws = Arc::new(WsProxy::new(
+        backend.clone(),
+        Arc::new(OwnedTypes::empty()),
+        Limits::default(),
+    ));
+    let mut state = AppState::new(edge_config(None), backend, ws);
+    if let Some(mcp) = mcp {
+        state = state.with_agent_mcp(mcp);
+    }
+    let listener = bind(&ListenAddr::Tcp("127.0.0.1:0".parse().unwrap()))
+        .await
+        .unwrap();
+    let addr: SocketAddr = listener.public_address().parse().unwrap();
+    tokio::spawn(serve_on(state, listener, std::future::pending()));
+    addr
+}
+
+#[tokio::test]
+async fn agent_mcp_is_served_in_process_only_when_mounted() {
+    let backend_addr = fake_backend().await;
+    // Not mounted: /mcp/agents is reverse proxied like every other path.
+    let edge = start_edge_with_mcp(Backend::fixed(backend_addr, TOKEN), None).await;
+    let reply = request(edge, "POST", AGENT_MCP_ROUTE, &[], Body::empty()).await;
+    assert_eq!(reply.text(), "backend:/mcp/agents");
+
+    // Mounted: the in-process router answers, the backend is not asked.
+    let mcp = Router::new().route(
+        AGENT_MCP_ROUTE,
+        any(|req: Request| async move { format!("in-process:{}", req.method()) }),
+    );
+    let edge = start_edge_with_mcp(Backend::fixed(backend_addr, TOKEN), Some(mcp)).await;
+    let reply = request(edge, "POST", AGENT_MCP_ROUTE, &[], Body::empty()).await;
+    assert_eq!(reply.text(), "in-process:POST");
+    let reply = request(
+        edge,
+        "GET",
+        "/mcp/agents?callerAgentId=a1",
+        &[],
+        Body::empty(),
+    )
+    .await;
+    assert_eq!(reply.text(), "in-process:GET");
+    // Other paths still go to the backend.
+    let reply = fetch(edge, "/api/health", &[]).await;
+    assert_eq!(reply.text(), "ok");
+}

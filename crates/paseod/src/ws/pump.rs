@@ -26,7 +26,7 @@ use tokio_tungstenite::tungstenite::Message as WsMsg;
 
 use super::{
     ApplicationLease, BackendLink, BackendStream, Message, OutboundBudget, PhysicalSocket,
-    ProxyOutcome, Release, WsProxy,
+    ProxyOutcome, Release, SocketId, WsProxy,
 };
 use crate::routing::{is_server_info, is_top_level_ping, peek_route, Domain, FrameRef, Route};
 
@@ -56,9 +56,80 @@ impl Replier {
     }
 }
 
+/// The one writer of a physical socket's outbound queue. Unlike [`Replier`] it is budgeted: a
+/// frame that would cross the outbound high-water mark ends the socket (the same rule as proxied
+/// frames), so a domain that writes straight to a client cannot grow the queue without bound.
+/// Clones share the queue; keep none after [`Dispatcher::socket_closed`].
+#[derive(Clone)]
+pub struct SocketWriter {
+    tx: UnboundedSender<OutItem>,
+    budget: Budget,
+    ev_tx: UnboundedSender<Event>,
+}
+
+impl Debug for SocketWriter {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("SocketWriter").finish_non_exhaustive()
+    }
+}
+
+impl SocketWriter {
+    /// Queues `msg`. `false` when the socket is gone or the frame crossed the high-water mark
+    /// (the socket is then being closed).
+    pub fn write(&self, msg: Message) -> bool {
+        let len = msg.byte_len();
+        {
+            let mut budget = lock(&self.budget);
+            if !budget.try_reserve(len) {
+                let buffered = budget.queued() + len;
+                drop(budget);
+                let _ = self.ev_tx.send(Event::HighWater { buffered });
+                return false;
+            }
+        }
+        if self.tx.send(OutItem::Frame { msg, reserved: len }).is_err() {
+            lock(&self.budget).release(len);
+            return false;
+        }
+        true
+    }
+
+    /// Ends the socket with `code`.
+    pub fn close(&self, code: u16, reason: impl Into<String>) {
+        let _ = self.tx.send(OutItem::Close {
+            code,
+            reason: reason.into(),
+        });
+    }
+}
+
+/// What a dispatcher knows about the socket a frame came from.
+#[derive(Debug, Clone)]
+pub struct SocketCtx {
+    pub id: SocketId,
+    pub writer: SocketWriter,
+}
+
 /// Handler for frames whose route is [`Route::Owned`].
 pub trait Dispatcher: Debug + Send + Sync + 'static {
     fn dispatch(&self, domain: Domain, msg: Message, reply: &Replier) -> Dispatch;
+
+    /// A client socket was accepted and its pump started.
+    fn socket_opened(&self, _socket: &SocketCtx) {}
+
+    /// Like [`Dispatcher::dispatch`] but knows the socket. Defaults to the socket-less form.
+    fn dispatch_from(
+        &self,
+        _socket: &SocketCtx,
+        domain: Domain,
+        msg: Message,
+        reply: &Replier,
+    ) -> Dispatch {
+        self.dispatch(domain, msg, reply)
+    }
+
+    /// The socket ended (any reason). Drop every clone of its [`SocketWriter`].
+    fn socket_closed(&self, _socket: SocketId) {}
 }
 
 /// P2 dispatcher: owns nothing, forwards everything.
@@ -298,6 +369,7 @@ pub(super) async fn pump<S: PhysicalSocket>(
     client: S,
     link: BackendLink,
 ) -> ProxyOutcome {
+    let socket_id = link.socket_id;
     let (sink, stream) = link.stream.split();
     let budget: Budget = Arc::new(Mutex::new(OutboundBudget::new(
         proxy.limits.outbound_high_water_bytes,
@@ -323,8 +395,17 @@ pub(super) async fn pump<S: PhysicalSocket>(
         budget.clone(),
         server_info_seen.clone(),
     ));
+    let ctx = SocketCtx {
+        id: socket_id,
+        writer: SocketWriter {
+            tx: out_tx.clone(),
+            budget: budget.clone(),
+            ev_tx: ev_tx.clone(),
+        },
+    };
     drop(ev_tx);
     let replier = Replier { tx: out_tx.clone() };
+    proxy.dispatcher.socket_opened(&ctx);
 
     let mut lease = ApplicationLease::new(proxy.limits.lease);
     let mut tick = tokio::time::interval(proxy.limits.lease_check_interval);
@@ -356,7 +437,7 @@ pub(super) async fn pump<S: PhysicalSocket>(
                         });
                         let forward = match route {
                             Route::Forward => Some(msg),
-                            Route::Owned(domain) => match proxy.dispatcher.dispatch(domain, msg, &replier) {
+                            Route::Owned(domain) => match proxy.dispatcher.dispatch_from(&ctx, domain, msg, &replier) {
                                 Dispatch::Handled => {
                                     inflight.release(bytes);
                                     None
@@ -413,6 +494,8 @@ pub(super) async fn pump<S: PhysicalSocket>(
     };
 
     reader.abort();
+    proxy.dispatcher.socket_closed(socket_id);
+    drop(ctx);
     drop(out_tx);
     drop(replier);
     // Closing the queue ends the backend writer after it flushes (and sends any close frame).

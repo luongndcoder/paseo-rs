@@ -13,9 +13,9 @@ use std::collections::HashMap;
 /// A domain that has moved to Rust. Add variants as domains land (P3+).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Domain {
-    /// Reserved so the enum is non-empty; never registered in P2.
-    #[doc(hidden)]
-    Placeholder,
+    /// The Rust core (`PASEO_CORE=rust`): session layer, subscriptions, agent directory. The
+    /// claimed types are listed in [`crate::core_routes`].
+    Core,
 }
 
 /// Binary frame families by opcode (first byte). Mirrors `TerminalStreamOpcode` and `FileTransferOpcode`.
@@ -227,12 +227,12 @@ mod tests {
     #[test]
     fn owned_type_routes_to_domain() {
         let mut t = OwnedTypes::empty();
-        t.claim_type("fetch_agents_request", Domain::Placeholder);
+        t.claim_type("fetch_agents_request", Domain::Core);
         let hit = r#"{"type":"session","message":{"type":"fetch_agents_request"}}"#;
         let miss = r#"{"type":"session","message":{"type":"other"}}"#;
         assert_eq!(
             peek_route(&t, FrameRef::Text(hit)),
-            Route::Owned(Domain::Placeholder)
+            Route::Owned(Domain::Core)
         );
         assert_eq!(peek_route(&t, FrameRef::Text(miss)), Route::Forward);
     }
@@ -260,10 +260,10 @@ mod tests {
         assert_eq!(binary_family(&[0x7f]), BinaryFamily::Unknown);
         assert_eq!(binary_family(&[]), BinaryFamily::Unknown);
         let mut t = OwnedTypes::empty();
-        t.claim_binary(BinaryFamily::FileTransfer, Domain::Placeholder);
+        t.claim_binary(BinaryFamily::FileTransfer, Domain::Core);
         assert_eq!(
             peek_route(&t, FrameRef::Binary(&[0x10])),
-            Route::Owned(Domain::Placeholder)
+            Route::Owned(Domain::Core)
         );
         assert_eq!(peek_route(&t, FrameRef::Binary(&[0x01])), Route::Forward);
     }

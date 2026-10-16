@@ -17,11 +17,15 @@
 
 pub mod abort;
 pub mod activity;
+pub mod agent_payload;
+pub mod agent_updates;
 pub mod background;
 pub mod bridge;
 pub mod config;
+pub mod delivery;
 pub mod error;
 pub mod events;
+pub mod fanout;
 pub mod hooks;
 pub mod ids;
 pub mod lifecycle;
@@ -32,6 +36,7 @@ pub mod persistence_sub;
 pub mod projection;
 pub mod provider_subagents;
 pub mod schedule_host;
+pub mod session;
 pub mod time;
 
 pub(crate) mod agent_actor;

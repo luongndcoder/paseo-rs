@@ -15,6 +15,7 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow.workspace = true
+async-trait.workspace = true
 axum = { version = "0.8", features = ["ws"] }
 base64.workspace = true
 bytes = "1"
@@ -24,6 +25,12 @@ http = "1"
 http-body-util = "0.1"
 hyper = { version = "1", features = ["http1", "client", "server"] }
 hyper-util = { version = "0.1", features = ["client-legacy", "http1", "tokio"] }
+paseo-authz = { path = "../paseo-authz" }
+paseo-core = { path = "../paseo-core" }
+paseo-directory = { path = "../paseo-directory" }
+paseo-mcp = { path = "../paseo-mcp" }
+paseo-store = { path = "../paseo-store" }
+paseo-tools = { path = "../paseo-tools" }
 rand = "0.8"
 serde = { workspace = true }
 serde_json.workspace = true
@@ -41,6 +48,8 @@ rustls = { version = "0.23", default-features = false, features = ["ring", "std"
 nix = { version = "0.31", features = ["signal", "hostname", "process"] }
 
 [dev-dependencies]
+paseo-core = { path = "../paseo-core", features = ["testing"] }
+paseo-provider-api = { path = "../paseo-provider-api" }
 serde_json.workspace = true
 tempfile.workspace = true
 

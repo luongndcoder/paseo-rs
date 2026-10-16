@@ -35,6 +35,7 @@ use crate::error::{EdgeError, Result};
 use crate::ws::WsProxy;
 
 pub mod proxy;
+pub mod rpc;
 pub mod static_ui;
 
 #[cfg(test)]
@@ -47,6 +48,12 @@ pub struct AppState {
     pub backend: Arc<Backend>,
     pub ws: Arc<WsProxy>,
     pub proxy: proxy::ProxyClient,
+    /// The in-process `/mcp/agents` endpoint (`paseo_mcp::mcp_router`), set under
+    /// `PASEO_CORE=rust` once the core exists. `None`: the route is reverse proxied to TS.
+    pub agent_mcp: Option<Router>,
+    /// `GET /__paseo_edge/rpc`: the core <-> TS channel (`internal.delivery.*`), built by
+    /// [`rpc::router`]. `None` unless the core is on.
+    pub internal_rpc: Option<Router>,
 }
 
 impl AppState {
@@ -56,16 +63,40 @@ impl AppState {
             backend,
             ws,
             proxy: proxy::new_client(),
+            agent_mcp: None,
+            internal_rpc: None,
         }
+    }
+
+    /// Mounts the internal RPC route ([`rpc::router`]).
+    pub fn with_internal_rpc(mut self, router: Router) -> Self {
+        self.internal_rpc = Some(router);
+        self
+    }
+
+    /// Serves `/mcp/agents` in process. The endpoint does its own auth (capability token or the
+    /// daemon password), so it bypasses the TS middleware chain like the TS route does for the
+    /// bearer check; the Host allowlist and CORS that TS applies first are not applied here.
+    pub fn with_agent_mcp(mut self, router: Router) -> Self {
+        self.agent_mcp = Some(router);
+        self
     }
 }
 
-/// Builds the router: `/ws` -> [`ws_upgrade`], fallback -> static web UI or reverse proxy.
+/// Route the in-process agent MCP endpoint is mounted on.
+pub const AGENT_MCP_ROUTE: &str = "/mcp/agents";
+
+/// Builds the router: `/ws` -> [`ws_upgrade`], `/mcp/agents` -> the in-process agent MCP
+/// endpoint when configured, fallback -> static web UI or reverse proxy.
 pub fn router(state: AppState) -> Router {
-    Router::new()
-        .route("/ws", any(ws_upgrade))
-        .fallback(fallback)
-        .with_state(state)
+    let mut router = Router::new().route("/ws", any(ws_upgrade));
+    if let Some(mcp) = state.agent_mcp.clone() {
+        router = router.route_service(AGENT_MCP_ROUTE, mcp);
+    }
+    if let Some(rpc) = state.internal_rpc.clone() {
+        router = router.route_service(crate::internal_rpc::RPC_ROUTE, rpc);
+    }
+    router.fallback(fallback).with_state(state)
 }
 
 /// `/ws` hook: frame-aware proxy to the backend (lease, high-water, routing hook), unless the

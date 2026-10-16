@@ -216,6 +216,7 @@ async fn forwards_identity_headers_and_selected_subprotocol() {
     );
     h.insert("x-paseo-edge-token", "forged".parse().unwrap());
     h.insert("x-paseo-edge-remote-addr", "6.6.6.6:1".parse().unwrap());
+    h.insert("x-paseo-edge-socket-id", "999999".parse().unwrap());
     h.insert("x-forwarded-for", "6.6.6.6".parse().unwrap());
     let (_c, resp) = tokio_tungstenite::connect_async(req).await.unwrap();
     assert_eq!(
@@ -233,6 +234,8 @@ async fn forwards_identity_headers_and_selected_subprotocol() {
     assert_eq!(get("x-forwarded-for").as_deref(), Some("127.0.0.1"));
     let remote = get("x-paseo-edge-remote-addr").unwrap();
     assert!(remote.starts_with("127.0.0.1:"), "{remote}");
+    // The socket id is the edge's own (first socket of this proxy), never the client's.
+    assert_eq!(get("x-paseo-edge-socket-id").as_deref(), Some("1"));
 }
 
 #[tokio::test]
@@ -657,8 +660,8 @@ async fn owned_types_dispatch_instead_of_forwarding() {
     let (end_tx, _end_rx) = mpsc::unbounded_channel();
     let backend = spawn_backend(BackendOpts::default(), recording_backend(seen_tx, end_tx)).await;
     let mut table = OwnedTypes::empty();
-    table.claim_type("fetch_agents_request", Domain::Placeholder);
-    table.claim_type("keep_in_ts", Domain::Placeholder);
+    table.claim_type("fetch_agents_request", Domain::Core);
+    table.claim_type("keep_in_ts", Domain::Core);
     let proxy = WsProxy::new_fixed(
         format!("ws://{backend}/ws"),
         TOKEN,
@@ -684,6 +687,151 @@ async fn owned_types_dispatch_instead_of_forwarding() {
         seen_rx.try_recv().is_err(),
         "owned frame must not reach the backend"
     );
+}
+
+// ---- socket-aware dispatch hooks ----
+
+/// Records the lifecycle of one socket and writes through its [`SocketWriter`].
+#[derive(Debug, Default)]
+struct SocketAware {
+    opened: Mutex<Vec<SocketId>>,
+    closed: Mutex<Vec<SocketId>>,
+    writer: Mutex<Option<SocketWriter>>,
+}
+
+impl Dispatcher for SocketAware {
+    fn dispatch(&self, _d: Domain, msg: Message, _reply: &Replier) -> Dispatch {
+        Dispatch::Forward(msg)
+    }
+
+    fn socket_opened(&self, socket: &SocketCtx) {
+        self.opened.lock().unwrap().push(socket.id);
+        *self.writer.lock().unwrap() = Some(socket.writer.clone());
+    }
+
+    fn dispatch_from(
+        &self,
+        socket: &SocketCtx,
+        _d: Domain,
+        msg: Message,
+        _reply: &Replier,
+    ) -> Dispatch {
+        match &msg {
+            Message::Text(t) if t.contains("write_back") => {
+                assert!(socket.writer.write(Message::Text("written-by-core".into())));
+                Dispatch::Handled
+            }
+            _ => Dispatch::Forward(msg),
+        }
+    }
+
+    fn socket_closed(&self, socket: SocketId) {
+        self.closed.lock().unwrap().push(socket);
+        self.writer.lock().unwrap().take();
+    }
+}
+
+#[tokio::test]
+async fn dispatchers_see_the_socket_lifecycle_and_write_through_the_pump_queue() {
+    let (seen_tx, _seen_rx) = mpsc::unbounded_channel();
+    let (end_tx, _end_rx) = mpsc::unbounded_channel();
+    let backend = spawn_backend(BackendOpts::default(), recording_backend(seen_tx, end_tx)).await;
+    let mut table = OwnedTypes::empty();
+    table.claim_type("write_back", Domain::Core);
+    let aware = Arc::new(SocketAware::default());
+    let proxy = Arc::new(
+        WsProxy::new_fixed(
+            format!("ws://{backend}/ws"),
+            TOKEN,
+            Arc::new(table),
+            Limits::default(),
+        )
+        .with_dispatcher(aware.clone()),
+    );
+    let (sock, mut h) = mock(false);
+    let run = {
+        let proxy = proxy.clone();
+        tokio::spawn(async move { proxy.run(sock, relay_info()).await })
+    };
+    // The backend's server_info is the first frame; then the core writes into the same queue.
+    assert!(matches!(h.from_edge.recv().await, Some(Message::Text(t)) if t == SERVER_INFO));
+    let ids = aware.opened.lock().unwrap().clone();
+    assert_eq!(ids.len(), 1);
+    h.to_edge
+        .send(Message::Text(
+            r#"{"type":"session","message":{"type":"write_back"}}"#.into(),
+        ))
+        .unwrap();
+    assert!(matches!(h.from_edge.recv().await, Some(Message::Text(t)) if t == "written-by-core"));
+    // Socket ids are unique per proxy.
+    let (sock2, _h2) = mock(false);
+    let second = {
+        let proxy = proxy.clone();
+        tokio::spawn(async move { proxy.run(sock2, relay_info()).await })
+    };
+    wait_until(|| aware.opened.lock().unwrap().len() == 2).await;
+    let ids = aware.opened.lock().unwrap().clone();
+    assert_ne!(ids[0], ids[1]);
+    drop(h.to_edge);
+    assert_eq!(run.await.unwrap(), ProxyOutcome::ClientClosed);
+    assert_eq!(aware.closed.lock().unwrap().clone(), vec![ids[0]]);
+    second.abort();
+}
+
+async fn wait_until(mut f: impl FnMut() -> bool) {
+    for _ in 0..400 {
+        if f() {
+            return;
+        }
+        tokio::time::sleep(Duration::from_millis(5)).await;
+    }
+    panic!("condition not met");
+}
+
+#[tokio::test]
+async fn a_dispatcher_write_past_high_water_ends_the_socket() {
+    let (seen_tx, _seen_rx) = mpsc::unbounded_channel();
+    let (end_tx, mut end_rx) = mpsc::unbounded_channel();
+    let backend = spawn_backend(BackendOpts::default(), recording_backend(seen_tx, end_tx)).await;
+    let aware = Arc::new(SocketAware::default());
+    let limits = Limits {
+        outbound_high_water_bytes: 1000,
+        ..Limits::default()
+    };
+    let proxy = Arc::new(
+        WsProxy::new_fixed(
+            format!("ws://{backend}/ws"),
+            TOKEN,
+            Arc::new(OwnedTypes::empty()),
+            limits,
+        )
+        .with_dispatcher(aware.clone()),
+    );
+    // The socket never drains, so queued bytes stay charged.
+    let (sock, h) = mock(true);
+    let run = tokio::spawn(async move { proxy.run(sock, relay_info()).await });
+    wait_until(|| aware.writer.lock().unwrap().is_some()).await;
+    let writer = aware.writer.lock().unwrap().clone().unwrap();
+    assert!(writer.write(Message::Text("x".repeat(600))));
+    assert!(
+        !writer.write(Message::Text("y".repeat(600))),
+        "crossing 1000 bytes is refused"
+    );
+    let outcome = tokio::time::timeout(Duration::from_secs(5), run)
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(
+        matches!(outcome, ProxyOutcome::HighWater { .. }),
+        "{outcome:?}"
+    );
+    // The backend side is closed 1000.
+    let end = tokio::time::timeout(Duration::from_secs(5), end_rx.recv())
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(end.map(|(c, _)| c), Some(1000));
+    drop(h);
 }
 
 // ---- backpressure ----
