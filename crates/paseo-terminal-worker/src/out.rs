@@ -79,18 +79,108 @@ fn run_writer<W: Write>(rx: Receiver<OutMsg>, mut w: W, backlog: &Backlog) {
 }
 
 pub fn spawn_stdout_writer() -> (Out, JoinHandle<()>) {
+    spawn_writer(std::io::BufWriter::new(std::io::stdout()))
+}
+
+fn spawn_writer<W: Write + Send + 'static>(w: W) -> (Out, JoinHandle<()>) {
     let (tx, rx) = channel();
     let backlog = Arc::new(Backlog::default());
     let writer_backlog = backlog.clone();
     let handle = std::thread::Builder::new()
         .name("stdout-writer".into())
-        .spawn(move || {
-            run_writer(
-                rx,
-                std::io::BufWriter::new(std::io::stdout()),
-                &writer_backlog,
-            )
-        })
+        .spawn(move || run_writer(rx, w, &writer_backlog))
         .expect("spawn stdout writer");
     (Out(tx, backlog), handle)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::sync::Mutex;
+
+    /// Writer that blocks every write until released: a paused stdout consumer.
+    struct Gated {
+        open: Arc<(Mutex<bool>, std::sync::Condvar)>,
+        written: Arc<AtomicUsize>,
+    }
+
+    impl Write for Gated {
+        fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+            let (lock, cv) = &*self.open;
+            let mut open = lock.lock().unwrap();
+            while !*open {
+                open = cv.wait(open).unwrap();
+            }
+            self.written.fetch_add(buf.len(), Ordering::Relaxed);
+            Ok(buf.len())
+        }
+        fn flush(&mut self) -> std::io::Result<()> {
+            Ok(())
+        }
+    }
+
+    #[test]
+    fn paused_consumer_bounds_queued_bytes_and_flood_resumes_after_release() {
+        let open = Arc::new((Mutex::new(false), std::sync::Condvar::new()));
+        let written = Arc::new(AtomicUsize::new(0));
+        let (out, handle) = spawn_writer(Gated {
+            open: open.clone(),
+            written: written.clone(),
+        });
+
+        let payload = "x".repeat(64 * 1024);
+        let line_len = json!({ "d": payload }).to_string().len() + 1;
+        let sent = Arc::new(AtomicUsize::new(0));
+        let producer = {
+            let (out, sent) = (out.clone(), sent.clone());
+            std::thread::spawn(move || {
+                // The "infinite writer": runs until told to stop at 2x the limit.
+                while sent.load(Ordering::Relaxed) < 2 * MAX_QUEUED_BYTES + 4 * line_len {
+                    out.send(&json!({ "d": payload }));
+                    sent.fetch_add(line_len, Ordering::Relaxed);
+                }
+            })
+        };
+
+        // Let the producer run into the throttle and stay there.
+        let mut peak = 0;
+        for _ in 0..40 {
+            std::thread::sleep(Duration::from_millis(25));
+            peak = peak.max(out.1.queued.load(Ordering::Relaxed));
+        }
+        // A single producer checks before adding, so overshoot is at most one line.
+        assert!(
+            peak <= MAX_QUEUED_BYTES + line_len,
+            "queued {peak} exceeded limit {MAX_QUEUED_BYTES}"
+        );
+        assert!(peak > MAX_QUEUED_BYTES / 2, "flood never built a backlog: {peak}");
+        let stalled = sent.load(Ordering::Relaxed);
+        std::thread::sleep(Duration::from_millis(100));
+        assert_eq!(stalled, sent.load(Ordering::Relaxed), "producer not blocked");
+        assert!(!producer.is_finished());
+
+        // Resume the consumer: backlog drains, producer finishes, nothing was dropped.
+        *open.0.lock().unwrap() = true;
+        open.1.notify_all();
+        producer.join().unwrap();
+        out.quit();
+        handle.join().unwrap();
+        assert_eq!(out.1.queued.load(Ordering::Relaxed), 0);
+        assert_eq!(written.load(Ordering::Relaxed), sent.load(Ordering::Relaxed));
+    }
+
+    #[test]
+    fn writer_exit_releases_blocked_producer() {
+        let open = Arc::new((Mutex::new(true), std::sync::Condvar::new()));
+        let (out, handle) = spawn_writer(Gated {
+            open,
+            written: Arc::new(AtomicUsize::new(0)),
+        });
+        // Simulate a saturated backlog, then a dead writer: producers must not hang.
+        out.1.queued.store(MAX_QUEUED_BYTES + 1, Ordering::Relaxed);
+        out.quit();
+        handle.join().unwrap();
+        out.send(&json!({"after": "quit"}));
+    }
 }
