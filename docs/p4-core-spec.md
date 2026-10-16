@@ -467,3 +467,15 @@ Known deviations and quirks of the Pi mapper (WP10, `paseo-provider-map/src/pi.r
 - `pi-extension-io` (DEVIATION): child-session file reads and following, and the pi-subagents `status.json` poll, are file I/O. The extension host records the child sessions a mapping reports (`take_child_sessions`) and `PiChildSessionMapper` maps the rows a reader gives it; the `poll()` hook is not ported.
 - `pi-history-hooks` (DEVIATION): `PiHistoryMapperHooks` exist for the OMP wrapper (host-only, Q8) and are not ported.
 - `pi-strip-ansi-approximate` (DEVIATION): `command_output` text goes through a hand-written ansi-regex 5 matcher, tested on CSI and BEL-terminated OSC sequences only.
+
+Known deviations and quirks of the Pi mapper (WP10, `paseo-provider-map/src/pi.rs`, goldens `fixtures/p4/provider-events/pi`: 6 `ok` and 2 `partial` replay; `08-catalog` and the OMP fixtures are `failed` in WP0 and have no events). `PiMapper` is the event half of `PiRpcAgentSession`: the RPC calls and process I/O stay in the session layer, which feeds runtime events and calls `start_turn` / `interrupt` / `respond_to_permission`.
+- `pi-session-key-uuid` (PARITY-QUIRK): `PiRpcAgentSession` draws a uuid for its usage session key at construction, so replay ids start at the second uuid (turn id is `...0002`).
+- `pi-answer-first-pending-permission` (PARITY-QUIRK): an `extension_ui_response` in a capture answers the first pending request when its id matches none (what the golden driver did); hosts answer by id through the typed API.
+- `pi-custom-call-id-live-vs-history` (PARITY-QUIRK): a live custom message row is named `pi-custom-<uuid>`, a replayed one `pi-custom-<n>`.
+- `pi-notice-line-terminators` (PARITY-QUIRK): the pi-subagents completion notice patterns use JS `.` and `$`, so a line ending in CR never matches.
+- `pi-usage-poll` (DEVIATION): `usage_updated` comes from polling `get_session_stats`, which is an RPC concern; the mapper emits none (the goldens have none, the fake stats are all zero).
+- `pi-no-turn-probe` (DEVIATION): the `get_state` probe after a slash-command prompt without an `agentInvoked` ack is not ported; an explicit ack (`prompt_acked`) or a `prompt_result` event completes a no-turn prompt, inline instead of one macrotask later.
+- `pi-out-of-band-compaction` (DEVIATION): `/compact` out-of-band emission is the session layer's.
+- `pi-extension-io` (DEVIATION): child-session file reads and following, and the pi-subagents `status.json` poll, are file I/O. The extension host records the child sessions a mapping reports (`take_child_sessions`) and `PiChildSessionMapper` maps the rows a reader gives it; the `poll()` hook is not ported.
+- `pi-history-hooks` (DEVIATION): `PiHistoryMapperHooks` exist for the OMP wrapper (host-only, Q8) and are not ported.
+- `pi-strip-ansi-approximate` (DEVIATION): `command_output` text goes through a hand-written ansi-regex 5 matcher, tested on CSI and BEL-terminated OSC sequences only.

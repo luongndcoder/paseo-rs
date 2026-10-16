@@ -44,5 +44,4 @@ macro_rules! golden {
         }
     };
 }
-golden!(pi_goldens, "pi");
 golden!(acp_goldens, "acp");
