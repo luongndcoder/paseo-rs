@@ -1,0 +1,35 @@
+[
+  {
+    "endpoint": "relay.paseo.sh:443",
+    "useTls": true,
+    "serverId": "srv_abc",
+    "expected": "wss://relay.paseo.sh/ws?serverId=srv_abc&role=server&v=2"
+  },
+  {
+    "endpoint": "relay.paseo.sh:443",
+    "useTls": true,
+    "serverId": "srv_abc",
+    "connectionId": "conn-1",
+    "expected": "wss://relay.paseo.sh/ws?serverId=srv_abc&role=server&v=2&connectionId=conn-1"
+  },
+  {
+    "endpoint": "localhost:8080",
+    "useTls": false,
+    "serverId": "a b&c=d",
+    "connectionId": "x/y z",
+    "expected": "ws://localhost:8080/ws?serverId=a+b%26c%3Dd&role=server&v=2&connectionId=x%2Fy+z"
+  },
+  {
+    "endpoint": "[::1]:9000",
+    "useTls": false,
+    "serverId": "srv",
+    "expected": "ws://[::1]:9000/ws?serverId=srv&role=server&v=2"
+  },
+  {
+    "endpoint": "relay.example.com:8443",
+    "useTls": true,
+    "serverId": "srv-ü",
+    "connectionId": "c",
+    "expected": "wss://relay.example.com:8443/ws?serverId=srv-%C3%BC&role=server&v=2&connectionId=c"
+  }
+]

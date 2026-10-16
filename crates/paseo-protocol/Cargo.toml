@@ -4,6 +4,19 @@ edition.workspace = true
 license.workspace = true
 version.workspace = true
 
+[features]
+# Only needed to regenerate src/generated.rs (see README).
+codegen = ["dep:typify", "dep:schemars", "dep:prettyplease", "dep:syn"]
+
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true
+typify = { version = "0.6", optional = true }
+schemars = { version = "0.8", optional = true }
+prettyplease = { version = "0.2", optional = true }
+syn = { version = "2", optional = true }
+
+[[bin]]
+name = "regen"
+path = "src/bin/regen.rs"
+required-features = ["codegen"]

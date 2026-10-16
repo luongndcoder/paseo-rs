@@ -1,0 +1,1 @@
+{"name":"capture_strip_ansi","rows":6,"cols":20,"scrollback":1000,"steps":[{"feed":"cGxhaW4gIA0KG1szMW1yZWQbWzBtDQo="},{"capture":{"stripAnsi":false},"expected":{"lines":["plain","red","","","",""],"totalLines":6}},{"capture":{"stripAnsi":true},"expected":{"lines":["plain","red","","","",""],"totalLines":6}}]}

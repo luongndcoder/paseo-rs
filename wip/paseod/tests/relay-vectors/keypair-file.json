@@ -1,0 +1,5 @@
+{
+  "fileContents": "{\n  \"v\": 2,\n  \"publicKeyB64\": \"mDoyK7hmS6A5ZI0uOGxia0o2vijLzlmZ6+IHq3Ii4Ws=\",\n  \"secretKeyB64\": \"lG01c3egOXzXGm65DTzUFlBpCP+LcIqW/WHVZJOl6R4=\"\n}\n",
+  "publicKeyHex": "983a322bb8664ba039648d2e386c626b4a36be28cbce5999ebe207ab7222e16b",
+  "secretKeyHex": "946d357377a0397cd71a6eb90d3cd416506908ff8b708a96fd61d56493a5e91e"
+}

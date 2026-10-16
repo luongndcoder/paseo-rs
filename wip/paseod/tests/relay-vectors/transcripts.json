@@ -1,0 +1,335 @@
+{
+  "daemon": {
+    "publicKeyB64": "mDoyK7hmS6A5ZI0uOGxia0o2vijLzlmZ6+IHq3Ii4Ws=",
+    "secretKeyB64": "lG01c3egOXzXGm65DTzUFlBpCP+LcIqW/WHVZJOl6R4="
+  },
+  "scenarios": [
+    {
+      "name": "modern-binary-ciphertext",
+      "binaryCiphertext": true,
+      "inputs": [
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_hello\",\"key\":\"3Ko+gC4oLY5gToIv73zbJQeWZe5VpGPW0UotK2AO5hw=\",\"capabilities\":{\"binaryCiphertext\":true}}"
+        },
+        {
+          "kind": "text",
+          "text": "EdrNosdo/WVBPsc4ozYjDx9UJouQI11LmamZsGxFfRiD58Khn20cGXH2jmclHEtn0jQ="
+        },
+        {
+          "kind": "binary",
+          "hex": "394311b496b69202774f8c6b7b896adc1521417431c16cdd4ab01279941f962c4962da4a8962978d7bed53042b"
+        },
+        {
+          "kind": "text",
+          "text": "FpTdpOFmXp7tU6LYLEQ4ADx8rpUqV91KWqWs6LNDqL7a7CPcHnXuWejIOdswhLOWdwEn"
+        },
+        {
+          "kind": "text",
+          "text": "wMMEMSKHjuDA5dZwwhX0LMRYD8qaQEV7hG04qmDYERrF+C6Lsk5dbg=="
+        },
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_hello\",\"key\":\"3Ko+gC4oLY5gToIv73zbJQeWZe5VpGPW0UotK2AO5hw=\",\"capabilities\":{\"binaryCiphertext\":true}}"
+        },
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_ready\"}"
+        },
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_hello\",\"key\":\"6mUXk4VD+TRP4k0pgoxXVVmeex59oJ9KA1K3DdTm3Dc=\",\"capabilities\":{\"binaryCiphertext\":true}}"
+        }
+      ],
+      "events": [
+        {
+          "t": "wire",
+          "frame": {
+            "kind": "text",
+            "text": "{\"type\":\"e2ee_ready\",\"capabilities\":{\"binaryCiphertext\":true}}"
+          }
+        },
+        {
+          "t": "wire",
+          "frame": {
+            "kind": "text",
+            "text": "{\"type\":\"e2ee_ready\",\"capabilities\":{\"binaryCiphertext\":true}}"
+          }
+        },
+        {
+          "t": "close",
+          "code": 1008,
+          "reason": "E2EE re-handshake key mismatch"
+        }
+      ],
+      "received": [
+        {
+          "kind": "text",
+          "text": "hello text"
+        },
+        {
+          "kind": "binary",
+          "hex": "01020300ff"
+        },
+        {
+          "kind": "text",
+          "text": "héllo 🌍"
+        },
+        {
+          "kind": "text",
+          "text": ""
+        }
+      ],
+      "outbound": [
+        {
+          "app": {
+            "kind": "text",
+            "text": "pong text"
+          },
+          "wire": {
+            "kind": "text",
+            "text": "ie1P2la91GVfIW0SpEskMSGeTJdLJ4kmQgHFp8tyKT9LKWI5vRCt1CP/xfuGWsnepg=="
+          },
+          "nonceHex": "89ed4fda56bdd4655f216d12a44b2431219e4c974b278926",
+          "plaintextHex": "706f6e672074657874"
+        },
+        {
+          "app": {
+            "kind": "text",
+            "text": "ünïcode ✓"
+          },
+          "wire": {
+            "kind": "text",
+            "text": "bGZ5aVsF0v9IhvzM8mstlU5ZV400ysH6ZE9k3/hFrucdejd8F5Ab/Evfv42/rOcdEyUFhbI="
+          },
+          "nonceHex": "6c6679695b05d2ff4886fcccf26b2d954e59578d34cac1fa",
+          "plaintextHex": "c3bc6ec3af636f646520e29c93"
+        },
+        {
+          "app": {
+            "kind": "binary",
+            "hex": "090807"
+          },
+          "wire": {
+            "kind": "binary",
+            "hex": "4da36d2475a932047641095b0b20e018029b02955ef05f61ba6762a897f30e3cc7c7c28298892c2ed836c7"
+          },
+          "nonceHex": "4da36d2475a932047641095b0b20e018029b02955ef05f61",
+          "plaintextHex": "090807"
+        },
+        {
+          "app": {
+            "kind": "text",
+            "text": ""
+          },
+          "wire": {
+            "kind": "text",
+            "text": "FujcbTdtoCsbWcD2FWwEc34RmhWICwh/laf9KNE+gQA2/2OooaGG4w=="
+          },
+          "nonceHex": "16e8dc6d376da02b1b59c0f6156c04737e119a15880b087f",
+          "plaintextHex": ""
+        }
+      ],
+      "clientPublicKeyHex": "dcaa3e802e282d8e604e822fef7cdb25079665ee55a463d6d14a2d2b600ee61c",
+      "clientSecretHex": "28e923f3d52128b274a7985c0be2f5e1ec55f893c256ce09ec3edb3e95a6a349"
+    },
+    {
+      "name": "legacy-base64",
+      "binaryCiphertext": false,
+      "inputs": [
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_hello\",\"key\":\"PnGk84sRdXFOO9plCABqshHMCDtpgl0sAFZohkcEhDU=\"}"
+        },
+        {
+          "kind": "text",
+          "text": "M6gDtPQGplwMvnHfEMqNF/vAVFssz7N/yG18i6EzjnLzKy1DwrBzOL/RU097FrHQqOG9"
+        },
+        {
+          "kind": "text",
+          "text": "Wq4ILVJjvLhYnVR8pIZxyQUfokatUw9tKUPo61sN07550Wk/3D5V/naahA=="
+        }
+      ],
+      "events": [
+        {
+          "t": "wire",
+          "frame": {
+            "kind": "text",
+            "text": "{\"type\":\"e2ee_ready\"}"
+          }
+        }
+      ],
+      "received": [
+        {
+          "kind": "text",
+          "text": "legacy text"
+        },
+        {
+          "kind": "binary",
+          "hex": "fffe00"
+        }
+      ],
+      "outbound": [
+        {
+          "app": {
+            "kind": "text",
+            "text": "legacy out"
+          },
+          "wire": {
+            "kind": "text",
+            "text": "NdncJur9P6A0GfRXNYI8Pd55BET8jqNxxnz6sraeJejXzVLRjp0Du7J3Y5AX6PYv2eY="
+          },
+          "nonceHex": "35d9dc26eafd3fa03419f45735823c3dde790444fc8ea371",
+          "plaintextHex": "6c6567616379206f7574"
+        },
+        {
+          "app": {
+            "kind": "binary",
+            "hex": "010203"
+          },
+          "wire": {
+            "kind": "text",
+            "text": "XRaWwyP90vMyv50JjtP0Vn4l0uTz6959T2kKmai4jc8Saehh3K1x/3Au0Q=="
+          },
+          "nonceHex": "5d1696c323fdd2f332bf9d098ed3f4567e25d2e4f3ebde7d",
+          "plaintextHex": "010203"
+        }
+      ],
+      "clientPublicKeyHex": "3e71a4f38b1175714e3bda6508006ab211cc083b69825d2c0056688647048435",
+      "clientSecretHex": "cf15e13fa74f289005988d4e440200b84c6b4bea84ffee162ff97e79b0c34522"
+    },
+    {
+      "name": "errors",
+      "binaryCiphertext": true,
+      "inputs": [
+        {
+          "kind": "text",
+          "text": "{\"type\":\"e2ee_hello\",\"key\":\"W8zwrS/vDnhm+pUGYxY19uQ30+oXIOnHOa98yor5d2A=\",\"capabilities\":{\"binaryCiphertext\":true}}"
+        },
+        {
+          "kind": "text",
+          "text": "{\"type\":\"session\",\"x\":1}"
+        },
+        {
+          "kind": "text",
+          "text": "not base64 !!"
+        },
+        {
+          "kind": "binary",
+          "hex": "5450caa5f9cf05f507b6a6aca53a1a1ebf92a9043e6638222fb606718d49107408a42705001d0ae141"
+        },
+        {
+          "kind": "binary",
+          "hex": "00000000000000000000"
+        }
+      ],
+      "events": [
+        {
+          "t": "wire",
+          "frame": {
+            "kind": "text",
+            "text": "{\"type\":\"e2ee_ready\",\"capabilities\":{\"binaryCiphertext\":true}}"
+          }
+        },
+        {
+          "t": "close",
+          "code": 1011,
+          "reason": "Received plaintext frame on encrypted channel"
+        },
+        {
+          "t": "close",
+          "code": 1011,
+          "reason": "Ciphertext bundle too short"
+        },
+        {
+          "t": "close",
+          "code": 1011,
+          "reason": "Decryption failed"
+        },
+        {
+          "t": "close",
+          "code": 1011,
+          "reason": "Ciphertext bundle too short"
+        }
+      ],
+      "received": [],
+      "outbound": [],
+      "clientPublicKeyHex": "5bccf0ad2fef0e7866fa9506631635f6e437d3ea1720e9c739af7cca8af97760",
+      "clientSecretHex": "60c46d844b893b0864942f9e905aa1f78a61fcfd6326ef193840aa80f563fcd4"
+    }
+  ],
+  "invalidHello": [
+    {
+      "label": "binary",
+      "input": {
+        "kind": "binary",
+        "hex": "0102"
+      },
+      "error": "Invalid hello message (receivedType=undefined, hasKey=false, preview=\"<binary frame>\")"
+    },
+    {
+      "label": "garbage",
+      "input": {
+        "kind": "text",
+        "text": "  not\n json  "
+      },
+      "error": "Invalid hello message (receivedType=undefined, hasKey=false, preview=\"not json\")"
+    },
+    {
+      "label": "missing-key",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\"}"
+      },
+      "error": "Invalid hello message (receivedType=e2ee_hello, hasKey=false, preview=\"{\\\"type\\\":\\\"e2ee_hello\\\"}\")"
+    },
+    {
+      "label": "wrong-type",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"session\",\"key\":\"k\"}"
+      },
+      "error": "Invalid hello message (receivedType=session, hasKey=true, preview=\"{\\\"type\\\":\\\"session\\\",\\\"key\\\":\\\"k\\\"}\")"
+    },
+    {
+      "label": "blank-key",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\",\"key\":\"   \"}"
+      },
+      "error": "Invalid hello message (receivedType=e2ee_hello, hasKey=false, preview=\"{\\\"type\\\":\\\"e2ee_hello\\\",\\\"key\\\":\\\" \\\"}\")"
+    },
+    {
+      "label": "bad-capabilities",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\",\"key\":\"AAAA\",\"capabilities\":null}"
+      },
+      "error": "Invalid hello message (receivedType=e2ee_hello, hasKey=true, preview=\"{\\\"type\\\":\\\"e2ee_hello\\\",\\\"key\\\":\\\"AAAA\\\",\\\"capabilities\\\":null}\")"
+    },
+    {
+      "label": "long-preview",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\",\"note\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      },
+      "error": "Invalid hello message (receivedType=e2ee_hello, hasKey=false, preview=\"{\\\"type\\\":\\\"e2ee_hello\\\",\\\"note\\\":\\\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...\")"
+    },
+    {
+      "label": "bad-key-encoding",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\",\"key\":\"not-a-key\"}"
+      },
+      "error": "Invalid public key encoding"
+    },
+    {
+      "label": "zero-key",
+      "input": {
+        "kind": "text",
+        "text": "{\"type\":\"e2ee_hello\",\"key\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\"}"
+      },
+      "error": "Invalid peer public key"
+    }
+  ]
+}
