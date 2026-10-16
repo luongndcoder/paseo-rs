@@ -1,12 +1,9 @@
 [package]
 name = "paseod"
-version = "0.1.0"
-edition = "2021"
-license = "Apache-2.0"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
 description = "Paseo Rust edge: owns the public port and fronts the TS daemon (P2)"
-
-# Standalone workspace: keeps this crate out of the parent paseo-rs workspace while it is WIP.
-[workspace]
 
 [lib]
 name = "paseod"
@@ -17,9 +14,9 @@ name = "paseod"
 path = "src/main.rs"
 
 [dependencies]
-anyhow = "1"
+anyhow.workspace = true
 axum = { version = "0.8", features = ["ws"] }
-base64 = "0.22"
+base64.workspace = true
 bytes = "1"
 crypto_box = { version = "0.9", features = ["salsa20"] }
 futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
@@ -28,13 +25,13 @@ http-body-util = "0.1"
 hyper = { version = "1", features = ["http1", "client", "server"] }
 hyper-util = { version = "0.1", features = ["client-legacy", "http1", "tokio"] }
 rand = "0.8"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-thiserror = "2"
-tokio = { version = "1", features = ["full"] }
+serde = { workspace = true }
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["full"] }
 tokio-util = { version = "0.7", features = ["io"] }
 tokio-tungstenite = { version = "0.29", features = ["rustls-tls-webpki-roots"] }
-tracing = "0.1"
+tracing.workspace = true
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = "2"
 x25519-dalek = "2"
@@ -44,8 +41,8 @@ rustls = { version = "0.23", default-features = false, features = ["ring", "std"
 nix = { version = "0.31", features = ["signal", "hostname", "process"] }
 
 [dev-dependencies]
-serde_json = "1"
-tempfile = "3"
+serde_json.workspace = true
+tempfile.workspace = true
 
 [lints.rust]
 unsafe_code = "forbid"

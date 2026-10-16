@@ -29,8 +29,8 @@ crates/
   paseo-schedule/                # P3 scheduled agents
   paseo-provider-host/           # P4 client for the TS provider host
   paseo-relay-crypto/            # tweetnacl-compatible box (P2)
-wip/
-  paseod/                        # P2+ edge, later the full daemon (not yet in workspace)
+  paseod/                        # P2+ edge, later the full daemon
+  paseo-speech/                  # speech: dictation, STT/TTS providers, VAD
 ```
 
 npm scripts: `build:rust` (cargo build --release, copies binaries to `packages/server/dist/bin/<platform>`),

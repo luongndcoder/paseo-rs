@@ -1,8 +1,8 @@
 [package]
 name = "paseo-speech"
-version = "0.1.0"
-edition = "2021"
-license = "Apache-2.0"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
 description = "Speech for the Paseo daemon: dictation streams, STT/TTS providers (local sherpa-onnx, OpenAI, Soniox), VAD turn detection"
 
 [features]
@@ -13,26 +13,24 @@ default = []
 sherpa = ["dep:sherpa-onnx"]
 
 [dependencies]
-async-trait = "0.1"
-base64 = "0.22"
+async-trait.workspace = true
+base64.workspace = true
 bytes = "1"
 bzip2 = "0.5"
 futures-util = { version = "0.3", default-features = false, features = ["std", "alloc"] }
 jiff = "0.2"
 reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "stream", "rustls-tls"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1", features = ["preserve_order"] }
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
 sherpa-onnx = { version = "1.13.8", optional = true }
 tar = "0.4"
-thiserror = "2"
-tokio = { version = "1", features = ["rt", "sync", "time", "macros", "fs", "io-util", "net"] }
+thiserror.workspace = true
+tokio = { workspace = true, features = ["rt", "sync", "time", "macros", "fs", "io-util", "net"] }
 tokio-tungstenite = { version = "0.26", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
 tokio-util = "0.7"
-tracing = "0.1"
-uuid = { version = "1", features = ["v4"] }
+tracing.workspace = true
+uuid = { workspace = true, features = ["v4"] }
 
 [dev-dependencies]
-tempfile = "3"
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "sync", "time", "macros", "fs", "io-util", "net", "test-util"] }
-
-[workspace]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt", "rt-multi-thread", "sync", "time", "macros", "fs", "io-util", "net", "test-util"] }

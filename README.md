@@ -16,5 +16,7 @@ Crates:
 - `paseo-file-observer` — recursive file observer (notify) and git root observers.
 - `paseo-schedule` — scheduled agents: cron cadence, JSON schedule store, run bookkeeping.
 - `paseo-provider-host` — Rust client for the TS provider host (JSONL-RPC over stdio).
+- `paseod` — Rust edge: owns the public port and fronts the TS daemon (P2, lib + bin).
+- `paseo-speech` — speech for the daemon: dictation streams, STT/TTS providers, VAD (`sherpa` feature off by default).
 
 Commands: `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test`, `cargo build --release`.
