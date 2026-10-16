@@ -128,6 +128,14 @@ fn run_golden(name: &str) {
         } else if let Some(opts) = step.get("snapshot") {
             let opts: SnapshotOptions = serde_json::from_value(opts.clone()).unwrap();
             let mut actual = emulator.snapshot(&opts);
+            let mut streamed = Vec::new();
+            let title = emulator.title().filter(|t| !t.is_empty());
+            emulator.write_snapshot(&opts, title.as_deref(), &mut streamed);
+            assert_eq!(
+                String::from_utf8(streamed).unwrap(),
+                serde_json::to_string(&actual).unwrap(),
+                "{name} step {index} streamed snapshot differs from Value snapshot"
+            );
             strip_false(&mut actual);
             if let Some(diff) = first_diff("$", &actual, &step["expected"]) {
                 panic!(

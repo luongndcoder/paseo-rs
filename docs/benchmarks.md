@@ -32,15 +32,32 @@ scripts are in `bench/` and reproduce every table.
 | Keystroke echo p50 | 2.18 ms | 0.50 ms | 4.4x faster |
 | Keystroke echo p99 | 7.23 ms | 4.30 ms | 1.7x faster |
 | Throughput, 64 MiB `cat` | 44.7 MB/s | 62.8 MB/s | 1.4x faster |
-| Snapshot, small terminal | 2.11 ms | 4.88 ms | 2.3x slower |
-| Snapshot, terminal with 64 MiB scrollback | 81 ms | 278 ms | 3.4x slower |
+| Snapshot, small terminal | 2.2 ms | 2.7 ms | 1.2x slower (was 2.3x) |
+| Snapshot, terminal with 64 MiB output | 85 ms | 196 ms | 2.3x slower (was 3.4x); about 90 ms of it is the TS reviver, see below |
 | Worker RSS, idle (1 terminal) | 111 MB | 9.5 MB | 12x smaller |
-| Worker RSS, after the 64 MiB output | 314 MB | 240 MB | 24% smaller |
-| Worker RSS, 11 terminals | 321 MB | 242 MB | 25% smaller |
+| Worker RSS, after the 64 MiB output and 7+7 snapshots | 303 MB | 37 MB | 8x smaller (was 240 MB) |
+| Worker RSS, 11 terminals | 304 MB | 39 MB | 8x smaller |
 
-Reading: the plan's acceptance ("latency and RSS no worse than Node") holds for echo, throughput and RSS.
-Snapshot time regresses, most visibly with large scrollback; the small-terminal gap (about 2.8 ms) looks like a fixed
-cost on the snapshot path rather than size-dependent work. Not investigated.
+Reading: echo, throughput and RSS are better than Node. Snapshot rows were re-measured after the snapshot
+rewrite (median of 3 runs, `bench/terminal-bench.mts`, machine load average 7 to 13 from other work, so absolute
+numbers are noisy; the Node row of the same runs was 84.8, 84.3 and 101 ms).
+
+Snapshot cost, before and after:
+
+- The worker built the state as a `serde_json::Value` tree (one map per cell, about 1M cells for a full
+  scrollback), then printed it. That was most of the time and, since the allocator keeps the freed tree, most of the
+  RSS (240 MB). `emulator/snapshot.rs::write_state` now streams the JSON straight into one pre-sized buffer
+  (attribute halves of the cell JSON cached per fg/bg pair) and the line goes to stdout with no copy. Output is
+  byte-identical to the old `Value` printout (checked on a 8.9 MB and a 210 KB snapshot with `cmp`, and the golden
+  tests assert `write_state == serde_json::to_string(snapshot)` for every snapshot step).
+- Worker-side snapshot time measured with a plain JSONL client: 8.9 MB state 99 to 140 ms before, 47 ms after
+  (includes the client's `JSON.parse`); 210 KB state 2.3 to 4.5 ms before, 0.8 ms after.
+- The scrollback limit is 1000 lines, same as `terminal.ts` (`scrollback: 1000`). The 240 MB RSS was the snapshot
+  `Value` trees, not retained scrollback.
+- Remaining gap on the big snapshot is on the TS side: `stdio-terminal-worker.ts` parses every line with a
+  `JSON.parse` reviver (for `$b64`). On the 8.9 MB state a plain `JSON.parse` takes 17 ms and the reviver version
+  105 ms. Skipping the reviver for lines that do not contain `"$b64"` would put the Rust path at or below Node. Not
+  changed here (outside the worker crate).
 
 ## (b) Edge: direct vs through `paseod`
 

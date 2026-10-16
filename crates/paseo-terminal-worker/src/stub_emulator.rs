@@ -105,6 +105,18 @@ impl Emulator {
         })
     }
 
+    pub fn cursor_position(&self) -> (usize, usize) {
+        (0, 0)
+    }
+
+    pub fn write_snapshot(&self, opts: &SnapshotOptions, title: Option<&str>, out: &mut Vec<u8>) {
+        let mut state = self.snapshot(opts);
+        if let (Some(title), Some(obj)) = (title, state.as_object_mut()) {
+            obj.insert("title".into(), json!(title));
+        }
+        let _ = serde_json::to_writer(out, &state);
+    }
+
     pub fn capture(&self, start: Option<i64>, end: Option<i64>, _strip_ansi: bool) -> Value {
         let total = self.lines.len() as i64;
         let resolve = |v: Option<i64>, default: i64| -> i64 {

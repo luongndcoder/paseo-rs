@@ -136,6 +136,12 @@ impl Emulator {
         snapshot::build(&self.term, opts)
     }
 
+    /// Streams the `snapshot` JSON into `out` (same bytes as serializing `snapshot`, with `title`
+    /// replacing the emulator's own title; `None` omits it).
+    pub fn write_snapshot(&self, opts: &SnapshotOptions, title: Option<&str>, out: &mut Vec<u8>) {
+        snapshot::write_state(&self.term, opts, title, out);
+    }
+
     /// Matches TS `CaptureTerminalLinesResult` (`terminal-capture.ts`).
     pub fn capture(&self, start: Option<i64>, end: Option<i64>, strip_ansi: bool) -> Value {
         capture::capture_lines(snapshot::row_texts(&self.term), start, end, strip_ansi)

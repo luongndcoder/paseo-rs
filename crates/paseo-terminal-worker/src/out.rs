@@ -20,7 +20,7 @@ struct Backlog {
 }
 
 pub enum OutMsg {
-    Line(String),
+    Line(Vec<u8>),
     Quit,
 }
 
@@ -29,7 +29,12 @@ pub struct Out(Sender<OutMsg>, Arc<Backlog>);
 
 impl Out {
     pub fn send(&self, value: &Value) {
-        let line = value.to_string();
+        self.send_line(value.to_string().into_bytes());
+    }
+
+    /// Queues one already-serialized JSON line (the newline is appended here).
+    pub fn send_line(&self, mut line: Vec<u8>) {
+        line.push(b'\n');
         // Throttle the producer (the terminal actor) while the writer is behind; this in turn
         // lets the PTY reader's pending-bytes limit push back on the child.
         while self.1.queued.load(Ordering::Relaxed) > MAX_QUEUED_BYTES
@@ -37,7 +42,7 @@ impl Out {
         {
             std::thread::sleep(Duration::from_millis(1));
         }
-        self.1.queued.fetch_add(line.len() + 1, Ordering::Relaxed);
+        self.1.queued.fetch_add(line.len(), Ordering::Relaxed);
         let _ = self.0.send(OutMsg::Line(line));
     }
 
@@ -47,10 +52,9 @@ impl Out {
 }
 
 fn run_writer<W: Write>(rx: Receiver<OutMsg>, mut w: W, backlog: &Backlog) {
-    let write_line = |line: &str, w: &mut W| {
-        let _ = w.write_all(line.as_bytes());
-        let _ = w.write_all(b"\n");
-        backlog.queued.fetch_sub(line.len() + 1, Ordering::Relaxed);
+    let write_line = |line: &[u8], w: &mut W| {
+        let _ = w.write_all(line);
+        backlog.queued.fetch_sub(line.len(), Ordering::Relaxed);
     };
     while let Ok(msg) = rx.recv() {
         match msg {

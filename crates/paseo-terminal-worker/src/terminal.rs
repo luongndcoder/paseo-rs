@@ -7,7 +7,7 @@
 
 use crate::activity::{ActivityTracker, Transition};
 use crate::coalescer::{Coalescer, Flushed, FLUSH_DELAY};
-use crate::emu::{into_terminal_state, Emulator, SnapshotOptions};
+use crate::emu::{Emulator, SnapshotOptions};
 use crate::input_mode::InputModeTracker;
 use crate::out::Out;
 use crate::protocol::{
@@ -486,9 +486,8 @@ impl Actor {
                 let result = if self.exit_emitted() {
                     Value::Null
                 } else {
-                    let mut snapshot = self.state_snapshot(&options);
-                    snapshot["replayPreamble"] = json!(self.input_mode.preamble());
-                    snapshot
+                    self.respond_state(&request_id, &options);
+                    return;
                 };
                 self.respond(&request_id, Some(result));
             }
@@ -585,11 +584,8 @@ impl Actor {
     }
 
     fn cursor(&self) -> (i64, i64) {
-        let opts: SnapshotOptions =
-            serde_json::from_value(json!({"scrollbackLines": 0})).unwrap_or_default();
-        let state = into_terminal_state(self.emu.snapshot(&opts));
-        let get = |k: &str| state["cursor"][k].as_i64().unwrap_or(0);
-        (get("row"), get("col"))
+        let (row, col) = self.emu.cursor_position();
+        (row as i64, col as i64)
     }
 
     fn on_control(&mut self, control: Control) {
@@ -666,16 +662,31 @@ impl Actor {
 
     // ---- state -------------------------------------------------------------------------------
 
-    fn state_snapshot(&self, options: &Value) -> Value {
+    /// Serialized `TerminalState` (the worker's title wins over the emulator's). Streamed straight
+    /// to bytes: a 1000-row scrollback as a `Value` tree costs tens of MB and most of the time.
+    fn state_bytes(&self, options: &Value) -> Vec<u8> {
         let opts: SnapshotOptions = serde_json::from_value(options.clone()).unwrap_or_default();
-        let mut state = into_terminal_state(self.emu.snapshot(&opts));
-        if let Some(obj) = state.as_object_mut() {
-            match &self.title {
-                Some(t) => obj.insert("title".into(), json!(t)),
-                None => obj.remove("title"),
-            };
-        }
-        json!({"state": state, "revision": self.revision})
+        let mut out = Vec::new();
+        self.emu
+            .write_snapshot(&opts, self.title.as_deref(), &mut out);
+        out
+    }
+
+    /// `getTerminalState` response: `{"ok":true,"requestId":..,"result":{replayPreamble,revision,state},"type":"response"}`
+    /// (keys in the order `serde_json::Value` prints them).
+    fn respond_state(&self, request_id: &str, options: &Value) {
+        let state = self.state_bytes(options);
+        let mut line = Vec::with_capacity(state.len() + 256);
+        line.extend_from_slice(b"{\"ok\":true,\"requestId\":");
+        let _ = serde_json::to_writer(&mut line, request_id);
+        line.extend_from_slice(b",\"result\":{\"replayPreamble\":");
+        let _ = serde_json::to_writer(&mut line, &self.input_mode.preamble());
+        line.extend_from_slice(b",\"revision\":");
+        let _ = serde_json::to_writer(&mut line, &self.revision);
+        line.extend_from_slice(b",\"state\":");
+        line.extend_from_slice(&state);
+        line.extend_from_slice(b"},\"type\":\"response\"}");
+        self.out.send_line(line);
     }
 
     fn info_json(&self) -> Value {
@@ -694,17 +705,24 @@ impl Actor {
 
     fn subscribe(&mut self, request_id: &str) {
         self.subscribed = true;
-        let state = self.state_snapshot(&json!({}))["state"].clone();
-        let terminal = self.info_json();
-        self.out.send(&json!({
-            "type": "terminalCreated",
-            "terminal": terminal,
-            "state": state,
-        }));
-        self.respond(
-            request_id,
-            Some(json!({"terminal": self.info_json(), "state": state})),
-        );
+        let state = self.state_bytes(&json!({}));
+        let terminal = self.info_json().to_string();
+        let envelope = |head: &[u8], tail: &[u8]| {
+            let mut line = Vec::with_capacity(state.len() + terminal.len() + 256);
+            line.extend_from_slice(head);
+            line.extend_from_slice(&state);
+            line.extend_from_slice(b",\"terminal\":");
+            line.extend_from_slice(terminal.as_bytes());
+            line.extend_from_slice(tail);
+            line
+        };
+        self.out
+            .send_line(envelope(b"{\"state\":", b",\"type\":\"terminalCreated\"}"));
+        let mut head = Vec::from(&b"{\"ok\":true,\"requestId\":"[..]);
+        let _ = serde_json::to_writer(&mut head, request_id);
+        head.extend_from_slice(b",\"result\":{\"state\":");
+        self.out
+            .send_line(envelope(&head, b"},\"type\":\"response\"}"));
         if let Some(t) = &self.title {
             self.out.send(&title_event(&self.p.id, Some(t)));
         }
