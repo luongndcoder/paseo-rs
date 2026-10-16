@@ -1,0 +1,8 @@
+{"synthetic": true, "source": "cursor-acp-catalog.test.ts: -32601 means the CLI is too old"}
+{"dir": "in", "line": {"jsonrpc": "2.0", "id": 0, "method": "initialize", "params": {"protocolVersion": 1, "clientCapabilities": {"fs": {"readTextFile": false, "writeTextFile": false}, "terminal": true, "_meta": {"parameterizedModelPicker": true}}, "clientInfo": {"name": "Paseo", "version": "dev"}}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "id": 0, "result": {"protocolVersion": 1, "agentCapabilities": {"promptCapabilities": {"image": true, "audio": false, "embeddedContext": true}, "loadSession": true}, "authMethods": []}}}
+{"dir": "in", "line": {"jsonrpc": "2.0", "id": 1, "method": "session/new", "params": {"cwd": "/tmp/paseo-acp-fixture", "mcpServers": []}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "id": 1, "result": {"sessionId": "sess-1", "configOptions": [{"type": "select", "id": "model", "name": "Model", "category": "model", "currentValue": "claude-haiku-4-5", "options": [{"value": "claude-haiku-4-5", "name": "Haiku 4.5"}, {"value": "grok-4.6", "name": "Grok 4.6"}]}, {"type": "select", "id": "thinking", "name": "Thinking", "category": "thought_level", "currentValue": "true", "options": [{"value": "false", "name": "Off"}, {"value": "true", "name": "On"}]}]}}}
+{"dir": "in", "line": {"jsonrpc": "2.0", "id": 2, "method": "cursor/list_available_models", "params": {}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "id": 2, "error": {"code": -32601, "message": "Method not found"}}}
+{"exit": {"code": 0, "signal": null}}

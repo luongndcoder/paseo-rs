@@ -1,0 +1,7 @@
+{"synthetic": true, "source": "generic-acp-agent.commands.test.ts"}
+{"dir": "in", "line": {"jsonrpc": "2.0", "id": 0, "method": "initialize", "params": {"protocolVersion": 1, "clientCapabilities": {"fs": {"readTextFile": false, "writeTextFile": false}, "terminal": true}, "clientInfo": {"name": "Paseo", "version": "dev"}}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "id": 0, "result": {"protocolVersion": 1, "agentCapabilities": {"promptCapabilities": {"image": true, "audio": false, "embeddedContext": true}}, "authMethods": []}}}
+{"dir": "in", "line": {"jsonrpc": "2.0", "id": 1, "method": "session/new", "params": {"cwd": "/tmp/paseo-acp-fixture", "mcpServers": []}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "id": 1, "result": {"sessionId": "sess-1"}}}
+{"dir": "out", "line": {"jsonrpc": "2.0", "method": "session/update", "params": {"sessionId": "sess-1", "update": {"sessionUpdate": "available_commands_update", "availableCommands": [{"name": "review", "description": "Review the diff", "input": {"hint": "query"}}, {"name": "status", "description": "Show status"}]}}}}
+{"exit": {"code": 0, "signal": null}}

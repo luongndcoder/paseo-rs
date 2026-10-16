@@ -1,0 +1,13 @@
+[package]
+name = "paseo-acp"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Native Rust client for Agent Client Protocol (ACP) agents: generic stdio core plus per-agent launch profiles"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "process", "io-util", "sync", "time", "macros", "fs"] }
+
+[workspace]
