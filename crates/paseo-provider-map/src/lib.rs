@@ -65,7 +65,7 @@ pub trait ProviderMapper {
 pub fn mapper_for(provider: &str) -> Option<Box<dyn ProviderMapper>> {
     Some(match provider {
         "pi" => Box::new(pi::PiMapper),
-        "acp" => Box::new(acp::AcpMapper),
+        "acp" => Box::new(acp::AcpMapper::new()),
         "opencode" => Box::new(opencode::OpencodeMapper),
         "codex" => Box::new(codex::CodexMapper),
         "claude" => Box::new(claude::ClaudeMapper),
