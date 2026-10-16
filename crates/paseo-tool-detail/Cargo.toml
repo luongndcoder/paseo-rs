@@ -1,0 +1,16 @@
+[package]
+name = "paseo-tool-detail"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Pure ports of the TS tool-call detail parsers, merge, content limits and display model"
+
+[dependencies]
+serde_json = { workspace = true, features = ["preserve_order"] }
+paseo-agent-types = { path = "../paseo-agent-types" }
+
+[dev-dependencies]
+paseo-protocol = { path = "../paseo-protocol" }
+
+[lints.rust]
+unsafe_code = "forbid"
