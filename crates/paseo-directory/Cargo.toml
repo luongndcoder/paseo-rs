@@ -1,0 +1,11 @@
+[package]
+name = "paseo-directory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Latest-state sequencing for the app directory (projects, workspaces, agents): VersionedCollection and DirectorySync"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+uuid = { workspace = true, features = ["v4"] }
