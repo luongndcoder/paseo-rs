@@ -160,7 +160,7 @@ fn resolve_kind(name: &str) -> Kind {
     }
 }
 
-fn detail_name<'a>(kind: Kind, name: &'a str) -> &'a str {
+fn detail_name(kind: Kind, name: &str) -> &str {
     match kind {
         Kind::Shell => "shell",
         Kind::Read => "read_file",

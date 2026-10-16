@@ -818,6 +818,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "paseo-agent-types"
+version = "0.1.0"
+dependencies = [
+ "paseo-protocol",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "paseo-authz"
 version = "0.1.0"
 dependencies = [
@@ -982,6 +991,15 @@ dependencies = [
  "serde_json",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "paseo-tool-detail"
+version = "0.1.0"
+dependencies = [
+ "paseo-agent-types",
+ "paseo-protocol",
+ "serde_json",
 ]
 
 [[package]]

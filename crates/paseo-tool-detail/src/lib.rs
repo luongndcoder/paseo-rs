@@ -4,6 +4,7 @@
 //!
 //! Parity notes (`PARITY-QUIRK(...)` markers in code): UTF-16 lengths/truncation, JS `trim`/`\s`,
 //! `JSON.stringify` number formatting.
+#![allow(clippy::result_unit_err)]
 
 pub mod detail;
 pub mod display;
