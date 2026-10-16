@@ -1,0 +1,67 @@
+[
+ {
+  "name": "nested",
+  "value": {
+   "a": [],
+   "b": {
+    "c": 1
+   }
+  },
+  "expected": "{\n  \"a\": [],\n  \"b\": {\n    \"c\": 1\n  }\n}"
+ },
+ {
+  "name": "empty",
+  "value": {},
+  "expected": "{}"
+ },
+ {
+  "name": "emptyarr",
+  "value": [],
+  "expected": "[]"
+ },
+ {
+  "name": "unicode",
+  "value": {
+   "s": "é😀 \u001f\"\\/"
+  },
+  "expected": "{\n  \"s\": \"é😀 \\u001f\\\"\\\\/\"\n}"
+ },
+ {
+  "name": "nums",
+  "value": {
+   "f": 1.5,
+   "e": 1e-7,
+   "big": 12345678901234
+  },
+  "expected": "{\n  \"f\": 1.5,\n  \"e\": 1e-7,\n  \"big\": 12345678901234\n}"
+ },
+ {
+  "name": "nullbool",
+  "value": {
+   "n": null,
+   "t": true,
+   "arr": [
+    1,
+    [
+     2,
+     {
+      "x": null
+     }
+    ]
+   ]
+  },
+  "expected": "{\n  \"n\": null,\n  \"t\": true,\n  \"arr\": [\n    1,\n    [\n      2,\n      {\n        \"x\": null\n      }\n    ]\n  ]\n}"
+ },
+ {
+  "name": "order",
+  "value": {
+   "z": 1,
+   "a": 2,
+   "m": {
+    "b": 1,
+    "a": 2
+   }
+  },
+  "expected": "{\n  \"z\": 1,\n  \"a\": 2,\n  \"m\": {\n    \"b\": 1,\n    \"a\": 2\n  }\n}"
+ }
+]

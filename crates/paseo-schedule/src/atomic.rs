@@ -1,44 +1,35 @@
-//! Port of `atomic-file.ts`: write to a unique sibling temp file, then rename over
-//! the target. Readers never observe a partially written file.
+//! Thin adapter over `paseo-fs-atomic` (parity fsync policy: off) that keeps this crate's
+//! `Result` type. The implementation lives in `paseo-fs-atomic`.
 
 use serde::Serialize;
-use std::fs;
 use std::path::Path;
 
-use crate::error::{Result, ScheduleError};
+pub use paseo_fs_atomic::FsyncPolicy;
+
+use crate::error::Result;
 
 pub fn write_file_atomic(path: &Path, data: &[u8]) -> Result<()> {
-    let dir = path.parent().unwrap_or_else(|| Path::new("."));
-    fs::create_dir_all(dir)?;
-    let base = path
-        .file_name()
-        .map(|n| n.to_string_lossy().into_owned())
-        .unwrap_or_default();
-    let temp = dir.join(format!(
-        ".{}.{}.{}.{}.tmp",
-        base,
-        std::process::id(),
-        crate::time::now_ms(),
-        uuid::Uuid::new_v4()
-    ));
-    let result = fs::write(&temp, data).and_then(|_| fs::rename(&temp, path));
-    if let Err(e) = result {
-        let _ = fs::remove_file(&temp);
-        return Err(ScheduleError::from(e));
-    }
-    Ok(())
+    Ok(paseo_fs_atomic::write_file_atomic(
+        path,
+        data,
+        FsyncPolicy::Off,
+    )?)
 }
 
 /// `JSON.stringify(value, null, 2)`: two-space indent, no trailing newline.
 pub fn write_json_file_atomic<T: Serialize>(path: &Path, value: &T) -> Result<()> {
-    let text = serde_json::to_string_pretty(value).map_err(|e| ScheduleError::Io(e.to_string()))?;
-    write_file_atomic(path, text.as_bytes())
+    Ok(paseo_fs_atomic::write_json_file_atomic(
+        path,
+        value,
+        FsyncPolicy::Off,
+    )?)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use serde_json::json;
+    use std::fs;
 
     #[test]
     fn writes_pretty_json_without_trailing_newline_and_leaves_no_temp_files() {
