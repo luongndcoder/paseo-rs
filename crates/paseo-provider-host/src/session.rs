@@ -138,6 +138,26 @@ impl Session {
         .await
     }
 
+    /// Raw call on this session: `handle` is added to `extra` (an object). Escape hatch for
+    /// callers that decode results themselves.
+    pub async fn call_raw(&self, method: &str, extra: Value) -> Result<Value> {
+        self.call(method, extra).await
+    }
+
+    /// `session.tryHandleOutOfBand`: `true` when the provider handled the prompt itself. The
+    /// resulting events arrive on the event stream.
+    pub async fn try_handle_out_of_band(&self, prompt: impl Into<PromptInput>) -> Result<bool> {
+        #[derive(Deserialize)]
+        struct R {
+            handled: bool,
+        }
+        let prompt: PromptInput = prompt.into();
+        Ok(self
+            .call::<R>("session.tryHandleOutOfBand", json!({"prompt": prompt}))
+            .await?
+            .handled)
+    }
+
     /// `{"status": "accepted" | "unavailable"}`.
     pub async fn steer_active_turn(
         &self,

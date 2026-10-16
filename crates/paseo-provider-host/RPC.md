@@ -17,9 +17,11 @@ JSON-RPC 2.0 shaped, without the `jsonrpc` field.
 | client -> host | request `{"id": 1, "method": "...", "params": {...}}`       |
 | host -> client | success `{"id": 1, "result": ...}` (void results are `null`) |
 | host -> client | failure `{"id": 1, "error": {"code", "message", "data?"}}`   |
+| host -> client | reverse request `{"id": "h1", "method": "tool.call", "params": {...}}` (see below) |
+| client -> host | response to a reverse request, same shapes as host responses |
 | both          | notification `{"method": "...", "params": {...}}` (no `id`)  |
 
-`id` is a number or string chosen by the client. Requests run concurrently; responses can arrive in
+`id` is a number or string chosen by the sender. Host-originated ids are strings `h1`, `h2`, ... Requests run concurrently; responses can arrive in
 any order. A frame that is not valid JSON gets `{"id": null, "error": {"code": -32700}}`.
 
 Error codes: `-32700` parse, `-32600` invalid request, `-32601` method not found, `-32602` invalid
@@ -48,13 +50,27 @@ Session info (create/resume result):
 
 | Method            | Params                                                                 | Result                          |
 | ----------------- | ---------------------------------------------------------------------- | ------------------------------- |
-| `host.initialize` | `protocolVersion?`, `isDev?`, `providers?: string[]`, `providerOverrides?`, `runtimeSettings?` | `{protocolVersion, providers: [{id,label,description,enabled,defaultModeId,modes}]}` |
+| `host.initialize` | `protocolVersion?`, `isDev?`, `providers?: string[]`, `providerOverrides?`, `runtimeSettings?`, `runtimeDir?` | `{protocolVersion, providers: [{id,label,description,enabled,defaultModeId,modes}]}` |
+| `host.setToolManifest` | `tools: ToolSpec[]`                                               | `{applied}`                     |
 | `host.shutdown`   | none                                                                   | `null`, then the host exits     |
 
 `host.initialize` may be called once, before any provider call. It builds the registry:
 `isDev` (default: env `PASEO_PROVIDER_HOST_DEV=1`) adds dev-only providers such as `mock`; `providers`
 restricts the registry to those ids. A `protocolVersion` other than 1 is `-32602` with
 `data.supported`. Without `host.initialize` the host uses the env defaults.
+
+`runtimeDir` is the only directory the host writes to (the host never touches `$PASEO_HOME`). With it
+the host starts the OpenCode bridge (HTTP server on 127.0.0.1) and materializes its plugin under
+`<runtimeDir>/runtime/opencode`; without it OpenCode sessions get no native Paseo tools.
+`host.setToolManifest` sets the tool list OpenCode registers (`applied: false` when there is no bridge).
+Calls of those tools still go through `tool.call`.
+
+## Launch context and `ToolSpec`
+
+`launchContext` (create, resume, and `context.launchContext` of import) is `{agentId?, env?, paseoTools?}`.
+`paseoTools` is a `ToolSpec[]`: `{name, description, title?, inputSchema?}` where `inputSchema` is a JSON
+Schema. The host turns it into the `PaseoToolCatalog` the provider expects; executing a tool sends
+`tool.call` to the client. A malformed `paseoTools` is `-32602`.
 
 ## Methods: provider (`AgentClient`)
 
@@ -87,7 +103,7 @@ daemon. `isAvailable` and `fetchCatalog` receive an `AbortSignal` wired to `$/ca
 | `session.startTurn`             | `prompt`, `options?`                  | `{turnId}`                              |
 | `session.steerActiveTurn`       | `prompt`, `options` (`expectedTurnId`) | `{status: "accepted"\|"unavailable"}`  |
 | `session.tryHandleOutOfBand`    | `prompt`                              | `{handled}`; events stream as notifications |
-| `session.streamHistory`         |                                       | `{events: AgentStreamEvent[]}` (collected) |
+| `session.streamHistory`         |                                       | `{events: AgentStreamEvent[]}` (collected, one frame: PARITY-QUIRK(stream-history-single-frame)) |
 | `session.getRuntimeInfo`        |                                       | `AgentRuntimeInfo`                      |
 | `session.getAvailableModes`     |                                       | `{modes}`                               |
 | `session.getCurrentMode`        |                                       | `{modeId}`                              |
@@ -112,6 +128,33 @@ daemon. `isAvailable` and `fetchCatalog` receive an `AbortSignal` wired to `$/ca
   and increases by 1. Delivery order equals provider emit order. Events from `run`, `startTurn`, out-of-band
   handlers and permission responses all arrive this way.
 - `session.closed`: `{handle}`, after `session.close` completes.
+
+Client-side guarantees on top of the host's:
+
+- `seq` must be `last + 1` per handle. A gap is a session failure: the client emits a synthetic
+  `turn_failed` (`code: "provider_host_seq_gap"`) per active turn, then ends that session's stream.
+- When the host process exits, every handle with an active turn (started and without a terminal
+  event, or returned by `session.startTurn`) gets one synthetic
+  `turn_failed {error: "Provider host exited"}`; then all streams end.
+- Synthetic events are flagged `synthetic: true` on the Rust `SessionEvent`; they never come from the host.
+
+## Reverse requests (host -> client)
+
+`tool.call` runs an internal Paseo tool in the client (the Rust core):
+
+```json
+{"id": "h1", "method": "tool.call", "params": {"agentId": "a1", "tool": "list_agents", "arguments": {}}}
+```
+
+The client answers `{"id": "h1", "result": {"content": [...], "structuredContent?": ..., "isError?": bool}}`
+(MCP `CallToolResult`) or an error frame. Codes: `-32601` no handler, `-32602` bad params, `-32000` the
+tool failed (`message` is its message), `-32800` canceled. When the provider aborts the call the host
+sends the notification `{"method": "$/cancel", "params": {"id": "h1"}}`; clients may ignore it. On
+shutdown the host abandons outstanding reverse requests.
+
+## Notifications (host -> client): logs
+
+`host.log`: `{level: "warn" | "error", message, data?}`. The client forwards it to its own logger.
 
 ## Permission round-trip
 

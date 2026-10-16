@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use std::marker::PhantomData;
 use std::process::Stdio;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -21,6 +21,7 @@ use crate::wire::{
     PermissionResponse, ProviderCatalog, ProviderInfo, SessionInfo,
 };
 use crate::PROTOCOL_VERSION;
+use paseo_provider_api::{ToolCallHandler, ToolCallRequest};
 
 const STDERR_TAIL_LIMIT: usize = 8 * 1024;
 
@@ -33,6 +34,27 @@ pub struct SessionEvent {
     pub event: AgentStreamEvent,
     /// The event JSON exactly as the host sent it.
     pub raw: Value,
+    /// Produced by this client (host exit, sequence gap), not sent by the host. `seq` is the
+    /// last host sequence number seen.
+    pub synthetic: bool,
+}
+
+/// Optional reverse-call handlers for host -> client requests.
+#[derive(Default, Clone)]
+pub struct HostCallbacks {
+    /// Answers `tool.call` (internal Paseo tools exposed to providers). Without one the host
+    /// gets `-32601`.
+    pub tool_handler: Option<Arc<dyn ToolCallHandler>>,
+}
+
+/// What a pending request does to client state when its response arrives.
+#[derive(Clone)]
+enum EntryKind {
+    Plain,
+    /// The response carries a session whose event channel must exist before any later event.
+    RegistersSession,
+    /// The response carries a `turnId` for this handle.
+    StartTurn(String),
 }
 
 struct PendingTable {
@@ -43,13 +65,104 @@ struct PendingTable {
 
 struct PendingEntry {
     tx: oneshot::Sender<Result<Value>>,
-    /// The response carries a `handle` whose event channel must exist before any later event.
-    registers_session: bool,
+    kind: EntryKind,
 }
 
+const FINISHED_TURNS_KEPT: usize = 64;
+
 pub(crate) struct Channel {
-    tx: mpsc::UnboundedSender<SessionEvent>,
+    /// `None` once the session ended; the receiver still drains what was queued.
+    tx: Option<mpsc::UnboundedSender<SessionEvent>>,
     rx: Option<mpsc::UnboundedReceiver<SessionEvent>>,
+    handle: String,
+    provider: String,
+    last_seq: u64,
+    /// Turns that started and have no terminal event yet (`None` = turn without an id).
+    active: Vec<Option<String>>,
+    finished: VecDeque<String>,
+    /// A sequence gap ended this session; later events are ignored.
+    dead: bool,
+}
+
+impl Channel {
+    fn new(handle: String, provider: String) -> Self {
+        let (tx, rx) = mpsc::unbounded_channel();
+        Self {
+            tx: Some(tx),
+            rx: Some(rx),
+            handle,
+            provider,
+            last_seq: 0,
+            active: Vec::new(),
+            finished: VecDeque::new(),
+            dead: false,
+        }
+    }
+
+    fn mark_active(&mut self, turn_id: Option<&str>) {
+        let key = turn_id.map(str::to_owned);
+        if let Some(id) = &key {
+            if self.finished.contains(id) {
+                return;
+            }
+        }
+        if !self.active.contains(&key) {
+            self.active.push(key);
+        }
+    }
+
+    fn mark_finished(&mut self, turn_id: Option<&str>) {
+        match turn_id {
+            None => self.active.clear(),
+            Some(id) => {
+                let before = self.active.len();
+                self.active.retain(|active| active.as_deref() != Some(id));
+                if self.active.len() == before {
+                    self.active.retain(|active| active.is_some());
+                }
+                self.finished.push_back(id.to_owned());
+                if self.finished.len() > FINISHED_TURNS_KEPT {
+                    self.finished.pop_front();
+                }
+            }
+        }
+    }
+
+    /// One `turn_failed` per active turn (or one without an id when none is active), then the
+    /// stream ends.
+    fn fail(&mut self, error: &str, code: Option<&str>) {
+        let turns: Vec<Option<String>> = if self.active.is_empty() {
+            vec![None]
+        } else {
+            std::mem::take(&mut self.active)
+        };
+        for turn_id in turns {
+            let event = AgentStreamEvent::TurnFailed {
+                provider: self.provider.clone(),
+                error: error.to_owned(),
+                code: code.map(str::to_owned),
+                diagnostic: None,
+                turn_id,
+            };
+            let raw = serde_json::to_value(&event).unwrap_or(Value::Null);
+            if let Some(tx) = &self.tx {
+                let _ = tx.send(SessionEvent {
+                    handle: self.handle.clone(),
+                    seq: self.last_seq,
+                    event,
+                    raw,
+                    synthetic: true,
+                });
+            }
+        }
+        self.end();
+    }
+
+    /// Ends the stream after the queued events.
+    fn end(&mut self) {
+        self.tx = None;
+        self.dead = true;
+    }
 }
 
 pub(crate) struct Inner {
@@ -60,6 +173,7 @@ pub(crate) struct Inner {
     channels: Mutex<HashMap<String, Channel>>,
     stderr_tail: Arc<Mutex<String>>,
     handler: Option<Arc<dyn PermissionHandler>>,
+    tool_handler: Option<Arc<dyn ToolCallHandler>>,
     config: HostConfig,
 }
 
@@ -161,6 +275,18 @@ impl Inner {
         method: &str,
         params: Value,
     ) -> Result<Pending<T>> {
+        let kind = match method {
+            "provider.createSession" | "provider.resumeSession" | "provider.importSession" => {
+                EntryKind::RegistersSession
+            }
+            "session.startTurn" => params
+                .get("handle")
+                .and_then(Value::as_str)
+                .map_or(EntryKind::Plain, |handle| {
+                    EntryKind::StartTurn(handle.to_owned())
+                }),
+            _ => EntryKind::Plain,
+        };
         let id = self.next_id.fetch_add(1, Ordering::Relaxed);
         let (tx, rx) = oneshot::channel();
         {
@@ -169,18 +295,7 @@ impl Inner {
                 drop(table);
                 return Err(self.exited_error());
             }
-            table.map.insert(
-                id,
-                PendingEntry {
-                    tx,
-                    registers_session: matches!(
-                        method,
-                        "provider.createSession"
-                            | "provider.resumeSession"
-                            | "provider.importSession"
-                    ),
-                },
-            );
+            table.map.insert(id, PendingEntry { tx, kind });
         }
         let frame = json!({"id": id, "method": method, "params": params});
         if let Err(error) = self.write_line(&frame).await {
@@ -229,14 +344,26 @@ impl Inner {
         for (_, entry) in senders {
             let _ = entry.tx.send(Err(self.exited_error()));
         }
-        // Dropping the senders ends every event stream.
-        self.channels.lock().expect("channels lock").clear();
+        // One terminal event per active turn, then dropping the senders ends every stream.
+        let mut channels = self.channels.lock().expect("channels lock");
+        for channel in channels.values_mut() {
+            if !channel.dead && !channel.active.is_empty() {
+                channel.fail("Provider host exited", None);
+            }
+            channel.end();
+        }
     }
-}
 
-fn new_channel() -> Channel {
-    let (tx, rx) = mpsc::unbounded_channel();
-    Channel { tx, rx: Some(rx) }
+    /// Write the response to a host -> client request.
+    async fn respond(&self, id: Value, outcome: std::result::Result<Value, (i64, String)>) {
+        let frame = match outcome {
+            Ok(result) => json!({"id": id, "result": result}),
+            Err((code, message)) => json!({"id": id, "error": {"code": code, "message": message}}),
+        };
+        if let Err(error) = self.write_line(&frame).await {
+            tracing::warn!(%error, "failed to answer a host request");
+        }
+    }
 }
 
 /// Handle to a running provider host process. Cheap to clone; the process is killed when the
@@ -252,6 +379,15 @@ impl ProviderHostClient {
     pub async fn spawn(
         config: HostConfig,
         handler: Option<Arc<dyn PermissionHandler>>,
+    ) -> Result<Self> {
+        Self::spawn_with(config, handler, HostCallbacks::default()).await
+    }
+
+    /// [`ProviderHostClient::spawn`] with reverse-call handlers (`tool.call`).
+    pub async fn spawn_with(
+        config: HostConfig,
+        handler: Option<Arc<dyn PermissionHandler>>,
+        callbacks: HostCallbacks,
     ) -> Result<Self> {
         let mut command = Command::new(&config.command);
         command
@@ -314,6 +450,7 @@ impl ProviderHostClient {
             channels: Mutex::new(HashMap::new()),
             stderr_tail,
             handler,
+            tool_handler: callbacks.tool_handler,
             config,
         });
         tokio::spawn(read_loop(stdout, Arc::downgrade(&inner), stderr_task));
@@ -477,6 +614,17 @@ impl ProviderHostClient {
         persistence: &AgentPersistenceHandle,
         overrides: Option<&AgentSessionConfigOverrides>,
     ) -> Result<Session> {
+        self.resume_session_with(persistence, overrides, None, None)
+            .await
+    }
+
+    pub async fn resume_session_with(
+        &self,
+        persistence: &AgentPersistenceHandle,
+        overrides: Option<&AgentSessionConfigOverrides>,
+        launch_context: Option<Value>,
+        options: Option<Value>,
+    ) -> Result<Session> {
         let info: SessionInfo = self
             .inner
             .call(
@@ -485,10 +633,92 @@ impl ProviderHostClient {
                     "provider": persistence.provider,
                     "persistence": persistence,
                     "overrides": overrides,
+                    "launchContext": launch_context,
+                    "options": options,
                 }),
             )
             .await?;
         Ok(Session::new(Arc::clone(&self.inner), info))
+    }
+
+    /// `provider.getCapabilities`.
+    pub async fn get_capabilities(&self, provider: &str) -> Result<crate::wire::JsonObject> {
+        #[derive(serde::Deserialize)]
+        struct R {
+            capabilities: crate::wire::JsonObject,
+        }
+        let r: R = self
+            .inner
+            .call("provider.getCapabilities", json!({"provider": provider}))
+            .await?;
+        Ok(r.capabilities)
+    }
+
+    /// `provider.listCommands` for a session config.
+    pub async fn list_commands(&self, provider: &str, config: &Value) -> Result<Vec<Value>> {
+        #[derive(serde::Deserialize)]
+        struct R {
+            commands: Vec<Value>,
+        }
+        let r: R = self
+            .inner
+            .call(
+                "provider.listCommands",
+                json!({"provider": provider, "config": config}),
+            )
+            .await?;
+        Ok(r.commands)
+    }
+
+    /// `provider.listFeatures` for a session config.
+    pub async fn list_features(&self, provider: &str, config: &Value) -> Result<Vec<Value>> {
+        #[derive(serde::Deserialize)]
+        struct R {
+            features: Vec<Value>,
+        }
+        let r: R = self
+            .inner
+            .call(
+                "provider.listFeatures",
+                json!({"provider": provider, "config": config}),
+            )
+            .await?;
+        Ok(r.features)
+    }
+
+    /// `provider.importSession`. The returned [`ImportedHostSession`] keeps the open-ended
+    /// parts as JSON.
+    pub async fn import_session(
+        &self,
+        provider: &str,
+        input: &Value,
+        context: &Value,
+    ) -> Result<ImportedHostSession> {
+        #[derive(serde::Deserialize)]
+        #[serde(rename_all = "camelCase")]
+        struct R {
+            session: SessionInfo,
+            config: Value,
+            persistence: AgentPersistenceHandle,
+            #[serde(default)]
+            timeline: Vec<Value>,
+            #[serde(default)]
+            provider_subagent_events: Vec<Value>,
+        }
+        let r: R = self
+            .inner
+            .call(
+                "provider.importSession",
+                json!({"provider": provider, "input": input, "context": context}),
+            )
+            .await?;
+        Ok(ImportedHostSession {
+            session: Session::new(Arc::clone(&self.inner), r.session),
+            config: r.config,
+            persistence: r.persistence,
+            timeline: r.timeline,
+            provider_subagent_events: r.provider_subagent_events,
+        })
     }
 
     /// Close sessions, shut providers down, and wait for the process (killing it after
@@ -511,6 +741,16 @@ impl ProviderHostClient {
         }
         Ok(())
     }
+}
+
+/// Result of [`ProviderHostClient::import_session`].
+pub struct ImportedHostSession {
+    pub session: Session,
+    pub config: Value,
+    pub persistence: AgentPersistenceHandle,
+    /// `{item, timestamp?}` entries.
+    pub timeline: Vec<Value>,
+    pub provider_subagent_events: Vec<Value>,
 }
 
 /// `Partial<AgentSessionConfig>` for resume overrides: any JSON object of config fields.
@@ -566,6 +806,7 @@ fn dispatch(inner: &Arc<Inner>, value: Value) {
         .map(str::to_owned);
     match (has_id, method) {
         (true, None) => dispatch_response(inner, value),
+        (true, Some(method)) => dispatch_host_request(inner, &method, value),
         (false, Some(method)) => dispatch_notification(inner, &method, value),
         _ => {
             if value.get("error").is_some() {
@@ -603,21 +844,39 @@ fn dispatch_response(inner: &Arc<Inner>, value: Value) {
     } else {
         Ok(value.get("result").cloned().unwrap_or(Value::Null))
     };
-    if entry.registers_session {
-        if let Some(handle) = outcome
-            .as_ref()
-            .ok()
-            .and_then(|result| result.get("handle"))
-            .and_then(Value::as_str)
-        {
-            // Registered before the awaiting task wakes, so no later event can miss it.
-            inner
-                .channels
-                .lock()
-                .expect("channels lock")
-                .entry(handle.to_owned())
-                .or_insert_with(new_channel);
+    match (&entry.kind, outcome.as_ref().ok()) {
+        (EntryKind::RegistersSession, Some(result)) => {
+            // `importSession` nests the session info under `session`.
+            let info = result.get("session").unwrap_or(result);
+            if let Some(handle) = info.get("handle").and_then(Value::as_str) {
+                let provider = info
+                    .get("provider")
+                    .and_then(Value::as_str)
+                    .unwrap_or_default();
+                // Registered before the awaiting task wakes, so no later event can miss it.
+                inner
+                    .channels
+                    .lock()
+                    .expect("channels lock")
+                    .entry(handle.to_owned())
+                    .or_insert_with(|| Channel::new(handle.to_owned(), provider.to_owned()));
+            }
         }
+        (EntryKind::StartTurn(handle), Some(result)) => {
+            if let Some(turn_id) = result.get("turnId").and_then(Value::as_str) {
+                // Counts as active from the response on, so a host that dies before the
+                // `turn_started` event still ends the turn.
+                if let Some(channel) = inner
+                    .channels
+                    .lock()
+                    .expect("channels lock")
+                    .get_mut(handle)
+                {
+                    channel.mark_active(Some(turn_id));
+                }
+            }
+        }
+        _ => {}
     }
     let _ = entry.tx.send(outcome);
 }
@@ -634,35 +893,75 @@ fn dispatch_notification(inner: &Arc<Inner>, method: &str, value: Value) {
                 tracing::warn!(frame = %value, "malformed session.event");
                 return;
             };
-            let event = serde_json::from_value::<AgentStreamEvent>(raw.clone())
-                .unwrap_or(AgentStreamEvent::Unknown);
+            let raw_type = raw.get("type").and_then(Value::as_str).unwrap_or("");
+            let raw_turn_id = raw.get("turnId").and_then(Value::as_str);
+            let event = match serde_json::from_value::<AgentStreamEvent>(raw.clone()) {
+                Ok(event) => event,
+                Err(error) => {
+                    tracing::warn!(%handle, %error, event = %raw, "undecodable host event; typed view is Unknown");
+                    AgentStreamEvent::Unknown
+                }
+            };
             let session_event = SessionEvent {
                 handle: handle.to_owned(),
                 seq,
                 event: event.clone(),
                 raw: raw.clone(),
+                synthetic: false,
             };
-            if let (
-                Some(handler),
-                AgentStreamEvent::PermissionRequested {
-                    request, turn_id, ..
-                },
-            ) = (inner.handler.clone(), event)
             {
-                spawn_permission_task(
-                    Arc::clone(inner),
-                    handler,
-                    handle.to_owned(),
-                    turn_id,
-                    *request,
-                );
+                // Events for sessions without a live channel (released or dropped) are
+                // discarded.
+                let mut channels = inner.channels.lock().expect("channels lock");
+                let Some(channel) = channels.get_mut(handle) else {
+                    return;
+                };
+                if channel.dead {
+                    return;
+                }
+                let expected = channel.last_seq + 1;
+                if seq != expected {
+                    tracing::error!(%handle, expected, got = seq, "provider host event sequence gap");
+                    channel.fail(
+                        &format!(
+                            "Provider host event sequence gap: expected {expected}, got {seq}"
+                        ),
+                        Some("provider_host_seq_gap"),
+                    );
+                    return;
+                }
+                channel.last_seq = seq;
+                // Tracking keys off the raw JSON so a typed decode failure cannot leave a
+                // finished turn marked active.
+                match raw_type {
+                    "turn_started" => channel.mark_active(raw_turn_id),
+                    "turn_completed" | "turn_failed" | "turn_canceled" => {
+                        channel.mark_finished(raw_turn_id)
+                    }
+                    _ => {}
+                }
+                if let Some(tx) = &channel.tx {
+                    let _ = tx.send(session_event);
+                }
             }
-            // Events for sessions without a live channel (released or dropped) are discarded.
-            let channels = inner.channels.lock().expect("channels lock");
-            if let Some(channel) = channels.get(handle) {
-                let _ = channel.tx.send(session_event);
+            if raw_type == "permission_requested" {
+                if let Some(handler) = inner.handler.clone() {
+                    match event {
+                        AgentStreamEvent::PermissionRequested {
+                            request, turn_id, ..
+                        } => spawn_permission_task(
+                            Arc::clone(inner),
+                            handler,
+                            handle.to_owned(),
+                            turn_id,
+                            *request,
+                        ),
+                        _ => deny_undecodable_permission(inner, handle, raw),
+                    }
+                }
             }
         }
+        "host.log" => log_host_message(&params),
         "session.closed" => {
             if let Some(handle) = params.get("handle").and_then(Value::as_str) {
                 inner.forget_session(handle);
@@ -670,6 +969,37 @@ fn dispatch_notification(inner: &Arc<Inner>, method: &str, value: Value) {
         }
         other => tracing::debug!(method = other, "ignoring host notification"),
     }
+}
+
+/// A `permission_requested` event the typed model rejects still needs an answer, or the
+/// provider waits on the user forever. Deny it so the provider can proceed.
+fn deny_undecodable_permission(inner: &Arc<Inner>, handle: &str, raw: &Value) {
+    let Some(request_id) = raw
+        .get("request")
+        .and_then(|request| request.get("id"))
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+    else {
+        tracing::error!(%handle, event = %raw, "permission_requested without request id");
+        return;
+    };
+    let inner = Arc::clone(inner);
+    let handle = handle.to_owned();
+    tokio::spawn(async move {
+        let params = json!({
+            "handle": handle,
+            "requestId": request_id,
+            "response": serialize_response(&crate::wire::PermissionResponse::deny(
+                "Permission request could not be decoded",
+            )),
+        });
+        if let Err(error) = inner
+            .call::<Value>("session.respondToPermission", params)
+            .await
+        {
+            tracing::warn!(%error, %handle, %request_id, "failed to deny undecodable permission");
+        }
+    });
 }
 
 fn spawn_permission_task(
@@ -702,4 +1032,62 @@ fn spawn_permission_task(
 
 fn serialize_response<T: Serialize>(value: &T) -> Value {
     serde_json::to_value(value).unwrap_or(Value::Null)
+}
+
+/// Host -> client request (`id` and `method`). Only `tool.call` exists (see RPC.md).
+fn dispatch_host_request(inner: &Arc<Inner>, method: &str, value: Value) {
+    let id = value.get("id").cloned().unwrap_or(Value::Null);
+    let params = value.get("params").cloned().unwrap_or(Value::Null);
+    let inner = Arc::clone(inner);
+    if method != "tool.call" {
+        let message = format!("unknown client method {method}");
+        tokio::spawn(async move {
+            inner
+                .respond(id, Err((crate::code::METHOD_NOT_FOUND, message)))
+                .await;
+        });
+        return;
+    }
+    tokio::spawn(async move {
+        let Some(handler) = inner.tool_handler.clone() else {
+            let message = "no tool.call handler registered".to_owned();
+            inner
+                .respond(id, Err((crate::code::METHOD_NOT_FOUND, message)))
+                .await;
+            return;
+        };
+        let request: ToolCallRequest = match serde_json::from_value(params) {
+            Ok(request) => request,
+            Err(error) => {
+                inner
+                    .respond(id, Err((crate::code::INVALID_PARAMS, error.to_string())))
+                    .await;
+                return;
+            }
+        };
+        let outcome = match handler.call(request).await {
+            Ok(result) => serde_json::to_value(result)
+                .map_err(|error| (crate::code::INTERNAL, error.to_string())),
+            Err(paseo_provider_api::ProviderError::Canceled) => {
+                Err((crate::code::CANCELED, "request canceled".to_owned()))
+            }
+            Err(error) => Err((crate::code::PROVIDER, error.to_string())),
+        };
+        inner.respond(id, outcome).await;
+    });
+}
+
+/// `host.log`: `{level, message, data?}` forwarded to `tracing`.
+fn log_host_message(params: &Value) {
+    let message = params
+        .get("message")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    let data = params.get("data").map(Value::to_string).unwrap_or_default();
+    match params.get("level").and_then(Value::as_str) {
+        Some("error") => tracing::error!(target: "paseo_provider_host::host", %data, "{message}"),
+        Some("warn") => tracing::warn!(target: "paseo_provider_host::host", %data, "{message}"),
+        Some("info") => tracing::info!(target: "paseo_provider_host::host", %data, "{message}"),
+        _ => tracing::debug!(target: "paseo_provider_host::host", %data, "{message}"),
+    }
 }

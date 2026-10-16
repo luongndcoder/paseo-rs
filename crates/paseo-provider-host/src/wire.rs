@@ -1,7 +1,10 @@
 //! Typed wire shapes. Field names and tags match the TS `agent-sdk-types.ts` JSON exactly
 //! (camelCase fields, snake_case discriminators). Open-ended parts stay `serde_json::Value`.
 
-use serde::{Deserialize, Serialize};
+use paseo_agent_types::{
+    AgentMode, AgentRuntimeInfo, AgentTimelineItem, ProviderSubagentInputEvent,
+};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json::{Map, Value};
 
 pub type JsonObject = Map<String, Value>;
@@ -216,7 +219,7 @@ pub enum AgentStreamEvent {
         turn_id: Option<String>,
     },
     Timeline {
-        item: Value,
+        item: TimelineItem,
         provider: String,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         turn_id: Option<String>,
@@ -236,8 +239,74 @@ pub enum AgentStreamEvent {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         turn_id: Option<String>,
     },
+    ModeChanged {
+        provider: String,
+        #[serde(default)]
+        current_mode_id: Option<String>,
+        #[serde(default)]
+        available_modes: Vec<AgentMode>,
+    },
+    ModelChanged {
+        provider: String,
+        runtime_info: AgentRuntimeInfo,
+    },
+    ThinkingOptionChanged {
+        provider: String,
+        #[serde(default)]
+        thinking_option_id: Option<String>,
+    },
+    AttentionRequired {
+        provider: String,
+        /// `finished`, `error` or `permission`.
+        reason: String,
+        timestamp: String,
+    },
+    ProviderSubagent {
+        provider: String,
+        event: Box<ProviderSubagentInputEvent>,
+    },
     #[serde(other)]
     Unknown,
+}
+
+/// `Timeline.item`: decoded into [`AgentTimelineItem`] when it validates, otherwise the
+/// untouched JSON (an item shape this crate does not know must not break the stream).
+#[derive(Debug, Clone, PartialEq)]
+pub enum TimelineItem {
+    Typed(Box<AgentTimelineItem>),
+    Raw(Value),
+}
+
+impl TimelineItem {
+    pub fn typed(&self) -> Option<&AgentTimelineItem> {
+        match self {
+            Self::Typed(item) => Some(item),
+            Self::Raw(_) => None,
+        }
+    }
+
+    pub fn to_value(&self) -> Value {
+        match self {
+            Self::Typed(item) => item.to_value(),
+            Self::Raw(value) => value.clone(),
+        }
+    }
+}
+
+impl Serialize for TimelineItem {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        self.to_value().serialize(serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for TimelineItem {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        let value = Value::deserialize(deserializer)?;
+        Ok(match AgentTimelineItem::from_value(&value) {
+            Ok(item) => Self::Typed(Box::new(item)),
+            Err(_) => Self::Raw(value),
+        })
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

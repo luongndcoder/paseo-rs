@@ -12,9 +12,12 @@ serde_json.workspace = true
 thiserror.workspace = true
 tokio = { workspace = true, features = ["process", "io-util", "sync", "rt", "macros", "time"] }
 tracing.workspace = true
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-provider-api = { path = "../paseo-provider-api" }
 
 [dev-dependencies]
 tokio = { workspace = true, features = ["full"] }
+tempfile.workspace = true
 
 [lints.rust]
 unsafe_code = "forbid"

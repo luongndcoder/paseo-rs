@@ -77,10 +77,61 @@ fn permission_requested_event_round_trips() {
 
 #[test]
 fn unknown_event_types_decode_as_unknown() {
-    let event: AgentStreamEvent =
-        serde_json::from_value(json!({"type": "provider_subagent", "provider": "x", "event": {}}))
-            .unwrap();
+    let event: AgentStreamEvent = serde_json::from_value(
+        json!({"type": "some_future_event", "provider": "x", "payload": {}}),
+    )
+    .unwrap();
     assert_eq!(event, AgentStreamEvent::Unknown);
+}
+
+#[test]
+fn newer_event_types_decode_and_round_trip() {
+    let cases = [
+        json!({"type": "mode_changed", "provider": "mock", "currentModeId": "plan",
+               "availableModes": [{"id": "plan", "label": "Plan"}]}),
+        json!({"type": "mode_changed", "provider": "mock", "currentModeId": null,
+               "availableModes": []}),
+        json!({"type": "model_changed", "provider": "mock",
+               "runtimeInfo": {"provider": "mock", "sessionId": "s", "model": "m"}}),
+        json!({"type": "thinking_option_changed", "provider": "mock", "thinkingOptionId": "low"}),
+        json!({"type": "thinking_option_changed", "provider": "mock", "thinkingOptionId": null}),
+        json!({"type": "attention_required", "provider": "mock", "reason": "finished",
+               "timestamp": "2026-01-01T00:00:00.000Z"}),
+        json!({"type": "provider_subagent", "provider": "mock",
+               "event": {"type": "remove", "id": "sub-1"}}),
+    ];
+    for wire in cases {
+        let event: AgentStreamEvent = serde_json::from_value(wire.clone()).unwrap();
+        assert_ne!(event, AgentStreamEvent::Unknown, "{wire}");
+        assert_eq!(serde_json::to_value(&event).unwrap(), wire);
+    }
+}
+
+#[test]
+fn timeline_item_decodes_typed_with_raw_fallback() {
+    let typed: AgentStreamEvent = serde_json::from_value(json!({
+        "type": "timeline", "provider": "mock", "turnId": "t1",
+        "item": {"type": "assistant_message", "text": "hi"}
+    }))
+    .unwrap();
+    let AgentStreamEvent::Timeline { item, .. } = &typed else {
+        panic!("wrong variant: {typed:?}");
+    };
+    assert!(matches!(
+        item.typed(),
+        Some(paseo_agent_types::AgentTimelineItem::AssistantMessage { text, .. }) if text == "hi"
+    ));
+
+    let future_item = json!({"type": "hologram", "payload": 1});
+    let raw: AgentStreamEvent = serde_json::from_value(json!({
+        "type": "timeline", "provider": "mock", "item": future_item
+    }))
+    .unwrap();
+    let AgentStreamEvent::Timeline { item, .. } = &raw else {
+        panic!("wrong variant: {raw:?}");
+    };
+    assert_eq!(item, &TimelineItem::Raw(future_item.clone()));
+    assert_eq!(item.to_value(), future_item);
 }
 
 #[test]
