@@ -84,7 +84,6 @@ pub fn parse_js_json(raw: &str) -> serde_json::Result<Value> {
     serde_json::from_str(&decode_lone_surrogates(raw))
 }
 
-
 /// The carrier character for a lone high surrogate code unit (`0xD800..=0xDBFF`).
 pub fn lone_high_surrogate(unit: u16) -> Option<char> {
     if (0xD800..=0xDBFF).contains(&unit) {
