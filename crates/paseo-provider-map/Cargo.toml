@@ -17,6 +17,7 @@ paseo-tool-detail = { path = "../paseo-tool-detail" }
 paseo-timeline = { path = "../paseo-timeline" }
 regex.workspace = true
 base64.workspace = true
+sha2.workspace = true
 
 [lints.rust]
 unsafe_code = "forbid"

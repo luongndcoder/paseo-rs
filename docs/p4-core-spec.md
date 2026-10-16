@@ -445,3 +445,25 @@ Known Rust-only deviations of the Codex mapper (WP10, `paseo-provider-map/src/co
 - `codex-deny-message-from-options`: the message of a deny answer is client state that never reaches the wire (only `decision: "decline"` does); `CodexMapper::with_deny_message` supplies it.
 - `codex-image-materialize-injected`: TS writes `data` images to a content-hashed temp file inside the mapper; the Rust mapper takes an injected `ImageMaterializer` and renders the TS failure text without one.
 - `codex-history-timestamp-iso-only`: `Date.parse` legacy formats are not accepted for history timestamps, only ISO-8601 strings and epoch numbers.
+
+Known deviations and quirks of the Claude mapper (WP10, `paseo-provider-map/src/claude.rs`, goldens `fixtures/p4/provider-events/claude`, all 10 replay including the 4 `partial` ones):
+- `claude-turn-id-on-untyped-events` (DEVIATION): TS tags every event it emits, `thread_started` and `mode_changed` included, with the active turn id. The Rust `AgentStreamEvent` has no `turn_id` on those two, so the tag is dropped; the golden test strips it from both sides. The manager does not read it (`mode_changed` is not dispatched, `thread_started` refreshes persistence).
+- `claude-subagent-frames-unmapped` (DEVIATION): frames with a `parent_tool_use_id`, the task protocol (`task_started`/`task_progress`, synthetic Task cards, `provider_subagent` events) and the sidechain tracker are not ported; those frames emit nothing and sidechain transcripts are skipped in history. No golden covers them. Main-session frames match TS.
+- `claude-rewind-command-unmapped` (DEVIATION): `/rewind` goes through the Agent SDK and is mapped like any other prompt.
+- `claude-tool-result-image-files` (DEVIATION): tool-result images are written to a private temp dir by the mapper (as TS does), rendered as `file://` markdown; Windows path forms of `markdownImageSource` are not ported.
+- `claude-session-key-uuid` (PARITY-QUIRK): `ClaudeAgentSession` draws a uuid for its usage session key at construction, so replay ids start at the second uuid.
+- `claude-tool-input-shallow-equality` (PARITY-QUIRK): streamed tool input is skipped as unchanged only when every value is a primitive, so nested values re-emit the running call on each delta.
+- `claude-answer-first-pending-permission` (PARITY-QUIRK): a permission `control_response` in a capture answers the first pending request (what the golden driver did); hosts answer by id through the typed API.
+- `claude-partial-json-lone-surrogate` (PARITY-QUIRK): a lone high surrogate escape in streamed tool input travels as the `js_str` carrier char, a lone low surrogate becomes U+FFFD.
+
+Known deviations and quirks of the Pi mapper (WP10, `paseo-provider-map/src/pi.rs`, goldens `fixtures/p4/provider-events/pi`: 6 `ok` and 2 `partial` replay; `08-catalog` and the OMP fixtures are `failed` in WP0 and have no events). `PiMapper` is the event half of `PiRpcAgentSession`: the RPC calls and process I/O stay in the session layer, which feeds runtime events and calls `start_turn` / `interrupt` / `respond_to_permission`.
+- `pi-session-key-uuid` (PARITY-QUIRK): `PiRpcAgentSession` draws a uuid for its usage session key at construction, so replay ids start at the second uuid (turn id is `...0002`).
+- `pi-answer-first-pending-permission` (PARITY-QUIRK): an `extension_ui_response` in a capture answers the first pending request when its id matches none (what the golden driver did); hosts answer by id through the typed API.
+- `pi-custom-call-id-live-vs-history` (PARITY-QUIRK): a live custom message row is named `pi-custom-<uuid>`, a replayed one `pi-custom-<n>`.
+- `pi-notice-line-terminators` (PARITY-QUIRK): the pi-subagents completion notice patterns use JS `.` and `$`, so a line ending in CR never matches.
+- `pi-usage-poll` (DEVIATION): `usage_updated` comes from polling `get_session_stats`, which is an RPC concern; the mapper emits none (the goldens have none, the fake stats are all zero).
+- `pi-no-turn-probe` (DEVIATION): the `get_state` probe after a slash-command prompt without an `agentInvoked` ack is not ported; an explicit ack (`prompt_acked`) or a `prompt_result` event completes a no-turn prompt, inline instead of one macrotask later.
+- `pi-out-of-band-compaction` (DEVIATION): `/compact` out-of-band emission is the session layer's.
+- `pi-extension-io` (DEVIATION): child-session file reads and following, and the pi-subagents `status.json` poll, are file I/O. The extension host records the child sessions a mapping reports (`take_child_sessions`) and `PiChildSessionMapper` maps the rows a reader gives it; the `poll()` hook is not ported.
+- `pi-history-hooks` (DEVIATION): `PiHistoryMapperHooks` exist for the OMP wrapper (host-only, Q8) and are not ported.
+- `pi-strip-ansi-approximate` (DEVIATION): `command_output` text goes through a hand-written ansi-regex 5 matcher, tested on CSI and BEL-terminated OSC sequences only.
