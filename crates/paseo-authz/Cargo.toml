@@ -1,0 +1,16 @@
+[package]
+name = "paseo-authz"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "Session authorization: permission bitset and generated inbound/outbound requirement tables"
+build = "build.rs"
+
+[dependencies]
+serde_json.workspace = true
+
+[build-dependencies]
+serde_json.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

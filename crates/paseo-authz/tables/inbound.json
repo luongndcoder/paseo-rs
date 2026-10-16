@@ -1,0 +1,1293 @@
+[
+[
+"abort_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"agent.config.apply.request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"agent.detach.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"agent.fork_context.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"agent.provider_subagents.list.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"agent.provider_subagents.timeline.get.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"agent.rewind.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"agent.skills.get_status.request",
+{
+"one": "daemon.read"
+}
+],
+[
+"agent.skills.import_legacy_selection.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"agent.skills.reconcile.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"agent.skills.save_selection.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"agent.skills.uninstall.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"agent.timeline.search.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"agent.timeline.list_prompts.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"agent.timeline.append.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"browser.host.register.request",
+{
+"any": [
+"workspace.write"
+]
+}
+],
+[
+"subscription.release.request",
+"always"
+],
+[
+"session.events.set_subscription.request",
+{
+"any": [
+"workspace.read",
+"daemon.read",
+"hub.execute"
+]
+}
+],
+[
+"agent.timeline.set_subscription.request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"agent_permission_response",
+{
+"one": "workspace.write"
+}
+],
+[
+"archive_agent_request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"archive_workspace_request",
+{
+"any": [
+"workspace.manage",
+"hub.execute"
+]
+}
+],
+[
+"audio_played",
+{
+"one": "workspace.write"
+}
+],
+[
+"branch_suggestions_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"browser.automation.execute.response",
+{
+"one": "workspace.write"
+}
+],
+[
+"cancel_agent_request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"capture_terminal_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"chat/create",
+{
+"one": "workspace.write"
+}
+],
+[
+"chat/delete",
+{
+"one": "workspace.write"
+}
+],
+[
+"chat/inspect",
+{
+"one": "workspace.read"
+}
+],
+[
+"chat/list",
+{
+"one": "workspace.read"
+}
+],
+[
+"chat/post",
+{
+"one": "workspace.write"
+}
+],
+[
+"chat/read",
+{
+"one": "workspace.read"
+}
+],
+[
+"chat/wait",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.commits.file_diff.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.commits.list.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.discard_changes.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout.forge.get_check_details.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.forge.set_auto_merge.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout.github.get_check_details.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.github.set_auto_merge.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout.refresh.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout.rename_branch.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_commit_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_merge_from_base_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_merge_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_pr_create_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_pr_merge_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_pr_status_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout_pull_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_push_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout_status_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"checkout_switch_branch_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"clear_agent_attention",
+{
+"one": "workspace.write"
+}
+],
+[
+"client_heartbeat",
+{
+"one": "workspace.read"
+}
+],
+[
+"close_items_request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"create_agent_request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"agent.create.request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"creation.subscribe.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"create_paseo_worktree_request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"create_terminal_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"daemon.config.reload.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"daemon.get_pairing_offer.request",
+{
+"one": "access.manage"
+}
+],
+[
+"daemon.get_status.request",
+{
+"one": "daemon.read"
+}
+],
+[
+"daemon.update.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"delete_agent_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"diagnostics.request",
+{
+"one": "daemon.read"
+}
+],
+[
+"dictation_stream_cancel",
+{
+"one": "workspace.write"
+}
+],
+[
+"dictation_stream_chunk",
+{
+"one": "workspace.write"
+}
+],
+[
+"dictation_stream_finish",
+{
+"one": "workspace.write"
+}
+],
+[
+"dictation_stream_start",
+{
+"one": "workspace.write"
+}
+],
+[
+"directory_suggestions_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fetch_agent_history_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fetch_agent_request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"fetch_agent_timeline_request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"fetch_agents_request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"fetch_recent_provider_sessions_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fetch_workspaces_request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"file.upload.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"file_download_token_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"file_explorer_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"forge.search.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fs.entry.create.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"fs.entry.delete.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"fs.entry.duplicate.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"fs.entry.rename.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"fs.file.subscribe.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fs.file.unsubscribe.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"fs.file.write.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"get_daemon_config_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"get_providers_snapshot_request",
+{
+"any": [
+"daemon.read",
+"hub.execute"
+]
+}
+],
+[
+"github_search_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"hub.execution.agent.create.request",
+{
+"one": "hub.execute"
+}
+],
+[
+"hub.execution.agent.validate.request",
+{
+"one": "hub.execute"
+}
+],
+[
+"hub.execution.control.request",
+{
+"one": "hub.execute"
+}
+],
+[
+"hub.management.daemon.connect.request",
+{
+"one": "tunnel.manage"
+}
+],
+[
+"hub.management.daemon.disconnect.request",
+{
+"one": "tunnel.manage"
+}
+],
+[
+"hub.management.daemon.get_status.request",
+{
+"one": "tunnel.manage"
+}
+],
+[
+"hub.management.daemon.permissions.update.request",
+{
+"one": "access.manage"
+}
+],
+[
+"import_agent_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"kill_terminal_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"list_available_editors_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"list_available_providers_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"list_commands_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"list_provider_features_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"list_provider_models_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"list_provider_modes_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"list_terminals_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"loop/inspect",
+{
+"one": "automation.manage"
+}
+],
+[
+"loop/list",
+{
+"one": "automation.manage"
+}
+],
+[
+"loop/logs",
+{
+"one": "automation.manage"
+}
+],
+[
+"loop/run",
+{
+"one": "automation.manage"
+}
+],
+[
+"loop/stop",
+{
+"one": "automation.manage"
+}
+],
+[
+"open_in_editor_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"open_project_request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"paseo_worktree_archive_request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"paseo_worktree_list_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"ping",
+{
+"one": "daemon.read"
+}
+],
+[
+"plugin.catalog.get.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.directory.inspect.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.directory.install.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.disable.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.enable.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.list.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.logs.get.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.reload.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.remove.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.rpc.invoke.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.source.install.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.source.status.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.source.update.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.source.update.preview.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"plugin.source.update.apply.request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"project.add.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project.create_directory.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project.github.clone.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project.icon.get.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"project.icon.set.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project.list.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"project.remove.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project.rename.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"project_icon_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"provider.usage.list.request",
+{
+"one": "daemon.read"
+}
+],
+[
+"usage.list_reports.request",
+{
+"one": "daemon.read"
+}
+],
+[
+"provider_diagnostic_request",
+{
+"one": "daemon.read"
+}
+],
+[
+"pull_request_timeline_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"push.unregister.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"read_project_config_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"refresh_agent_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"refresh_providers_snapshot_request",
+{
+"any": [
+"daemon.read",
+"hub.execute"
+]
+}
+],
+[
+"register_push_token",
+{
+"one": "workspace.read"
+}
+],
+[
+"restart_server_request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"resume_agent_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"schedule/create",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/delete",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/inspect",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/list",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/logs",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/pause",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/resume",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/run-once",
+{
+"one": "automation.manage"
+}
+],
+[
+"schedule/update",
+{
+"one": "automation.manage"
+}
+],
+[
+"send_agent_message_request",
+{
+"any": [
+"workspace.write",
+"hub.execute"
+]
+}
+],
+[
+"set_agent_feature_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"set_agent_mode_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"set_agent_model_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"set_agent_thinking_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"set_daemon_config_request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"set_voice_mode",
+{
+"one": "workspace.write"
+}
+],
+[
+"shutdown_server_request",
+{
+"one": "daemon.manage"
+}
+],
+[
+"start_workspace_script_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"stash_list_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"stash_pop_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"stash_save_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"checkout.diff.get.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"subscribe_checkout_diff_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"subscribe_terminal_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"subscribe_terminals_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"terminal.rename.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"terminal_input",
+{
+"one": "workspace.write"
+}
+],
+[
+"unsubscribe_checkout_diff_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"unsubscribe_terminal_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"unsubscribe_terminals_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"update_agent_request",
+{
+"one": "workspace.write"
+}
+],
+[
+"validate_branch_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"voice_audio_chunk",
+{
+"one": "workspace.write"
+}
+],
+[
+"wait_for_finish_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.clear_attention.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"workspace.mark_unread.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"workspace.create.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"workspace.github.search_repositories.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.label.assignment.set.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"workspace.label.delete.inspect.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.label.delete.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"workspace.label.list.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.label.update.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"workspace.pin.set.request",
+{
+"one": "workspace.manage"
+}
+],
+[
+"workspace.recovery.inspect.request",
+{
+"any": [
+"workspace.read",
+"hub.execute"
+]
+}
+],
+[
+"workspace.recovery.restore.request",
+{
+"any": [
+"workspace.manage",
+"hub.execute"
+]
+}
+],
+[
+"workspace.script.list.request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.script.start.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"workspace.script.stop.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"workspace.title.set.request",
+{
+"any": [
+"workspace.manage",
+"hub.execute"
+]
+}
+],
+[
+"workspace_setup_status_request",
+{
+"one": "workspace.read"
+}
+],
+[
+"workspace.setup.run.request",
+{
+"one": "workspace.write"
+}
+],
+[
+"write_project_config_request",
+{
+"one": "workspace.write"
+}
+]
+]

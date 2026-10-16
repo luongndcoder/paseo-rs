@@ -818,6 +818,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "paseo-authz"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
 name = "paseo-claude"
 version = "0.1.0"
 dependencies = [
@@ -845,6 +852,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "paseo-directory"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "uuid",
+]
+
+[[package]]
 name = "paseo-file-observer"
 version = "0.1.0"
 dependencies = [
@@ -861,6 +877,16 @@ name = "paseo-files"
 version = "0.1.0"
 dependencies = [
  "libc",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "uuid",
+]
+
+[[package]]
+name = "paseo-fs-atomic"
+version = "0.1.0"
+dependencies = [
  "serde",
  "serde_json",
  "tempfile",
@@ -935,6 +961,7 @@ name = "paseo-schedule"
 version = "0.1.0"
 dependencies = [
  "jiff",
+ "paseo-fs-atomic",
  "serde",
  "serde_json",
  "tempfile",
