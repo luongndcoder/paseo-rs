@@ -9,7 +9,6 @@ use crate::error::{Result, StoreError};
 use crate::js_json::write_js_json_atomic;
 use crate::nullable::Nullable;
 use crate::paths::project_dir_name_from_cwd;
-use crate::time::parse_js_date;
 use indexmap::{IndexMap, IndexSet};
 use paseo_fs_atomic::FsyncPolicy;
 use serde_json::Value;
@@ -382,43 +381,26 @@ impl AgentStore {
 
     async fn do_load(&self) {
         let loaded = self.scan_disk().await;
-        let losers = self.install_loaded(loaded);
-        for loser in losers {
-            if let Err(error) = tokio::fs::remove_file(&loser).await {
-                tracing::warn!(file = %loser.display(), %error, "Failed to remove duplicate agent record file");
-            }
-        }
+        self.install_loaded(loaded);
     }
 
-    /// Rebuilds the in-memory state; returns the duplicate files that lost.
-    fn install_loaded(&self, loaded: Vec<(StoredAgentRecord, PathBuf)>) -> Vec<PathBuf> {
+    /// Rebuilds the in-memory state.
+    ///
+    /// PARITY-QUIRK(duplicate-agent-files-last-wins): like TS, every file is indexed in scan
+    /// order (root files first, then each project dir) and the LAST record for an id wins the
+    /// cache; no file is unlinked on load. All paths stay indexed so `remove` deletes every
+    /// copy, and the next write unlinks only the winner's old path when the cwd differs. TS
+    /// scans in `readdir` order; here the scan is sorted, which is one legal `readdir` order.
+    fn install_loaded(&self, loaded: Vec<(StoredAgentRecord, PathBuf)>) {
         let mut state = self.state();
         *state = State::default();
-        let mut by_id: IndexMap<String, Vec<(StoredAgentRecord, PathBuf)>> = IndexMap::new();
         for (record, path) in loaded {
-            by_id
-                .entry(record.id.clone())
-                .or_default()
-                .push((record, path));
-        }
-        let mut losers: Vec<PathBuf> = Vec::new();
-        for (id, mut candidates) in by_id {
-            // Deviation from TS (readdir-order nondeterministic): the duplicate with the
-            // greatest `updatedAt` wins, ties keep the first file in sorted scan order.
-            let mut winner = 0usize;
-            for i in 1..candidates.len() {
-                if newer(&candidates[i].0, &candidates[winner].0) {
-                    winner = i;
-                }
-            }
-            let (record, path) = candidates.remove(winner);
-            losers.extend(candidates.into_iter().map(|(_, p)| p));
+            let id = record.id.clone();
             state.index_owner(&record);
             state.path_by_id.insert(id.clone(), path.clone());
             state.add_indexed_path(&id, &path);
             state.cache.insert(id, record);
         }
-        losers
     }
 
     async fn scan_disk(&self) -> Vec<(StoredAgentRecord, PathBuf)> {
@@ -472,18 +454,6 @@ impl AgentStore {
             }
         }
         records
-    }
-}
-
-fn newer(candidate: &StoredAgentRecord, current: &StoredAgentRecord) -> bool {
-    match (
-        parse_js_date(&candidate.updated_at),
-        parse_js_date(&current.updated_at),
-    ) {
-        (Some(a), Some(b)) => a > b,
-        (Some(_), None) => true,
-        (None, Some(_)) => false,
-        (None, None) => candidate.updated_at > current.updated_at,
     }
 }
 

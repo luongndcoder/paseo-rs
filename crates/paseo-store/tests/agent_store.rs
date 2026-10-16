@@ -456,8 +456,10 @@ async fn remove_deletes_every_duplicate_record_file() {
     assert!(reloaded.get("dup").await.unwrap().is_none());
 }
 
+/// PARITY-QUIRK(duplicate-agent-files-last-wins): the last record in scan order (root files,
+/// then project dirs) wins; nothing is unlinked on load.
 #[tokio::test]
-async fn duplicate_files_resolve_to_max_updated_at_and_losers_are_unlinked() {
+async fn duplicate_files_resolve_to_the_last_scanned_and_nothing_is_unlinked() {
     let dir = tempfile::tempdir().unwrap();
     let agents = dir.path().join("agents");
     let write = |sub: &str, cwd: &str, updated: &str| {
@@ -476,10 +478,36 @@ async fn duplicate_files_resolve_to_max_updated_at_and_losers_are_unlinked() {
     write("c-mid", "/c/mid", "2025-02-01T00:00:00.000Z");
     let store = AgentStore::new(&agents);
     let rec = store.get("dup").await.unwrap().unwrap();
-    assert_eq!(rec.cwd, "/b/new");
-    assert!(!agents.join("a-old/dup.json").exists());
-    assert!(agents.join("b-new/dup.json").exists());
+    assert_eq!(
+        rec.cwd, "/c/mid",
+        "last in sorted scan order wins, not max updatedAt"
+    );
+    for sub in ["a-old", "b-new", "c-mid"] {
+        assert!(
+            agents.join(sub).join("dup.json").exists(),
+            "{sub} stays on disk"
+        );
+    }
+
+    // The next write moves the winner to its canonical path and unlinks only its old file.
+    store
+        .apply_snapshot(
+            "dup",
+            SnapshotOptions::default(),
+            project("dup", "/d/canonical", AgentLifecycle::Idle, T0),
+        )
+        .await
+        .unwrap();
     assert!(!agents.join("c-mid/dup.json").exists());
+    assert!(agents.join("a-old/dup.json").exists());
+    assert!(agents.join("b-new/dup.json").exists());
+    assert!(agents.join("d-canonical/dup.json").exists());
+
+    // `remove` still deletes every indexed copy.
+    store.remove("dup").await.unwrap();
+    for sub in ["a-old", "b-new", "d-canonical"] {
+        assert!(!agents.join(sub).join("dup.json").exists(), "{sub} removed");
+    }
 }
 
 #[tokio::test]
