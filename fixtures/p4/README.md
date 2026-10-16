@@ -27,6 +27,9 @@ Two full runs, and four concurrent runs of the adapter replays under CPU load, a
 | `tool-catalog/` | `tools-list.json`, `tools-call-transcripts.json`, `structured-content-text.json` | WP11 |
 | `mapper-vectors/` | `*.jsonl` per group plus `README.json` | WP2, WP10 |
 | `provider-events/` | `<provider>/<fixture>.json` plus `manifest.json` | WP10 |
+| `agent-records/` | `records.json`, `capture-agent-records.mts` | WP8 (`paseo-core/tests/record_parity.rs`) |
+| `session/` | `fetch-agents-sync.jsonl`, `fetch-agents-sync.inputs.json`, `capture-fetch-agents-sync.mts` | WP9 (`paseo-core/tests/fetch_agents_sync.rs`) |
+| `hub/` | `hub-relationship-states.json`, `hub-relationship-load.json`, `capture-hub-relationship.mts` | WP13 (`paseo-hub/tests/record_parity.rs`) |
 | `INVESTIGATIONS.md` | Q13 plugin lifecycle audit, Q14 app ordering audit, Q2 check, corrections to the spec found while capturing | WP8, WP9, WP14 |
 
 ## File formats
