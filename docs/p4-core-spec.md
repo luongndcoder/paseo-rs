@@ -187,6 +187,7 @@ Persistence handle compatibility is bidirectional: Claude `{provider, sessionId,
 - `wire.rs`: add `ModeChanged`, `ModelChanged`, `ThinkingOptionChanged`, `AttentionRequired`, `ProviderSubagent` (currently decode to Unknown); decode `Timeline.item` into `AgentTimelineItem` with raw fallback; add `import_session`, `try_handle_out_of_band`, `listCommands`/`listFeatures`/`getCapabilities`; make `stream_history` chunked (frame size); assert per-handle `seq == last+1`, gap = session failure; synthesize `turn_failed{error:"Provider host exited"}` per active handle on host exit; add host->core request frames (`tool.call`, `host.log`).
 - `HostAgentClient/HostAgentSession` implement `paseo-provider-api`. `ProviderRegistry{by_id}` selects `native|host` per provider (`PASEO_PROVIDER_<ID>`).
 - One `ProviderHostClient` per daemon owned by `paseo-core`.
+- WP7 as built: `tool.call` is a host -> client request (`{agentId?, tool, arguments}` -> MCP `CallToolResult`), `host.log` a notification; `launchContext.paseoTools` is a `ToolSpec[]` (JSON Schema) the host turns into a proxy `PaseoToolCatalog`; `host.initialize.runtimeDir` is the only directory the host writes (OpenCode bridge plugin) and `host.setToolManifest` sets the OpenCode tool list. `HostAgentClient::new(host, provider)` is one view per provider over the shared host; its `shutdown` is a no-op (core calls `ProviderHostClient::shutdown`). The host client keeps an unbounded per-session queue; the adapter forwards into a bounded `EventStream` (cap 1024) with await.
 
 ## 12. Hub and skills
 
@@ -406,6 +407,7 @@ Behavior deliberately reproduced during the strangler. Fix after the flag is def
 | Marker | What TS does | Intended fix |
 |---|---|---|
 | `corrupt-registry-truncate` | Invalid JSON or one bad record in a registry file silently truncates to empty | `quarantine_corrupt` (rename `<name>.corrupt-<ts>`), start empty, log error |
+| `project-id-collation` | Oldest-active-project tie-break is `localeCompare` on `projectId` (ICU) | None needed: ids are `prj_<hex>` or `remote:...`; Rust compares bytewise, identical for generated ids |
 | `surrogate-truncation` | UTF-16 truncation at 64 KiB can leave a lone high surrogate, serialized as `\udXXX` | Back off to a code-point boundary |
 | `stream-history-single-frame` | `stream_history` collected as one array, no chunking | Chunked `stream_history` frames |
 | `directory-removals-unfiltered` | Removal entries are not filtered by the reader's scope | Filter removals by scope |
@@ -421,6 +423,16 @@ Behavior deliberately reproduced during the strangler. Fix after the flag is def
 | `stale-terminal-dispatch` | A stale terminal event is dispatched to clients even though handlers ignore it | Drop stale terminals |
 | `retired-internal-fifo` | Retired internal agents evict in insertion order (not LRU) | None needed unless reuse patterns demand it |
 | `rewind-staged-events-dropped` | Provider events staged under rewind's pending-run lock are discarded | Replay or explicit contract |
+| `falsy-id-dropped` | `turnId`/`providerMessageId` (row build, store append) and an assistant chunk's `messageId` (on merge) use JS truthiness, so an empty string is treated as absent | Treat only `undefined` as absent |
+| `run-canceled-unflagged` | `runProviderTurn` resolves a `turn_canceled` turn without marking the result canceled | Flag the result canceled |
+| `skills-root-symlink-unchecked` | Sync checks path components below a skill dir for symlinks, never the skill dir itself, so a symlinked skill dir is written through | Reject or resolve the skill dir root |
+| `skills-manifest-array-files` | `.paseo-managed-files.json` with `files: []` is accepted (`typeof [] === "object"`) | Require an object |
+| `skills-manifest-plain-write` | `transaction.json` is written with a plain write, not atomically; a torn file reads as invalid and is ignored | Atomic write |
+| `skills-undo-removes-symlinked-dir` | Rollback of an emptied, symlinked skill dir removes the link itself | Remove contents only |
+| `skills-recovery-aborts-on-first-failure` | The first failing interrupted transaction aborts recovery of the rest | Continue and aggregate |
+| `skills-rollback-error-masks-cause` | A failing rollback replaces the convergence error that triggered it | Report both |
+
+WP4 (`paseo-store`) Rust-only deviations, all intentional: duplicate agent record files for one id resolve to max `updatedAt` and the losers are unlinked on load (Q15, TS is readdir-order nondeterministic; not yet in `docs/data-model.md` of the TS repo); unknown keys on agent/project/workspace/label records survive rewrite (Q3); key order is the stored-schema order, with `archivedAt` before `owner` (TS appends `archivedAt` after `owner` only when `applySnapshot` preserves it, and backfill appends `workspaceId` last); number formatting follows `serde_json`, not `JSON.stringify`, for floats in opaque blobs (`featureValues`, `providerOptions`).
 
 Also queued: unknown-key preservation interacts with TS rollback (risk 15); Q15 duplicate-file rule; the `usage_updated` dispatch through `agent_stream` is stripped only by the wire allow-list.
 

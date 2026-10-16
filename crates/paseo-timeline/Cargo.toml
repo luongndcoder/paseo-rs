@@ -1,0 +1,21 @@
+[package]
+name = "paseo-timeline"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Pure timeline state: projection, paging, store, stream coalescer, prompt index, text search"
+
+[dependencies]
+serde_json = { workspace = true, features = ["preserve_order"] }
+indexmap = { workspace = true }
+regex = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-tool-detail = { path = "../paseo-tool-detail" }
+
+[dev-dependencies]
+proptest = { workspace = true }
+sha2 = { workspace = true }
+
+[lints.rust]
+unsafe_code = "forbid"
