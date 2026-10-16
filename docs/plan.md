@@ -72,7 +72,7 @@ Acceptance:
 `paseod` owns the listening port; the TS daemon becomes an internal backend.
 
 Responsibilities moved to Rust:
-- HTTP listen, static web UI, WS upgrade, `hello` handshake, top-level `ping`/`pong` lease, 8 MiB outbound high-water per physical socket, relay transport (`crates/paseo-relay-crypto`, test vectors cross-checked against `packages/relay` tweetnacl).
+- HTTP listen, static web UI, WS upgrade, `hello` handshake, top-level `ping`/`pong` lease, 64 MiB outbound high-water per physical socket (TS `MAX_PHYSICAL_SOCKET_BUFFERED_BYTES`, `packages/server/src/server/websocket/physical-socket.ts:4`; an earlier revision of this plan said 8 MiB, which was wrong), relay transport (`crates/paseo-relay-crypto`, test vectors cross-checked against `packages/relay` tweetnacl).
 - Per physical client socket: open one internal WS to the TS daemon (loopback/UDS + internal token), replay the client's `hello` verbatim (clientId, capabilities). TS sees a normal client.
 - Routing: peek only `type` / `session.message.type`. Table `OwnedTypes: HashMap<&str, Domain>`; miss → forward bytes unchanged. Binary frames: route by opcode family.
 - `/mcp/agents` and other HTTP routes: reverse-proxy to TS.
