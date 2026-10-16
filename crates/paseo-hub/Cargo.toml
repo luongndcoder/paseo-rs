@@ -1,0 +1,39 @@
+[package]
+name = "paseo-hub"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Hub relationship actor, daemon executions and the Hub execution controller (WP13)"
+
+[dependencies]
+arc-swap = "1"
+async-trait.workspace = true
+base64.workspace = true
+futures-util = { version = "0.3", default-features = false, features = ["std", "alloc", "sink"] }
+percent-encoding = "2"
+rand = "0.8"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+sha2.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync", "rt", "time", "macros", "net"] }
+tokio-tungstenite = { version = "0.26", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
+tracing.workspace = true
+url = "2"
+uuid = { workspace = true, features = ["v4"] }
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-authz = { path = "../paseo-authz" }
+paseo-core = { path = "../paseo-core" }
+paseo-fs-atomic = { path = "../paseo-fs-atomic" }
+paseo-store = { path = "../paseo-store" }
+
+[dev-dependencies]
+indexmap.workspace = true
+paseo-core = { path = "../paseo-core", features = ["testing"] }
+paseo-provider-api = { path = "../paseo-provider-api" }
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full", "test-util"] }
+
+[lints.rust]
+unsafe_code = "forbid"
