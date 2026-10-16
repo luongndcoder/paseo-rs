@@ -1,0 +1,22 @@
+[package]
+name = "paseo-claude"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Native Rust client for the Claude Code CLI (stream-json stdio + control protocol)"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+
+async-trait = "0.1"
+futures-core = "0.3"
+thiserror = "2"
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros", "process", "io-util", "sync", "time"] }
+tokio-util = "0.7"
+uuid = { version = "1", features = ["v4"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[workspace]
