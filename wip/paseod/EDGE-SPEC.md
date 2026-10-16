@@ -83,13 +83,22 @@ Constants live in `src/internal.rs`. The TS shim is a later stage (`packages/ser
 | `PASEO_LISTEN` | `127.0.0.1:<free port chosen by edge>` (TCP always, even when the edge listens on a Unix socket, because service-proxy and MCP base URLs assume TCP) |
 | `PASEO_EDGE_TOKEN` | 32 random bytes base64url, per run. Presence enables edge-backend mode |
 | `PASEO_EDGE_PUBLIC_LISTEN` | the edge's `PASEO_LISTEN` |
-| `PASEO_RELAY_ENABLED` | `false`; edge-backend mode also ignores a later `relay.enabled=true` |
+| `PASEO_RELAY_ENABLED` | inherited. The worker keeps reporting the relay config (pairing, status); in edge mode it never opens its own relay transport |
+| `PASEO_EDGE_PARENT_STDIN` | removed from the worker env (it only applies to the edge) |
 | `PASEO_CORS_ORIGINS` | user value plus the public origins (`http://localhost:<pub>`, `http://127.0.0.1:<pub>`, `http://<host>:<pub>`) until TS derives them from `PASEO_EDGE_PUBLIC_LISTEN` |
 | `PASEO_HOME`, `PASEO_PASSWORD`, rest | inherited |
 
 **Readiness.** Worker prints `@@paseo {"type":"paseo:ready","listen":"127.0.0.1:<port>","serverId":"..."}` on stdout. The edge then polls internal `GET /api/health` until 200 (bounded by `ready_timeout`). Before that, `/ws` returns 503 `Server not ready` (the same status TS gives while `connectionLifecycle != "accepting"`, `websocket-server.ts:889`); TS clients already retry on it. If the worker exits or crashes, the state goes `Restarting`; open client sockets are closed 1011 so clients reconnect (TS keeps no WS state across a worker restart anyway).
 
 **Parent liveness.** Worker stdin is a pipe held by the edge; worker exits on EOF (replaces the IPC heartbeat guard at `daemon-worker.ts:243`). Graceful stop: SIGTERM on Unix, `{"type":"paseo:graceful-shutdown"}` line on stdin on Windows.
+
+The edge in turn watches its own stdin when `PASEO_EDGE_PARENT_STDIN=1` (set by the TS supervisor, which holds that pipe): EOF stops the edge and with it the worker, and the shutdown line is accepted on every platform. Linux also sets `PR_SET_PDEATHSIG=SIGTERM`. The flag is opt-in because a daemonized edge with `/dev/null` as stdin would otherwise stop at once.
+
+**Worker secrets.** The worker reads `PASEO_EDGE_TOKEN` once and deletes it (and `PASEO_EDGE_PUBLIC_LISTEN`, `PASEO_EDGE_BACKEND_CMD`, `PASEO_EDGE_PARENT_STDIN`) from its own `process.env`. They are also in `RUNTIME_CONTROL_ENV_KEYS`, so agents and terminals never inherit them. A flag-off supervisor scrubs them from the worker env.
+
+**Forwarding chain.** The edge reads the daemon's `trustedProxies` (`PASEO_TRUSTED_PROXIES`, then `config.json`, default `["loopback"]`). A trusted peer keeps its `X-Forwarded-*`/`Forwarded` headers and the edge appends the peer to `X-Forwarded-For`; any other peer's headers are dropped and `X-Forwarded-For` is the peer. The worker adds loopback (the edge hop) to its Express trust list in edge mode. `trustedProxies` changes need an edge restart.
+
+**Service hosts.** `/ws` is terminated by the edge only when the Host is not a registered script service. The edge asks the worker (`HOST_CLASS_PATH`, token required; IP literals and `localhost` skip the call, failure means daemon) and tunnels service hosts raw, like any other upgrade. The daemon `/ws` dial forwards every client header except handshake, hop-by-hop, forwarding-chain and edge-identity headers.
 
 **Identity forwarded to TS.** Headers on every internal request/upgrade (`internal.rs`):
 
@@ -119,7 +128,7 @@ The edge strips these four from every client request before adding its own, so c
 3. Internal handshake fails with an HTTP status (403 Host/Origin, 503): return that status/body to the client. This keeps `verifyWsUpgrade` behavior exactly observable.
 4. Accept the client upgrade echoing TS's selected subprotocol; start the pump.
 
-Pump: two tasks per socket, bounded queues, byte-budget accounting for the client-bound queue. Close codes are mirrored (4001/4002/4003/4401/1001), 1005/1006/1015 map to 1011. Client gone -> close internal 1000; TS retains the reconnectable session as for a direct disconnect (`externalSessionsByKey`, `websocket-server.ts:1740`). Lease: starts at the first inbound ping after `server_info` was seen; ping is then answered locally and not forwarded.
+Pump: client actor, backend reader and backend writer tasks per socket; the controller never awaits socket I/O. Client-bound queue is byte-budgeted (outbound high-water). Backend-bound bytes are capped by `inbound_high_water_bytes` (16 MiB): past it the actor stops reading the client. A direct client socket has its own writer task, so a client that stops reading cannot keep its pings from renewing the lease. Close codes are mirrored (4001/4002/4003/4401/1001), 1005/1006/1015 map to 1011. Client gone -> close internal 1000; TS retains the reconnectable session as for a direct disconnect (`externalSessionsByKey`, `websocket-server.ts:1740`). Lease: starts at the first inbound ping after `server_info` was seen; ping is then answered locally and not forwarded.
 
 Latency budget (plan acceptance): p99 < 1 ms added on `agent_stream` frames. Peek-route runs only when `OwnedTypes` is non-empty; with the empty table forwarding never touches the payload.
 

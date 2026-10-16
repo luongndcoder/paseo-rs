@@ -15,6 +15,7 @@ use super::AppState;
 use crate::internal::{
     HEADER_REMOTE_ADDR, HEADER_TOKEN, HEADER_TRANSPORT, STRIPPED_CLIENT_HEADERS,
 };
+use crate::trusted::TrustedProxies;
 
 pub type ProxyClient = Client<HttpConnector, Body>;
 
@@ -35,9 +36,11 @@ const HOP_BY_HOP: [&str; 8] = [
     "transfer-encoding",
 ];
 
-/// Headers that describe the client's own proxy chain. TS trusts them from a loopback peer
-/// (its default `trust proxy`), and the edge is always that peer, so a client must not be able
-/// to set them: dropped, then re-added from facts the edge knows.
+/// Headers that describe the client's own proxy chain. TS trusts them from the edge (it adds
+/// loopback to its `trust proxy` list in edge mode), so an untrusted client must not be able
+/// to set them: dropped, then re-added from facts the edge knows. A peer in the daemon's
+/// `trustedProxies` set keeps its chain, and the edge appends the peer to `X-Forwarded-For`
+/// the way a proxy hop would.
 const FORWARDING_HEADERS: [&str; 6] = [
     "x-forwarded-for",
     "x-forwarded-host",
@@ -74,17 +77,14 @@ pub(super) fn is_upgrade_request(headers: &HeaderMap) -> bool {
             .any(|t| t.trim().eq_ignore_ascii_case("upgrade"))
 }
 
-fn is_loopback_peer(peer: Option<SocketAddr>) -> bool {
-    peer.is_some_and(|p| p.ip().to_canonical().is_loopback())
-}
-
 /// Headers for the internal request: the client's, minus hop-by-hop and any forged edge
 /// identity, plus the edge's own identity headers.
-fn outbound_headers(
+pub(super) fn outbound_headers(
     inbound: &HeaderMap,
     peer: Option<SocketAddr>,
     token: &str,
     upgrade: bool,
+    trusted: &TrustedProxies,
 ) -> HeaderMap {
     let mut headers = inbound.clone();
     let upgrade_value = headers.get(UPGRADE).cloned();
@@ -92,13 +92,25 @@ fn outbound_headers(
     for name in STRIPPED_CLIENT_HEADERS {
         headers.remove(name);
     }
-    let keep_forwarded = is_loopback_peer(peer);
-    for name in FORWARDING_HEADERS {
-        if keep_forwarded && name != "x-forwarded-for" {
-            continue;
+    let keep_forwarded = peer.is_some_and(|p| trusted.trusts(p.ip()));
+    let inbound_chain = keep_forwarded
+        .then(|| {
+            headers
+                .get_all("x-forwarded-for")
+                .iter()
+                .filter_map(|v| v.to_str().ok())
+                .map(str::trim)
+                .filter(|v| !v.is_empty())
+                .collect::<Vec<_>>()
+                .join(", ")
+        })
+        .filter(|chain| !chain.is_empty());
+    if !keep_forwarded {
+        for name in FORWARDING_HEADERS {
+            headers.remove(name);
         }
-        headers.remove(name);
     }
+    headers.remove("x-forwarded-for");
     if upgrade {
         if let Some(value) = upgrade_value {
             headers.insert(UPGRADE, value);
@@ -116,7 +128,12 @@ fn outbound_headers(
         if let Ok(value) = HeaderValue::from_str(&peer.to_string()) {
             headers.insert(HeaderName::from_static(HEADER_REMOTE_ADDR), value);
         }
-        if let Ok(value) = HeaderValue::from_str(&peer.ip().to_canonical().to_string()) {
+        let peer_ip = peer.ip().to_canonical().to_string();
+        let chain = match inbound_chain {
+            Some(chain) => format!("{chain}, {peer_ip}"),
+            None => peer_ip,
+        };
+        if let Ok(value) = HeaderValue::from_str(&chain) {
             headers.insert(HeaderName::from_static("x-forwarded-for"), value);
         }
     }
@@ -151,7 +168,13 @@ pub async fn reverse_proxy(State(state): State<AppState>, mut req: Request) -> R
         .path_and_query()
         .map_or("/", |pq| pq.as_str())
         .to_string();
-    let headers = outbound_headers(req.headers(), peer, state.backend.edge_token(), upgrade);
+    let headers = outbound_headers(
+        req.headers(),
+        peer,
+        state.backend.edge_token(),
+        upgrade,
+        &state.config.trusted_proxies,
+    );
     let method = req.method().clone();
     let body = if upgrade {
         Body::empty()

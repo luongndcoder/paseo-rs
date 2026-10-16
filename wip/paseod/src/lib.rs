@@ -5,9 +5,11 @@
 //! - [`config`]   edge configuration (env + read-only persisted config)
 //! - [`internal`] the edge <-> TS backend contract (headers, lifecycle lines, env names)
 //! - [`routing`]  `OwnedTypes` + `peek_route`, the dispatch hook for domains that move to Rust
+//! - [`parent`]   supervisor liveness over stdin (EOF or shutdown line stops the edge)
 //! - [`backend`]  spawn/supervise the TS worker, readiness
 //! - [`ws`]       physical client sockets, per-socket internal proxy, lease, high-water
 //! - [`relay`]    outbound relay transport + E2EE (feeds [`ws`] like a client socket)
+//! - [`trusted`]  trusted proxy set mirroring the daemon's `trustedProxies`
 //! - [`http`]     axum router: `/ws` upgrade, static web UI, reverse proxy to TS
 
 pub mod backend;
@@ -15,6 +17,8 @@ pub mod config;
 pub mod error;
 pub mod http;
 pub mod internal;
+pub mod parent;
 pub mod relay;
 pub mod routing;
+pub mod trusted;
 pub mod ws;

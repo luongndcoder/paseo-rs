@@ -80,7 +80,7 @@ async fn worker_gets_internal_env_and_token_is_random() {
     assert_eq!(parts[0], backend.edge_token());
     assert_eq!(backend.edge_token().len(), 43);
     assert_eq!(parts[1], format!("127.0.0.1:{port}"));
-    assert_eq!(parts[2], "false");
+    assert_eq!(parts[2], "", "relay env must not be forced for the worker");
     assert_eq!(parts[3], "127.0.0.1:6767");
     assert!(parts[4].contains("http://localhost:6767"));
     assert!(parts[4].contains("http://127.0.0.1:6767"));

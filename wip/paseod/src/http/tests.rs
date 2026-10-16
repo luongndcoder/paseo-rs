@@ -72,6 +72,17 @@ async fn fake_backend() -> SocketAddr {
                     .unwrap()
             }),
         )
+        .route(
+            crate::internal::HOST_CLASS_PATH,
+            get(|req: Request| async move {
+                let service = req
+                    .uri()
+                    .query()
+                    .unwrap_or_default()
+                    .contains("svc.localhost");
+                format!("{{\"service\":{service}}}").into_response()
+            }),
+        )
         .fallback(
             |req: Request| async move { format!("backend:{}", req.uri().path()).into_response() },
         );
@@ -99,6 +110,8 @@ fn edge_config(web_ui: Option<WebUiConfig>) -> Arc<EdgeConfig> {
             endpoint: "r:1".into(),
             use_tls: false,
         },
+        trusted_proxies: Default::default(),
+        watch_parent_stdin: false,
         attach: None,
     })
 }
@@ -193,7 +206,8 @@ async fn forwards_identity_and_strips_forgeries() {
     assert_eq!(seen["x-paseo-edge-transport"], "direct");
     assert!(seen["x-paseo-edge-remote-addr"].starts_with("127.0.0.1:"));
     assert!(!seen.contains_key("x-paseo-edge-connection-id"));
-    assert_eq!(seen["x-forwarded-for"], "127.0.0.1");
+    // Loopback is trusted by default: the inbound chain is kept and the peer appended.
+    assert_eq!(seen["x-forwarded-for"], "9.9.9.9, 127.0.0.1");
     assert_eq!(seen["authorization"], "Bearer abc");
     assert_eq!(seen["origin"], "http://evil.test");
     assert_eq!(seen["x-keep"], "yes");
@@ -602,4 +616,66 @@ async fn serves_on_a_unix_socket_and_unlinks_it() {
         .unwrap()
         .unwrap();
     assert!(!path.exists());
+}
+
+fn forwarding_inbound() -> HeaderMap {
+    let mut h = HeaderMap::new();
+    h.insert("x-forwarded-for", "203.0.113.7".parse().unwrap());
+    h.append("x-forwarded-for", "10.0.0.2".parse().unwrap());
+    h.insert("x-forwarded-proto", "https".parse().unwrap());
+    h.insert("x-forwarded-host", "app.example".parse().unwrap());
+    h.insert("forwarded", "for=203.0.113.7".parse().unwrap());
+    h
+}
+
+#[test]
+fn untrusted_peer_loses_its_forwarding_chain() {
+    let peer: SocketAddr = "172.17.0.1:5555".parse().unwrap();
+    let out = proxy::outbound_headers(
+        &forwarding_inbound(),
+        Some(peer),
+        TOKEN,
+        false,
+        &crate::trusted::TrustedProxies::default(),
+    );
+    assert_eq!(out["x-forwarded-for"], "172.17.0.1");
+    assert!(!out.contains_key("x-forwarded-proto"));
+    assert!(!out.contains_key("x-forwarded-host"));
+    assert!(!out.contains_key("forwarded"));
+}
+
+#[test]
+fn trusted_non_loopback_peer_keeps_its_chain_and_is_appended() {
+    let peer: SocketAddr = "172.17.0.1:5555".parse().unwrap();
+    let trusted = crate::trusted::TrustedProxies::from_list(["172.17.0.1"]);
+    let out = proxy::outbound_headers(&forwarding_inbound(), Some(peer), TOKEN, false, &trusted);
+    assert_eq!(out["x-forwarded-for"], "203.0.113.7, 10.0.0.2, 172.17.0.1");
+    assert_eq!(out["x-forwarded-proto"], "https");
+    assert_eq!(out["x-forwarded-host"], "app.example");
+    assert_eq!(out["forwarded"], "for=203.0.113.7");
+}
+
+#[tokio::test]
+async fn ws_on_a_registered_service_host_is_proxied_not_terminated() {
+    let edge = edge_with_fake().await;
+    let reply = fetch(edge, "/ws", &[("host", "svc.localhost:6767")]).await;
+    assert_eq!(reply.text(), "backend:/ws");
+}
+
+#[tokio::test]
+async fn ws_on_the_daemon_host_stays_with_the_edge() {
+    let edge = edge_with_fake().await;
+    // No upgrade headers: the edge's own /ws handler rejects instead of proxying.
+    let reply = fetch(edge, "/ws", &[("host", "daemon.example:6767")]).await;
+    assert_ne!(reply.text(), "backend:/ws");
+}
+
+#[test]
+fn service_host_candidates_skip_ips_and_localhost() {
+    use super::candidate_service_host as c;
+    assert_eq!(c("127.0.0.1:6767"), None);
+    assert_eq!(c("[::1]:6767"), None);
+    assert_eq!(c("localhost:6767"), None);
+    assert_eq!(c("svc.localhost:6767"), Some("svc.localhost:6767"));
+    assert_eq!(c("daemon.example"), Some("daemon.example"));
 }

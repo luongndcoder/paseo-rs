@@ -1,20 +1,24 @@
 //! The per-socket pump: client <-> internal backend socket.
 //!
 //! Tasks per physical socket:
-//! - client actor: owns the client socket, drains the outbound queue into it and reports inbound frames
+//! - client actor: owns the client socket, drains the outbound queue into it and reports inbound
+//!   frames. It stops reading the client while too many inbound bytes wait for the backend.
 //! - backend reader: reads the internal socket, detects `server_info`, charges the outbound budget
-//! - controller (the caller's task): lease, ping/pong, routing, client -> backend writes, shutdown
+//! - backend writer: owns the internal sink; the only place that awaits a backend write
+//! - controller (the caller's task): lease, ping/pong, routing, shutdown. It never awaits I/O on
+//!   either socket, so lease ticks, close and high-water stay responsive under backpressure.
 //!
 //! Frames are moved as `String`/`Bytes` without re-serialization.
 
 use std::fmt::Debug;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use futures_util::stream::SplitStream;
 use futures_util::{SinkExt, StreamExt};
 use tokio::sync::mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender};
+use tokio::sync::Notify;
 use tokio::task::JoinHandle;
 use tokio_tungstenite::tungstenite::protocol::frame::coding::CloseCode;
 use tokio_tungstenite::tungstenite::protocol::CloseFrame;
@@ -22,7 +26,7 @@ use tokio_tungstenite::tungstenite::Message as WsMsg;
 
 use super::{
     ApplicationLease, BackendLink, BackendStream, Message, OutboundBudget, PhysicalSocket,
-    ProxyOutcome, WsProxy,
+    ProxyOutcome, Release, WsProxy,
 };
 use crate::routing::{is_server_info, is_top_level_ping, peek_route, Domain, FrameRef, Route};
 
@@ -72,8 +76,14 @@ enum OutItem {
     Close { code: u16, reason: String },
 }
 
+enum BackendOut {
+    Frame(WsMsg, usize),
+    Close(CloseFrame),
+}
+
 enum Event {
     Client(Message),
+    BackendWriteFailed(String),
     ClientEnded { close: Option<(u16, String)> },
     BackendEnded { code: Option<u16>, reason: String },
     BackendError(String),
@@ -81,6 +91,41 @@ enum Event {
 }
 
 type Budget = Arc<Mutex<OutboundBudget>>;
+
+/// Client frames accepted from the socket whose bytes have not yet been written to the backend
+/// (or fully handled in Rust). The actor stops reading the client while this is at the cap.
+struct Inflight {
+    pending: AtomicUsize,
+    cap: usize,
+    freed: Notify,
+}
+
+impl Inflight {
+    fn new(cap: usize) -> Self {
+        Self {
+            pending: AtomicUsize::new(0),
+            cap,
+            freed: Notify::new(),
+        }
+    }
+
+    fn has_room(&self) -> bool {
+        self.pending.load(Ordering::Relaxed) < self.cap
+    }
+
+    fn add(&self, bytes: usize) {
+        self.pending.fetch_add(bytes, Ordering::Relaxed);
+    }
+
+    fn release(&self, bytes: usize) {
+        let _ = self
+            .pending
+            .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |p| {
+                Some(p.saturating_sub(bytes))
+            });
+        self.freed.notify_one();
+    }
+}
 
 fn lock(b: &Budget) -> std::sync::MutexGuard<'_, OutboundBudget> {
     b.lock().unwrap_or_else(|p| p.into_inner())
@@ -112,14 +157,16 @@ async fn client_actor<S: PhysicalSocket>(
     mut out_rx: UnboundedReceiver<OutItem>,
     ev_tx: UnboundedSender<Event>,
     budget: Budget,
+    inflight: Arc<Inflight>,
 ) {
     loop {
+        let can_read = inflight.has_room();
         tokio::select! {
             item = out_rx.recv() => match item {
                 Some(OutItem::Frame { msg, reserved }) => {
-                    let sent = sock.send(msg).await;
-                    lock(&budget).release(reserved);
-                    if sent.is_err() {
+                    let budget = budget.clone();
+                    let release: Release = Box::new(move || lock(&budget).release(reserved));
+                    if sock.send_tracked(msg, release).await.is_err() {
                         let _ = ev_tx.send(Event::ClientEnded { close: None });
                         return;
                     }
@@ -130,8 +177,11 @@ async fn client_actor<S: PhysicalSocket>(
                 }
                 None => return,
             },
-            msg = sock.recv() => match msg {
+            // Not polled while the backend is behind: the client's TCP window fills instead
+            // of edge memory. Outbound frames keep flowing through the arm above.
+            msg = sock.recv(), if can_read => match msg {
                 Some(Ok(m)) => {
+                    inflight.add(m.byte_len());
                     if ev_tx.send(Event::Client(m)).is_err() {
                         return;
                     }
@@ -145,6 +195,7 @@ async fn client_actor<S: PhysicalSocket>(
                     return;
                 }
             },
+            _ = inflight.freed.notified(), if !can_read => {}
         }
     }
 }
@@ -203,16 +254,36 @@ async fn backend_reader(
 
 type Sink = futures_util::stream::SplitSink<BackendStream, WsMsg>;
 
-async fn close_backend(sink: &mut Sink, code: u16, reason: &str) {
-    let frame = CloseFrame {
+async fn backend_writer(
+    mut sink: Sink,
+    mut rx: UnboundedReceiver<BackendOut>,
+    ev_tx: UnboundedSender<Event>,
+    inflight: Arc<Inflight>,
+) {
+    while let Some(item) = rx.recv().await {
+        match item {
+            BackendOut::Frame(msg, bytes) => {
+                let sent = sink.send(msg).await;
+                inflight.release(bytes);
+                if let Err(e) = sent {
+                    let _ = ev_tx.send(Event::BackendWriteFailed(e.to_string()));
+                    return;
+                }
+            }
+            BackendOut::Close(frame) => {
+                let _ = sink.send(WsMsg::Close(Some(frame))).await;
+                break;
+            }
+        }
+    }
+    let _ = sink.close().await;
+}
+
+fn backend_close(code: u16, reason: &str) -> BackendOut {
+    BackendOut::Close(CloseFrame {
         code: CloseCode::from(code),
         reason: clip_reason(reason).into(),
-    };
-    let _ = tokio::time::timeout(CLOSE_WAIT, async {
-        let _ = sink.send(WsMsg::Close(Some(frame))).await;
-        let _ = sink.close().await;
     })
-    .await;
 }
 
 fn to_ws(msg: Message) -> WsMsg {
@@ -227,15 +298,24 @@ pub(super) async fn pump<S: PhysicalSocket>(
     client: S,
     link: BackendLink,
 ) -> ProxyOutcome {
-    let (mut sink, stream) = link.stream.split();
+    let (sink, stream) = link.stream.split();
     let budget: Budget = Arc::new(Mutex::new(OutboundBudget::new(
         proxy.limits.outbound_high_water_bytes,
     )));
+    let inflight = Arc::new(Inflight::new(proxy.limits.inbound_high_water_bytes));
     let server_info_seen = Arc::new(AtomicBool::new(false));
     let (out_tx, out_rx) = unbounded_channel::<OutItem>();
+    let (bw_tx, bw_rx) = unbounded_channel::<BackendOut>();
     let (ev_tx, mut ev_rx) = unbounded_channel::<Event>();
 
-    let actor = tokio::spawn(client_actor(client, out_rx, ev_tx.clone(), budget.clone()));
+    let actor = tokio::spawn(client_actor(
+        client,
+        out_rx,
+        ev_tx.clone(),
+        budget.clone(),
+        inflight.clone(),
+    ));
+    let writer = tokio::spawn(backend_writer(sink, bw_rx, ev_tx.clone(), inflight.clone()));
     let reader = tokio::spawn(backend_reader(
         stream,
         out_tx.clone(),
@@ -260,11 +340,13 @@ pub(super) async fn pump<S: PhysicalSocket>(
                 match ev {
                     Event::Client(msg) => {
                         let now = Instant::now();
+                        let bytes = msg.byte_len();
                         lease.renew(now);
                         if let Message::Text(t) = &msg {
                             if server_info_seen.load(Ordering::Relaxed) && is_top_level_ping(t) {
                                 lease.claim(now);
                                 replier.send(Message::Text(PONG.to_owned()));
+                                inflight.release(bytes);
                                 continue;
                             }
                         }
@@ -275,16 +357,23 @@ pub(super) async fn pump<S: PhysicalSocket>(
                         let forward = match route {
                             Route::Forward => Some(msg),
                             Route::Owned(domain) => match proxy.dispatcher.dispatch(domain, msg, &replier) {
-                                Dispatch::Handled => None,
+                                Dispatch::Handled => {
+                                    inflight.release(bytes);
+                                    None
+                                }
                                 Dispatch::Forward(m) => Some(m),
                             },
                         };
                         if let Some(m) = forward {
-                            if let Err(e) = sink.send(to_ws(m)).await {
+                            if bw_tx.send(BackendOut::Frame(to_ws(m), bytes)).is_err() {
                                 let _ = out_tx.send(OutItem::Close { code: 1011, reason: "backend write failed".into() });
-                                break ProxyOutcome::Error(e.to_string());
+                                break ProxyOutcome::Error("backend writer ended".into());
                             }
                         }
+                    }
+                    Event::BackendWriteFailed(e) => {
+                        let _ = out_tx.send(OutItem::Close { code: 1011, reason: "backend write failed".into() });
+                        break ProxyOutcome::Error(e);
                     }
                     Event::ClientEnded { close } => {
                         let code = match close {
@@ -292,7 +381,7 @@ pub(super) async fn pump<S: PhysicalSocket>(
                             _ => 1000,
                         };
                         let reason = close.map(|(_, r)| r).unwrap_or_default();
-                        close_backend(&mut sink, code, &reason).await;
+                        let _ = bw_tx.send(backend_close(code, &reason));
                         break ProxyOutcome::ClientClosed;
                     }
                     Event::BackendEnded { code, reason } => {
@@ -308,7 +397,7 @@ pub(super) async fn pump<S: PhysicalSocket>(
                     }
                     Event::HighWater { buffered } => {
                         actor.abort();
-                        close_backend(&mut sink, 1000, "client outbound high-water").await;
+                        let _ = bw_tx.send(backend_close(1000, "client outbound high-water"));
                         break ProxyOutcome::HighWater { buffered };
                     }
                 }
@@ -316,7 +405,7 @@ pub(super) async fn pump<S: PhysicalSocket>(
             _ = tick.tick() => {
                 if lease.is_expired(Instant::now()) {
                     actor.abort();
-                    close_backend(&mut sink, 1000, "client lease expired").await;
+                    let _ = bw_tx.send(backend_close(1000, "client lease expired"));
                     break ProxyOutcome::LeaseExpired;
                 }
             }
@@ -326,19 +415,15 @@ pub(super) async fn pump<S: PhysicalSocket>(
     reader.abort();
     drop(out_tx);
     drop(replier);
-    await_actor(actor).await;
-    if !matches!(
-        outcome,
-        ProxyOutcome::ClientClosed | ProxyOutcome::BackendClosed { .. }
-    ) {
-        let _ = sink.close().await;
-    }
+    // Closing the queue ends the backend writer after it flushes (and sends any close frame).
+    drop(bw_tx);
+    tokio::join!(await_task(actor), await_task(writer));
     outcome
 }
 
-/// Lets queued frames and the close frame flush to the client, bounded.
-async fn await_actor(mut actor: JoinHandle<()>) {
-    if tokio::time::timeout(CLOSE_WAIT, &mut actor).await.is_err() {
-        actor.abort();
+/// Lets queued frames and the close frame flush, bounded.
+async fn await_task(mut task: JoinHandle<()>) {
+    if tokio::time::timeout(CLOSE_WAIT, &mut task).await.is_err() {
+        task.abort();
     }
 }

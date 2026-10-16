@@ -116,6 +116,18 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
+    // The supervisor owns our stdin pipe. EOF (it died) or a shutdown line stops the edge, which
+    // stops the worker; otherwise a SIGKILLed supervisor would leave both holding the port.
+    if config.watch_parent_stdin {
+        paseod::parent::die_with_parent();
+        let request_stop = request_stop.clone();
+        tokio::spawn(async move {
+            let signal = paseod::parent::watch_parent(tokio::io::stdin()).await;
+            tracing::info!(?signal, "supervisor stdin signalled stop");
+            request_stop(0);
+        });
+    }
+
     // Backend state -> supervisor readiness line, or exit on failure.
     tokio::spawn({
         let request_stop = request_stop.clone();

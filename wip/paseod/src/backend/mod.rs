@@ -2,7 +2,8 @@
 //!
 //! Contract (EDGE-SPEC.md "Backend contract"):
 //! - Edge picks a free loopback port, spawns the worker with `PASEO_LISTEN=127.0.0.1:<port>`,
-//!   `PASEO_EDGE_TOKEN`, `PASEO_EDGE_PUBLIC_LISTEN`, `PASEO_RELAY_ENABLED=false`.
+//!   `PASEO_EDGE_TOKEN`, `PASEO_EDGE_PUBLIC_LISTEN`. Relay env is passed through untouched; the worker
+//!   skips its own relay transport in edge mode but still reports the real relay config.
 //! - Worker stdout lines prefixed `@@paseo ` are lifecycle events; everything else is
 //!   forwarded to the edge's own stdout/stderr.
 //! - Worker stdin is a pipe owned by the edge; worker exits when it closes.

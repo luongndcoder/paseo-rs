@@ -14,16 +14,19 @@
 //! - Static web UI: served by the edge only when `EdgeConfig::web_ui` is set (see [`static_ui`]);
 //!   otherwise it is reverse proxied like everything else.
 //! - Non-`/ws` Upgrade requests (service-proxy script WebSockets) are tunneled as raw upgraded
-//!   byte streams to the backend (no frame parsing).
+//!   byte streams to the backend (no frame parsing). `/ws` on a registered service Host is too
+//!   ([`crate::internal::HOST_CLASS_PATH`] decides).
 
-use std::net::SocketAddr;
+use std::net::{IpAddr, SocketAddr};
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::time::Duration;
 
 use axum::extract::{ConnectInfo, Request, State};
 use axum::response::Response;
 use axum::routing::any;
 use axum::Router;
+use http_body_util::BodyExt;
 use tokio::net::TcpListener;
 
 use crate::backend::Backend;
@@ -65,9 +68,76 @@ pub fn router(state: AppState) -> Router {
         .with_state(state)
 }
 
-/// `/ws` hook: frame-aware proxy to the backend (lease, high-water, routing hook).
+/// `/ws` hook: frame-aware proxy to the backend (lease, high-water, routing hook), unless the
+/// Host is a script service that serves its own `/ws` (TS tunnels those by Host before the daemon
+/// socket sees them), which is tunneled raw like any other upgrade.
 async fn ws_upgrade(State(state): State<AppState>, req: Request) -> Response {
+    if is_service_host(&state, req.headers()).await {
+        return proxy::reverse_proxy(State(state), req).await;
+    }
     crate::ws::handle_upgrade(state.ws.clone(), req).await
+}
+
+const HOST_CLASS_TIMEOUT: Duration = Duration::from_secs(2);
+
+/// Authority without its port; `None` for hosts that can never be a service host (IP literals,
+/// bare `localhost`, empty), which skips the backend round trip for the common case.
+fn candidate_service_host(host: &str) -> Option<&str> {
+    if host.starts_with('[') {
+        return None;
+    }
+    let name = match host.rsplit_once(':') {
+        Some((name, port)) if port.bytes().all(|b| b.is_ascii_digit()) => name,
+        _ => host,
+    };
+    if name.is_empty() || name.eq_ignore_ascii_case("localhost") || name.parse::<IpAddr>().is_ok() {
+        return None;
+    }
+    Some(host)
+}
+
+/// Asks the backend whether `Host` is a registered service host. Any failure means "daemon",
+/// so a backend hiccup never turns the daemon socket into a raw tunnel.
+async fn is_service_host(state: &AppState, headers: &http::HeaderMap) -> bool {
+    let Some(host) = headers
+        .get(http::header::HOST)
+        .and_then(|v| v.to_str().ok())
+        .and_then(candidate_service_host)
+    else {
+        return false;
+    };
+    let Some(addr) = state.backend.internal_addr() else {
+        return false;
+    };
+    let query: String = url::form_urlencoded::Serializer::new(String::new())
+        .append_pair("host", host)
+        .finish();
+    let Ok(token) = http::HeaderValue::from_str(state.backend.edge_token()) else {
+        return false;
+    };
+    let Ok(request) = http::Request::builder()
+        .uri(format!(
+            "http://{addr}{}?{query}",
+            crate::internal::HOST_CLASS_PATH
+        ))
+        .header(crate::internal::HEADER_TOKEN, token)
+        .body(axum::body::Body::empty())
+    else {
+        return false;
+    };
+    let ask = async {
+        let response = state.proxy.request(request).await.ok()?;
+        if !response.status().is_success() {
+            return None;
+        }
+        let body = response.into_body().collect().await.ok()?.to_bytes();
+        let value: serde_json::Value = serde_json::from_slice(&body).ok()?;
+        value.get("service").and_then(serde_json::Value::as_bool)
+    };
+    matches!(
+        tokio::time::timeout(HOST_CLASS_TIMEOUT, ask).await,
+        Ok(Some(true))
+    )
 }
 
 async fn fallback(State(state): State<AppState>, req: Request) -> Response {

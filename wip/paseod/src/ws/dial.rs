@@ -39,6 +39,8 @@ fn is_blocked_header(name: &str) -> bool {
             | "x-forwarded-for"
             | "x-forwarded-host"
             | "x-forwarded-proto"
+            | "x-forwarded-port"
+            | "x-forwarded-prefix"
             | "forwarded"
     ) || STRIPPED_CLIENT_HEADERS.contains(&n.as_str())
 }
@@ -62,6 +64,7 @@ pub(super) async fn dial(
         .into_client_request()
         .map_err(|_| reject(502, "invalid backend url"))?;
     let headers = request.headers_mut();
+    let mut seen = std::collections::HashSet::new();
     for (name, value) in &info.forwarded_headers {
         if is_blocked_header(name) {
             continue;
@@ -72,7 +75,12 @@ pub(super) async fn dial(
         ) else {
             continue;
         };
-        headers.insert(n, v);
+        // First occurrence replaces the handshake default (Host), repeats are appended.
+        if seen.insert(n.clone()) {
+            headers.insert(n, v);
+        } else {
+            headers.append(n, v);
+        }
     }
     let mut set = |name: &'static str, value: &str| {
         if let Ok(v) = HeaderValue::from_str(value) {

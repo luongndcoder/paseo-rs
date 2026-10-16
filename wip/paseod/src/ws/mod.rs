@@ -6,7 +6,7 @@
 //! Direct upgrade flow ("connect-then-accept", EDGE-SPEC.md "WS upgrade"):
 //! 1. `GET /ws` arrives. Wait for backend `Ready` (else 503 "Server not ready").
 //! 2. Dial `ws://<internal>/ws` with the client's `Host`, `Origin`, `Authorization`,
-//!    `Sec-WebSocket-Protocol` copied verbatim, `x-paseo-edge-*` set by the edge.
+//!    `Sec-WebSocket-Protocol` and every other non-hop-by-hop header copied verbatim, `x-paseo-edge-*` set by the edge.
 //!    TS's `verifyWsUpgrade` stays the only Origin/Host/DNS-rebinding judge.
 //! 3. Internal handshake rejected (HTTP 403/503) -> answer the client with the same status and body.
 //! 4. Internal accepted -> accept the client upgrade echoing the subprotocol TS selected, then pump.
@@ -18,6 +18,10 @@
 //!   seen outbound, an inbound `{"type":"ping"}` is answered `{"type":"pong"}` by the edge and not
 //!   forwarded; any inbound frame renews; 45 s without a frame closes both sockets.
 //!   Before `server_info`, ping is forwarded (TS decides).
+//! - Inbound backpressure: bytes of client frames accepted but not yet written to the backend
+//!   are capped at `Limits::inbound_high_water_bytes`; past it the edge stops reading that
+//!   client socket. Backend writes run in their own task so a slow backend never stalls the
+//!   controller (lease, close, high-water).
 //! - Outbound high-water: bytes queued toward one client socket may not exceed
 //!   `Limits::outbound_high_water_bytes`; crossing it terminates only that client socket (no close
 //!   frame, the peer is not reading) and closes the internal socket 1000. Bytes are counted in an
@@ -76,20 +80,41 @@ pub enum Transport {
 #[derive(Debug, Clone)]
 pub struct ClientInfo {
     pub transport: Transport,
-    /// Headers copied verbatim: Host, Origin, User-Agent, Authorization, Sec-WebSocket-Protocol.
+    /// Client request headers copied verbatim (Host, Origin, Cookie, Authorization,
+    /// Sec-WebSocket-Protocol, ...); see `dial::is_blocked_header` for what is dropped.
     /// Empty for relay (relay peers have no HTTP request).
     pub forwarded_headers: Vec<(String, String)>,
 }
 
+/// Callback that returns outbound budget; see [`PhysicalSocket::send_tracked`].
+pub type Release = Box<dyn FnOnce() + Send>;
+
 /// One physical client connection, direct or relay. Implemented by [`DirectSocket`] (axum)
 /// and `relay` (E2EE channel). Generic, not `dyn`, to keep the hot path allocation-free.
 ///
-/// The pump owns the socket in one task and polls `recv` and `send` from a `select!`, so
+/// The pump owns the socket in one task and polls `recv` and `send_tracked` from a `select!`, so
 /// `recv` MUST be cancel-safe (dropping the future loses no frame).
 pub trait PhysicalSocket: Send + 'static {
     /// Next data frame; `None` on clean close. The pump renews the lease itself.
     fn recv(&mut self) -> impl Future<Output = Option<Result<Message>>> + Send;
     fn send(&mut self, msg: Message) -> impl Future<Output = Result<()>> + Send;
+    /// Like [`PhysicalSocket::send`], but `release` runs once the frame left the edge's queue
+    /// (written, or the socket died). The pump uses it to return outbound budget.
+    ///
+    /// The default awaits the write, so a slow client blocks the caller. Sockets whose writes can
+    /// stall (a TCP peer that does not read) override this to enqueue to a writer task and
+    /// return at once, so the caller keeps reading inbound frames and renewing the lease.
+    fn send_tracked(
+        &mut self,
+        msg: Message,
+        release: Release,
+    ) -> impl Future<Output = Result<()>> + Send {
+        async move {
+            let result = self.send(msg).await;
+            release();
+            result
+        }
+    }
     /// Sends a close frame with `code` and `reason` and shuts the socket.
     fn close(&mut self, code: u16, reason: String) -> impl Future<Output = ()> + Send;
     /// Code and reason of the close frame the peer sent, once `recv` returned `None`.

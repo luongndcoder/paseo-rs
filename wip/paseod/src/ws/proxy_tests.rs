@@ -685,3 +685,81 @@ async fn owned_types_dispatch_instead_of_forwarding() {
         "owned frame must not reach the backend"
     );
 }
+
+// ---- backpressure ----
+
+#[tokio::test]
+async fn client_that_stops_reading_still_gets_its_inbound_frames_through() {
+    // Backend floods far more than the kernel buffers hold, then records what it receives.
+    let (seen_tx, mut seen_rx) = mpsc::unbounded_channel::<String>();
+    let backend = spawn_backend(BackendOpts::default(), move |mut c: Conn| {
+        let seen_tx = seen_tx.clone();
+        async move {
+            let _ = c.ws.send(WsMsg::Text(SERVER_INFO.into())).await;
+            let (mut sink, mut stream) = c.ws.split();
+            tokio::spawn(async move {
+                for _ in 0..96 {
+                    if sink
+                        .send(WsMsg::Binary(vec![9u8; 1024 * 1024].into()))
+                        .await
+                        .is_err()
+                    {
+                        return;
+                    }
+                }
+            });
+            while let Some(Ok(m)) = stream.next().await {
+                if let WsMsg::Text(t) = m {
+                    let _ = seen_tx.send(t.as_str().to_owned());
+                }
+            }
+        }
+    })
+    .await;
+    let limits = Limits {
+        outbound_high_water_bytes: 1 << 30,
+        ..Limits::default()
+    };
+    let edge = spawn_edge(proxy_for(backend, limits)).await;
+    let mut c = connect(edge, &[]).await;
+    // Never read from `c`: the edge's socket toward us backs up while the flood runs.
+    tokio::time::sleep(Duration::from_millis(500)).await;
+    c.send(WsMsg::Text(r#"{"type":"marker"}"#.into()))
+        .await
+        .unwrap();
+    let seen = tokio::time::timeout(Duration::from_secs(5), seen_rx.recv())
+        .await
+        .expect("inbound frame must not be stuck behind the slow outbound write")
+        .unwrap();
+    assert_eq!(seen, r#"{"type":"marker"}"#);
+}
+
+#[tokio::test]
+async fn slow_backend_stops_the_edge_reading_the_client() {
+    // Backend accepts the socket and never reads. With the inbound cap at 2 MiB the edge must
+    // stop reading the client, so the client's own writes block instead of piling up in the edge.
+    let backend = spawn_backend(BackendOpts::default(), |mut c: Conn| async move {
+        let _ = c.ws.send(WsMsg::Text(SERVER_INFO.into())).await;
+        tokio::time::sleep(Duration::from_secs(30)).await;
+    })
+    .await;
+    let limits = Limits {
+        inbound_high_water_bytes: 2 * 1024 * 1024,
+        ..Limits::default()
+    };
+    let edge = spawn_edge(proxy_for(backend, limits)).await;
+    let mut c = connect(edge, &[]).await;
+    let flood = async {
+        for _ in 0..400 {
+            c.send(WsMsg::Binary(vec![1u8; 1024 * 1024].into()))
+                .await
+                .unwrap();
+        }
+    };
+    assert!(
+        tokio::time::timeout(Duration::from_secs(2), flood)
+            .await
+            .is_err(),
+        "400 MiB went through: the edge buffered it instead of pushing back"
+    );
+}

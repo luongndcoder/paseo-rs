@@ -22,6 +22,11 @@ pub const HEADER_REMOTE_ADDR: &str = "x-paseo-edge-remote-addr";
 /// Relay `connectionId`, set when transport is `relay`.
 pub const HEADER_CONNECTION_ID: &str = "x-paseo-edge-connection-id";
 
+/// Backend route the edge asks whether a `Host` belongs to a registered script service
+/// (`?host=<authority>`; answer `{"service":true|false}`). Requires [`HEADER_TOKEN`]. Such hosts
+/// own their `/ws`, so the edge tunnels them raw instead of terminating the daemon protocol.
+pub const HOST_CLASS_PATH: &str = "/__paseo_edge/host-class";
+
 /// Headers the edge strips from every inbound client request before forwarding,
 /// so a client can never forge edge identity.
 pub const STRIPPED_CLIENT_HEADERS: [&str; 4] = [

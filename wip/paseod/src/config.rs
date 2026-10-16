@@ -7,11 +7,14 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 use crate::error::{EdgeError, Result};
+use crate::trusted::TrustedProxies;
 
 /// Default outbound high-water per physical socket. TS enforces 64 MiB
 /// (`websocket/physical-socket.ts:4`); `docs/plan.md` says 8 MiB. 64 MiB keeps parity
 /// until the open question in EDGE-SPEC.md is resolved. Override with `PASEO_EDGE_OUTBOUND_HIGH_WATER_BYTES`.
 pub const DEFAULT_OUTBOUND_HIGH_WATER_BYTES: usize = 64 * 1024 * 1024;
+/// Default per-socket cap on client frames queued toward the backend.
+pub const DEFAULT_INBOUND_HIGH_WATER_BYTES: usize = 16 * 1024 * 1024;
 /// Application-lease length (`physical-socket.ts:8`).
 pub const APPLICATION_SOCKET_LEASE: Duration = Duration::from_millis(45_000);
 /// Lease sweep interval (`physical-socket.ts:9`).
@@ -34,6 +37,9 @@ pub struct Limits {
     pub lease: Duration,
     pub lease_check_interval: Duration,
     pub max_message_bytes: usize,
+    /// Bytes of client frames accepted from one socket but not yet written to the backend.
+    /// Past this the edge stops reading that client socket (TCP backpressure to the client).
+    pub inbound_high_water_bytes: usize,
 }
 
 impl Default for Limits {
@@ -43,6 +49,7 @@ impl Default for Limits {
             lease: APPLICATION_SOCKET_LEASE,
             lease_check_interval: APPLICATION_SOCKET_LEASE_CHECK,
             max_message_bytes: MAX_WEBSOCKET_MESSAGE_BYTES,
+            inbound_high_water_bytes: DEFAULT_INBOUND_HIGH_WATER_BYTES,
         }
     }
 }
@@ -131,6 +138,11 @@ pub struct EdgeConfig {
     pub limits: Limits,
     pub backend: BackendConfig,
     pub relay: RelayConfig,
+    /// Same source and precedence as the daemon's `trustedProxies`; decides whether a peer's
+    /// `X-Forwarded-*` chain is kept or dropped.
+    pub trusted_proxies: TrustedProxies,
+    /// `PASEO_EDGE_PARENT_STDIN=1`: the supervisor holds our stdin pipe; EOF means it died.
+    pub watch_parent_stdin: bool,
     /// `PASEO_EDGE_ATTACH` (`host:port`) + `PASEO_EDGE_TOKEN`: front an already-running daemon
     /// instead of spawning a worker. For in-process test daemons and debugging.
     pub attach: Option<AttachConfig>,
@@ -325,6 +337,19 @@ impl EdgeConfig {
                 .unwrap_or(endpoint == DEFAULT_RELAY_ENDPOINT),
         };
 
+        let trusted_proxies = env("PASEO_TRUSTED_PROXIES")
+            .and_then(|v| TrustedProxies::from_env_value(&v))
+            .or_else(|| {
+                persisted
+                    .get("daemon")
+                    .and_then(|d| d.get("trustedProxies"))
+                    .and_then(TrustedProxies::from_json)
+            })
+            .unwrap_or_default();
+        let watch_parent_stdin = env("PASEO_EDGE_PARENT_STDIN")
+            .and_then(|v| parse_bool(&v))
+            .unwrap_or(false);
+
         // Web UI: enabled/dist resolved like `resolveWebUiConfig`; the edge serves it only on opt-in.
         let ui_enabled = env("PASEO_WEB_UI_ENABLED")
             .and_then(|v| parse_bool(&v))
@@ -365,6 +390,8 @@ impl EdgeConfig {
                 endpoint,
                 use_tls,
             },
+            trusted_proxies,
+            watch_parent_stdin,
             attach,
         })
     }
@@ -517,6 +544,46 @@ mod tests {
         assert!(cfg.relay.enabled);
         assert!(cfg.relay.use_tls);
         assert!(cfg.web_ui.is_none());
+    }
+
+    #[test]
+    fn trusted_proxies_follow_env_then_persisted_then_loopback() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::write(
+            dir.path().join("config.json"),
+            r#"{"daemon":{"trustedProxies":["10.0.0.0/8"]}}"#,
+        )
+        .unwrap();
+        let home = dir.path().to_str().unwrap();
+        let cmd = r#"["node","w.js"]"#;
+        let ip = |s: &str| s.parse::<std::net::IpAddr>().unwrap();
+
+        let cfg = EdgeConfig::from_env(&env_of(&[
+            ("PASEO_HOME", home),
+            ("PASEO_EDGE_BACKEND_CMD", cmd),
+        ]))
+        .unwrap();
+        assert!(cfg.trusted_proxies.trusts(ip("10.1.2.3")));
+        assert!(!cfg.trusted_proxies.trusts(ip("127.0.0.1")));
+
+        let cfg = EdgeConfig::from_env(&env_of(&[
+            ("PASEO_HOME", home),
+            ("PASEO_EDGE_BACKEND_CMD", cmd),
+            ("PASEO_TRUSTED_PROXIES", "172.17.0.1"),
+        ]))
+        .unwrap();
+        assert!(cfg.trusted_proxies.trusts(ip("172.17.0.1")));
+        assert!(!cfg.trusted_proxies.trusts(ip("10.1.2.3")));
+
+        let empty = tempfile::tempdir().unwrap();
+        let cfg = EdgeConfig::from_env(&env_of(&[
+            ("PASEO_HOME", empty.path().to_str().unwrap()),
+            ("PASEO_EDGE_BACKEND_CMD", cmd),
+            ("PASEO_EDGE_PARENT_STDIN", "1"),
+        ]))
+        .unwrap();
+        assert!(cfg.trusted_proxies.trusts(ip("127.0.0.1")));
+        assert!(cfg.watch_parent_stdin);
     }
 
     #[test]

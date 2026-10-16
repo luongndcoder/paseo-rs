@@ -173,7 +173,9 @@ async fn run_once(ctx: &mut Ctx, addr: SocketAddr) -> Outcome {
         .env("PASEO_LISTEN", addr.to_string())
         .env(ENV_EDGE_TOKEN, &ctx.token)
         .env(ENV_EDGE_PUBLIC_LISTEN, &ctx.public_listen)
-        .env("PASEO_RELAY_ENABLED", "false")
+        // Relay is not forced off here: the worker must keep reporting the relay config the
+        // edge runs (pairing, status). The worker never opens its own relay in edge mode.
+        .env_remove("PASEO_EDGE_PARENT_STDIN")
         .env("PASEO_CORS_ORIGINS", merged_cors(cfg, &ctx.public_listen))
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
