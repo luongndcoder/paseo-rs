@@ -271,27 +271,29 @@ fn denial_error_text() {
 // --- WP0 golden ------------------------------------------------------------------------
 
 fn golden_path() -> Option<PathBuf> {
-    let dir = root().join("fixtures/p4");
-    let mut found = None;
-    for e in std::fs::read_dir(&dir).ok()?.flatten() {
-        let n = e.file_name().to_string_lossy().to_lowercase();
-        if n.contains("authz") && n.ends_with(".json") {
-            found = Some(e.path());
-        }
-    }
-    found.or_else(|| {
-        let d = dir.join("authz");
-        std::fs::read_dir(d)
-            .ok()?
-            .flatten()
-            .map(|e| e.path())
-            .find(|p| p.extension().is_some_and(|x| x == "json"))
-    })
+    // Deterministic: read_dir order differs per filesystem.
+    let p = root().join("fixtures/p4/authz/permissions.json");
+    p.is_file().then_some(p)
 }
 
-/// Accepts `{type: req}` or `[[type, req], ...]`, req being the TS form (null | "p" | ["p", ..]).
+/// Accepts `[{type, requirement: {kind, permissions}}]` (WP0 dump), `{type: req}` or
+/// `[[type, req], ...]`, req being the TS form (null | "p" | ["p", ..]).
 fn golden_rows(v: &Value) -> Vec<(String, Requirement)> {
     fn req(v: &Value) -> Requirement {
+        if let Some(kind) = v.get("kind").and_then(Value::as_str) {
+            let ps: Vec<Permission> = v["permissions"]
+                .as_array()
+                .expect("permissions")
+                .iter()
+                .map(|p| Permission::parse(p.as_str().unwrap()).expect("perm"))
+                .collect();
+            return match kind {
+                "always" => Requirement::Always,
+                "one" => Requirement::One(ps[0]),
+                "any" => Requirement::Any(Box::leak(ps.into_boxed_slice())),
+                other => panic!("bad requirement kind {other}"),
+            };
+        }
         match v {
             Value::Null => Requirement::Always,
             Value::String(s) => Requirement::One(Permission::parse(s).expect("perm")),
@@ -309,7 +311,10 @@ fn golden_rows(v: &Value) -> Vec<(String, Requirement)> {
         Value::Object(m) => m.iter().map(|(k, r)| (k.clone(), req(r))).collect(),
         Value::Array(a) => a
             .iter()
-            .map(|e| (e[0].as_str().unwrap().to_owned(), req(&e[1])))
+            .map(|e| match e.get("type") {
+                Some(t) => (t.as_str().unwrap().to_owned(), req(&e["requirement"])),
+                None => (e[0].as_str().unwrap().to_owned(), req(&e[1])),
+            })
             .collect(),
         _ => panic!("bad golden table"),
     }
