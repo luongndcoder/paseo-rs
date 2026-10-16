@@ -407,6 +407,7 @@ Behavior deliberately reproduced during the strangler. Fix after the flag is def
 | Marker | What TS does | Intended fix |
 |---|---|---|
 | `corrupt-registry-truncate` | Invalid JSON or one bad record in a registry file silently truncates to empty | `quarantine_corrupt` (rename `<name>.corrupt-<ts>`), start empty, log error |
+| `lone-low-surrogate` | `JSON.parse` keeps a lone low surrogate escape (`\udc00`) in persisted strings; `paseo-store` reads it as U+FFFD (the carrier covers high surrogates only, the only kind an end-of-string slice produces) | Extend the carrier to low surrogates or normalize on write |
 | `project-id-collation` | Oldest-active-project tie-break is `localeCompare` on `projectId` (ICU) | None needed: ids are `prj_<hex>` or `remote:...`; Rust compares bytewise, identical for generated ids |
 | `surrogate-truncation` | UTF-16 truncation at 64 KiB can leave a lone high surrogate, serialized as `\udXXX` | Back off to a code-point boundary |
 | `stream-history-single-frame` | `stream_history` collected as one array, no chunking | Chunked `stream_history` frames |

@@ -1,0 +1,27 @@
+[package]
+name = "paseo-store"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "File-backed agent store, project/workspace registries, workspace labels and registry bootstrap, byte-compatible with the TS daemon's $PASEO_HOME files"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+indexmap.workspace = true
+async-trait.workspace = true
+regex.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+uuid = { workspace = true, features = ["v4"] }
+tokio = { workspace = true, features = ["sync", "fs", "rt", "time", "macros"] }
+jiff = "0.2"
+paseo-fs-atomic = { path = "../paseo-fs-atomic" }
+paseo-agent-types = { path = "../paseo-agent-types" }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["sync", "fs", "rt", "rt-multi-thread", "time", "macros"] }
+
+[lints.rust]
+unsafe_code = "forbid"
