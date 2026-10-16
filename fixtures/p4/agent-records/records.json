@@ -1,0 +1,469 @@
+{
+  "clock": {
+    "t0": "2026-01-01T00:00:00.000Z",
+    "stepMs": 1000
+  },
+  "scenarios": {
+    "create": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "workspaceId": "wks_1",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:01.001Z",
+          "lastActivityAt": "2026-01-01T00:00:01.001Z",
+          "lastUserMessageAt": null,
+          "title": "Parity",
+          "labels": {
+            "team": "core"
+          },
+          "lastStatus": "idle",
+          "lastModeId": "plan",
+          "config": {
+            "modeId": "plan",
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.4",
+            "modeId": "plan"
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false
+        }
+      }
+    },
+    "run-finished": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:02.003Z",
+          "lastActivityAt": "2026-01-01T00:00:02.003Z",
+          "lastUserMessageAt": null,
+          "title": "Finished",
+          "labels": {},
+          "lastStatus": "idle",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.2-codex",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-01-01T00:00:02.000Z",
+          "internal": false
+        }
+      }
+    },
+    "run-failed": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:02.003Z",
+          "lastActivityAt": "2026-01-01T00:00:02.003Z",
+          "lastUserMessageAt": null,
+          "title": "Failed",
+          "labels": {},
+          "lastStatus": "error",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "lastError": "scripted failure",
+          "requiresAttention": true,
+          "attentionReason": "error",
+          "attentionTimestamp": "2026-01-01T00:00:02.000Z",
+          "internal": false
+        }
+      }
+    },
+    "archive-running-with-attention": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:03.000Z",
+          "lastActivityAt": "2026-01-01T00:00:03.000Z",
+          "lastUserMessageAt": null,
+          "title": "Busy",
+          "labels": {},
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false,
+          "archivedAt": "2026-01-01T00:00:03.000Z"
+        }
+      }
+    },
+    "close": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:02.003Z",
+          "lastActivityAt": "2026-01-01T00:00:02.003Z",
+          "lastUserMessageAt": null,
+          "title": "To close",
+          "labels": {},
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.2-codex",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-01-01T00:00:02.000Z",
+          "internal": false
+        }
+      }
+    },
+    "labels-title-detach": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:01.001Z",
+          "lastActivityAt": "2026-01-01T00:00:01.001Z",
+          "lastUserMessageAt": null,
+          "title": "Parent",
+          "labels": {},
+          "lastStatus": "idle",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false
+        }
+      },
+      "00000000-0000-4000-8000-000000000002": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000002.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000002",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:02.000Z",
+          "updatedAt": "2026-01-01T00:00:06.000Z",
+          "lastActivityAt": "2026-01-01T00:00:06.000Z",
+          "lastUserMessageAt": null,
+          "title": "Metadata title",
+          "labels": {
+            "paseo.open-tab.desktop-client": "true",
+            "team": "core",
+            "extra": "1"
+          },
+          "lastStatus": "idle",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-2",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-2",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false
+        }
+      }
+    },
+    "cascade-archive": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:04.000Z",
+          "lastActivityAt": "2026-01-01T00:00:04.000Z",
+          "lastUserMessageAt": null,
+          "title": "Parent",
+          "labels": {},
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false,
+          "archivedAt": "2026-01-01T00:00:04.000Z"
+        }
+      },
+      "00000000-0000-4000-8000-000000000002": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000002.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000002",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:02.000Z",
+          "updatedAt": "2026-01-01T00:00:04.000Z",
+          "lastActivityAt": "2026-01-01T00:00:04.000Z",
+          "lastUserMessageAt": null,
+          "title": "Child A",
+          "labels": {
+            "paseo.parent-agent-id": "00000000-0000-4000-8000-000000000001"
+          },
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-2",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-2",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false,
+          "archivedAt": "2026-01-01T00:00:04.000Z"
+        }
+      },
+      "00000000-0000-4000-8000-000000000003": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000003.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:03.000Z",
+          "updatedAt": "2026-01-01T00:00:04.000Z",
+          "lastActivityAt": "2026-01-01T00:00:04.000Z",
+          "lastUserMessageAt": null,
+          "title": "Child B",
+          "labels": {
+            "paseo.parent-agent-id": "00000000-0000-4000-8000-000000000001"
+          },
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-3",
+            "model": "gpt-5.4",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-3",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "internal": false,
+          "archivedAt": "2026-01-01T00:00:04.000Z"
+        }
+      }
+    },
+    "archive-snapshot-normalizes-running": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:00.000Z",
+          "updatedAt": "2026-01-01T00:00:01.000Z",
+          "title": "Stored running",
+          "labels": {},
+          "lastStatus": "idle",
+          "config": null,
+          "requiresAttention": false,
+          "attentionReason": null,
+          "attentionTimestamp": null,
+          "archivedAt": "2026-01-01T00:00:05.000Z"
+        }
+      }
+    },
+    "archive-running-after-finished": {
+      "00000000-0000-4000-8000-000000000001": {
+        "file": "tmp-paseo-record-parity/00000000-0000-4000-8000-000000000001.json",
+        "record": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "provider": "codex",
+          "cwd": "/tmp/paseo-record-parity",
+          "createdAt": "2026-01-01T00:00:01.000Z",
+          "updatedAt": "2026-01-01T00:00:04.000Z",
+          "lastActivityAt": "2026-01-01T00:00:04.000Z",
+          "lastUserMessageAt": null,
+          "title": "Second turn",
+          "labels": {},
+          "lastStatus": "closed",
+          "lastModeId": null,
+          "config": {
+            "model": "gpt-5.4"
+          },
+          "runtimeInfo": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "model": "gpt-5.2-codex",
+            "modeId": null
+          },
+          "features": [],
+          "persistence": {
+            "provider": "codex",
+            "sessionId": "session-1",
+            "metadata": {
+              "cwd": "/tmp/paseo-record-parity"
+            }
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-01-01T00:00:02.000Z",
+          "internal": false,
+          "archivedAt": "2026-01-01T00:00:04.000Z"
+        }
+      }
+    }
+  }
+}
