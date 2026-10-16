@@ -654,7 +654,7 @@ fn dispatch_notification(inner: &Arc<Inner>, method: &str, value: Value) {
                     handler,
                     handle.to_owned(),
                     turn_id,
-                    request,
+                    *request,
                 );
             }
             // Events for sessions without a live channel (released or dropped) are discarded.
