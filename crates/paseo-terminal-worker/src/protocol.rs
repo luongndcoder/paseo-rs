@@ -187,14 +187,31 @@ pub fn title_event(terminal_id: &str, title: Option<&str>) -> Value {
 
 /// Parses a request line. On failure returns the recovered `requestId` (if any) and a message.
 pub fn parse_request(line: &str) -> Result<Request, (Option<String>, String)> {
-    let value: Value =
-        serde_json::from_str(line).map_err(|e| (None, format!("invalid JSON: {e}")))?;
+    let value: Value = serde_json::from_str(line)
+        .map_err(|e| (scan_request_id(line), format!("invalid JSON: {e}")))?;
     let request_id = value
         .get("requestId")
         .and_then(Value::as_str)
         .map(str::to_owned);
     serde_json::from_value::<Request>(value)
         .map_err(|e| (request_id, format!("invalid request: {e}")))
+}
+
+/// Best-effort `requestId` recovery from a line serde_json rejected (for example a lone UTF-16
+/// surrogate escape), so the caller still gets an error response instead of waiting out a timeout.
+fn scan_request_id(line: &str) -> Option<String> {
+    let rest = line[line.find("\"requestId\"")? + "\"requestId\"".len()..].trim_start();
+    let rest = rest.strip_prefix(':')?.trim_start().strip_prefix('"')?;
+    let mut id = String::new();
+    let mut chars = rest.chars();
+    while let Some(c) = chars.next() {
+        match c {
+            '"' => return Some(id),
+            '\\' => id.push(chars.next()?),
+            c => id.push(c),
+        }
+    }
+    None
 }
 
 #[cfg(test)]
@@ -257,6 +274,9 @@ mod tests {
         assert_eq!(id.as_deref(), Some("zz"));
         let (id, _) = parse_request("not json").unwrap_err();
         assert_eq!(id, None);
+        let lone = r#"{"type":"send","requestId":"r1","terminalId":"x","message":{"type":"input","data":"\ud83d"}}"#;
+        let (id, _) = parse_request(lone).unwrap_err();
+        assert_eq!(id.as_deref(), Some("r1"));
     }
 
     #[test]
