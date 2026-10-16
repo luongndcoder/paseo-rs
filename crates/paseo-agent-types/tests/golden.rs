@@ -39,7 +39,7 @@ fn wire_vectors_match_ts() {
             .lines()
             .filter(|l| !l.trim().is_empty())
         {
-            let v: Value = serde_json::from_str(line).unwrap();
+            let v: Value = paseo_agent_types::js_str::parse_js_json(line).unwrap();
             if v["fn"] != "serializeAgentStreamEvent" {
                 skipped += 1;
                 continue;

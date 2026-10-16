@@ -102,7 +102,7 @@ fn mapper_vectors_match_ts() {
             .enumerate()
             .filter(|(_, l)| !l.trim().is_empty())
         {
-            let v: Value = serde_json::from_str(line).unwrap();
+            let v: Value = paseo_agent_types::js_str::parse_js_json(line).unwrap();
             let (Some(name), Some(args)) = (v["fn"].as_str(), v["args"].as_array()) else {
                 skipped += 1;
                 continue;
