@@ -12,6 +12,7 @@ use std::collections::HashMap;
 pub struct Bytes(pub Vec<u8>);
 
 #[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
 struct B64Repr {
     #[serde(rename = "$b64")]
     b64: String,

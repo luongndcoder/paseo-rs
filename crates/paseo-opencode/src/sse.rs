@@ -19,10 +19,7 @@ impl SseParser {
     pub fn push(&mut self, bytes: &[u8]) -> Vec<SseFrame> {
         self.buf.extend_from_slice(bytes);
         let mut frames = Vec::new();
-        loop {
-            let Some(pos) = self.buf.iter().position(|b| *b == b'\n' || *b == b'\r') else {
-                break;
-            };
+        while let Some(pos) = self.buf.iter().position(|b| *b == b'\n' || *b == b'\r') {
             // A lone trailing \r may be the first half of \r\n; wait for more input.
             if self.buf[pos] == b'\r' && pos + 1 == self.buf.len() {
                 break;

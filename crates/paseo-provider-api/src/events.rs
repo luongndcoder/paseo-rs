@@ -26,6 +26,7 @@ pub fn event_channel(capacity: usize) -> (EventSender, EventStream) {
 
 impl EventSender {
     /// Wait for room and deliver. `Err` returns the event when the consumer is gone.
+    #[allow(clippy::result_large_err)]
     pub async fn send(&self, event: AgentStreamEvent) -> Result<(), AgentStreamEvent> {
         self.tx.send(event).await.map_err(|error| error.0)
     }

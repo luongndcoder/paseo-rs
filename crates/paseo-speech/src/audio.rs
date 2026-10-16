@@ -111,8 +111,10 @@ pub fn parse_pcm_rate_from_format(format: &str, fallback: Option<u32>) -> Option
 
 fn samples(pcm16le: &[u8]) -> impl Iterator<Item = i16> + '_ {
     pcm16le
-        .chunks_exact(2)
-        .map(|c| i16::from_le_bytes([c[0], c[1]]))
+        .as_chunks::<2>()
+        .0
+        .iter()
+        .map(|c| i16::from_le_bytes(*c))
 }
 
 pub fn pcm16le_peak_abs(pcm16le: &[u8]) -> Result<i32> {
@@ -339,8 +341,10 @@ mod tests {
     fn float_to_pcm_clamps_and_rounds() {
         let out = float32_to_pcm16le(&[0.0, 0.5, -0.5, 2.0, -2.0]);
         let v: Vec<i16> = out
-            .chunks_exact(2)
-            .map(|c| i16::from_le_bytes([c[0], c[1]]))
+            .as_chunks::<2>()
+            .0
+            .iter()
+            .map(|c| i16::from_le_bytes(*c))
             .collect();
         assert_eq!(v, vec![0, 16384, -16383, 32767, -32767]);
     }

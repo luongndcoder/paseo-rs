@@ -186,7 +186,7 @@ impl Coalescer {
                     .map(|(at, seq)| (at, seq, id.clone()))
             })
             .collect();
-        due.sort_by(|a, b| (a.0, a.1).cmp(&(b.0, b.1)));
+        due.sort_by_key(|d| (d.0, d.1));
         due.into_iter()
             .flat_map(|(_, _, id)| self.flush_buffer(&id, now))
             .collect()
