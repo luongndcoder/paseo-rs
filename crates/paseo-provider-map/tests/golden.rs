@@ -46,5 +46,4 @@ macro_rules! golden {
 }
 golden!(pi_goldens, "pi");
 golden!(acp_goldens, "acp");
-golden!(codex_goldens, "codex");
 golden!(claude_goldens, "claude");

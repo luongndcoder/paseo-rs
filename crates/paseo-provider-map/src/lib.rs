@@ -67,7 +67,7 @@ pub fn mapper_for(provider: &str) -> Option<Box<dyn ProviderMapper>> {
         "pi" => Box::new(pi::PiMapper),
         "acp" => Box::new(acp::AcpMapper::new()),
         "opencode" => Box::new(opencode::OpencodeMapper::new()),
-        "codex" => Box::new(codex::CodexMapper),
+        "codex" => Box::new(codex::CodexMapper::new()),
         "claude" => Box::new(claude::ClaudeMapper),
         _ => return None,
     })

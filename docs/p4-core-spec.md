@@ -431,6 +431,7 @@ Behavior deliberately reproduced during the strangler. Fix after the flag is def
 | `skills-manifest-plain-write` | `transaction.json` is written with a plain write, not atomically; a torn file reads as invalid and is ignored | Atomic write |
 | `skills-undo-removes-symlinked-dir` | Rollback of an emptied, symlinked skill dir removes the link itself | Remove contents only |
 | `skills-recovery-aborts-on-first-failure` | The first failing interrupted transaction aborts recovery of the rest | Continue and aggregate |
+| `codex-deletion-diff-empty-lines` | Codex `contentToDeletionDiff` filters empty lines with `lines.indexOf(l) < lines.length - 1`, so one earlier empty line keeps every empty line, the trailing one included | Drop only the trailing empty element |
 | `skills-rollback-error-masks-cause` | A failing rollback replaces the convergence error that triggered it | Report both |
 
 WP4 (`paseo-store`) Rust-only deviations, all intentional: duplicate agent record files for one id resolve to max `updatedAt` and the losers are unlinked on load (Q15, TS is readdir-order nondeterministic; not yet in `docs/data-model.md` of the TS repo); unknown keys on agent/project/workspace/label records survive rewrite (Q3); key order is the stored-schema order, with `archivedAt` before `owner` (TS appends `archivedAt` after `owner` only when `applySnapshot` preserves it, and backfill appends `workspaceId` last); number formatting follows `serde_json`, not `JSON.stringify`, for floats in opaque blobs (`featureValues`, `providerOptions`).
@@ -438,3 +439,9 @@ WP4 (`paseo-store`) Rust-only deviations, all intentional: duplicate agent recor
 Also queued: unknown-key preservation interacts with TS rollback (risk 15); Q15 duplicate-file rule; the `usage_updated` dispatch through `agent_stream` is stripped only by the wire allow-list.
 
 Known Rust-only deviation: `surrogate-carrier-collision`. Lone surrogates produced by UTF-16 truncation travel as Plane 16 private-use scalars `U+10F800..U+10FBFF` (`paseo-agent-types/src/js_str.rs`). A genuine character in that range (for example from a private-use icon font) is counted as one UTF-16 unit and written as a `\ud8xx` escape, where TS keeps two units and the real character. Fix at cutover by tracking truncation explicitly instead of through a carrier.
+
+Known Rust-only deviations of the Codex mapper (WP10, `paseo-provider-map/src/codex.rs`):
+- `codex-turn-id-on-untyped-events`: TS tags every event, `thread_started` and `provider_subagent` included, with the foreground `codex-turn-N` id. The Rust `AgentStreamEvent` has no `turn_id` on those variants, so they carry none; the golden test strips the key from the expected side.
+- `codex-deny-message-from-options`: the message of a deny answer is client state that never reaches the wire (only `decision: "decline"` does); `CodexMapper::with_deny_message` supplies it.
+- `codex-image-materialize-injected`: TS writes `data` images to a content-hashed temp file inside the mapper; the Rust mapper takes an injected `ImageMaterializer` and renders the TS failure text without one.
+- `codex-history-timestamp-iso-only`: `Date.parse` legacy formats are not accepted for history timestamps, only ISO-8601 strings and epoch numbers.
