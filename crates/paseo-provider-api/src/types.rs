@@ -84,6 +84,11 @@ pub struct CreateSessionOptions {
     pub persist_session: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub configured_model_ids: Option<Vec<String>>,
+    /// `AgentResumeSessionOptions.purpose` (`"interactive"` | `"history"`), resume only. A
+    /// history load reads persisted state and runs nothing, so a provider may open an archived
+    /// native session read-only. Runtime intent, never persisted.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub purpose: Option<String>,
 }
 
 /// `FetchCatalogOptions`.
