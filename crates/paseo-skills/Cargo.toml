@@ -1,0 +1,19 @@
+[package]
+name = "paseo-skills"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Skills sync engine and crash-safe selection transactions, on-disk compatible with the TS orchestration-skills module"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+sha2.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync"] }
+tracing.workspace = true
+uuid = { workspace = true, features = ["v4"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["sync", "rt", "macros"] }
