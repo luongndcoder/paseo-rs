@@ -1,0 +1,18 @@
+[package]
+name = "paseo-provider-map"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Raw provider events to AgentStreamEvent mappers (Pi, ACP, OpenCode, Codex, Claude) with golden harness"
+
+[dependencies]
+serde_json = { workspace = true, features = ["preserve_order"] }
+paseo-agent-types = { path = "../paseo-agent-types" }
+paseo-pi = { path = "../paseo-pi" }
+paseo-acp = { path = "../paseo-acp" }
+paseo-opencode = { path = "../paseo-opencode" }
+paseo-codex = { path = "../paseo-codex" }
+paseo-claude = { path = "../paseo-claude" }
+
+[lints.rust]
+unsafe_code = "forbid"
