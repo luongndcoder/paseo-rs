@@ -1,0 +1,227 @@
+{
+  "generation": "golden-generation",
+  "providers": [
+    "claude",
+    "codex",
+    "opencode"
+  ],
+  "project": {
+    "projectId": "prj_0000000000000001",
+    "rootPath": "/work/repo",
+    "kind": "git",
+    "displayName": "repo",
+    "projectKey": null,
+    "customName": null,
+    "customIconRevision": null,
+    "createdAt": "2026-03-01T00:00:00.000Z",
+    "updatedAt": "2026-03-01T00:00:00.000Z",
+    "archivedAt": null
+  },
+  "workspace": {
+    "workspaceId": "ws_1",
+    "projectId": "prj_0000000000000001",
+    "cwd": "/work/repo",
+    "kind": "local_checkout",
+    "displayName": "main",
+    "title": null,
+    "branch": "main",
+    "worktreeRoot": "/work/repo",
+    "baseBranch": null,
+    "isPaseoOwnedWorktree": false,
+    "mainRepoRoot": null,
+    "createdAt": "2026-03-01T00:00:00.000Z",
+    "updatedAt": "2026-03-01T00:00:00.000Z",
+    "archivedAt": null,
+    "autoArchivedChangeRequestUrl": null,
+    "pinnedAt": null,
+    "background": false
+  },
+  "steps": [
+    {
+      "op": "fetch",
+      "name": "snapshot",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-1",
+        "scope": "active",
+        "sync": {}
+      }
+    },
+    {
+      "op": "set_agent",
+      "name": "agent-a-changes",
+      "record": {
+        "id": "agent-a",
+        "provider": "codex",
+        "cwd": "/work/repo",
+        "workspaceId": "ws_1",
+        "createdAt": "2026-03-01T10:00:00.000Z",
+        "updatedAt": "2026-03-01T13:00:00.000Z",
+        "lastActivityAt": "2026-03-01T13:00:00.000Z",
+        "lastUserMessageAt": null,
+        "title": "Agent a renamed",
+        "labels": {},
+        "lastStatus": "running",
+        "lastModeId": null,
+        "config": {
+          "model": "gpt-5"
+        },
+        "features": [],
+        "persistence": null,
+        "requiresAttention": false,
+        "attentionReason": null,
+        "attentionTimestamp": null
+      }
+    },
+    {
+      "op": "live_update",
+      "name": "agent-a-live",
+      "id": "agent-a"
+    },
+    {
+      "op": "fetch",
+      "name": "changes",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-2",
+        "scope": "active",
+        "sync": {
+          "generation": "golden-generation",
+          "afterSeq": 2
+        }
+      }
+    },
+    {
+      "op": "archive_agent",
+      "name": "agent-b-archived",
+      "id": "agent-b",
+      "archivedAt": "2026-03-01T14:00:00.000Z"
+    },
+    {
+      "op": "fetch",
+      "name": "removal",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-3",
+        "scope": "active",
+        "sync": {
+          "generation": "golden-generation",
+          "afterSeq": 3
+        }
+      }
+    },
+    {
+      "op": "fetch",
+      "name": "cursor_expired",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-4",
+        "scope": "active",
+        "sync": {
+          "generation": "golden-generation",
+          "afterSeq": 999
+        }
+      }
+    },
+    {
+      "op": "fetch",
+      "name": "generation_changed",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-5",
+        "scope": "active",
+        "sync": {
+          "generation": "previous-boot",
+          "afterSeq": 4
+        }
+      }
+    },
+    {
+      "op": "fetch",
+      "name": "no_afterSeq",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-6",
+        "scope": "active",
+        "sync": {
+          "generation": "golden-generation"
+        }
+      }
+    },
+    {
+      "op": "fetch",
+      "name": "includeBackground_generation_suffix",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-7",
+        "scope": "active",
+        "includeBackground": true,
+        "sync": {
+          "generation": "golden-generation:background",
+          "afterSeq": 0
+        }
+      }
+    },
+    {
+      "op": "fetch",
+      "name": "sync_with_filter_is_rejected",
+      "request": {
+        "type": "fetch_agents_request",
+        "requestId": "req-8",
+        "scope": "active",
+        "filter": {
+          "labels": {
+            "team": "a"
+          }
+        },
+        "sync": {}
+      }
+    }
+  ],
+  "initialRecords": [
+    {
+      "id": "agent-a",
+      "provider": "codex",
+      "cwd": "/work/repo",
+      "workspaceId": "ws_1",
+      "createdAt": "2026-03-01T10:00:00.000Z",
+      "updatedAt": "2026-03-01T12:00:00.000Z",
+      "lastActivityAt": "2026-03-01T12:00:00.000Z",
+      "lastUserMessageAt": null,
+      "title": "Agent agent-a",
+      "labels": {},
+      "lastStatus": "idle",
+      "lastModeId": null,
+      "config": {
+        "model": "gpt-5"
+      },
+      "features": [],
+      "persistence": null,
+      "requiresAttention": false,
+      "attentionReason": null,
+      "attentionTimestamp": null
+    },
+    {
+      "id": "agent-b",
+      "provider": "codex",
+      "cwd": "/work/repo",
+      "workspaceId": "ws_1",
+      "createdAt": "2026-03-01T10:00:00.000Z",
+      "updatedAt": "2026-03-01T11:00:00.000Z",
+      "lastActivityAt": "2026-03-01T11:00:00.000Z",
+      "lastUserMessageAt": null,
+      "title": "Agent agent-b",
+      "labels": {},
+      "lastStatus": "running",
+      "lastModeId": null,
+      "config": {
+        "model": "gpt-5"
+      },
+      "features": [],
+      "persistence": null,
+      "requiresAttention": false,
+      "attentionReason": null,
+      "attentionTimestamp": null
+    }
+  ]
+}
