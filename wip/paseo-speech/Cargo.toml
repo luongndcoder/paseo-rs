@@ -1,0 +1,38 @@
+[package]
+name = "paseo-speech"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Speech for the Paseo daemon: dictation streams, STT/TTS providers (local sherpa-onnx, OpenAI, Soniox), VAD turn detection"
+
+[features]
+default = []
+# Local provider (Nemotron/Parakeet STT, Kokoro TTS, Silero VAD) via the official
+# sherpa-onnx crate. Its build script downloads prebuilt static libraries unless
+# SHERPA_ONNX_LIB_DIR points at a local copy.
+sherpa = ["dep:sherpa-onnx"]
+
+[dependencies]
+async-trait = "0.1"
+base64 = "0.22"
+bytes = "1"
+bzip2 = "0.5"
+futures-util = { version = "0.3", default-features = false, features = ["std", "alloc"] }
+jiff = "0.2"
+reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "stream", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sherpa-onnx = { version = "1.13.8", optional = true }
+tar = "0.4"
+thiserror = "2"
+tokio = { version = "1", features = ["rt", "sync", "time", "macros", "fs", "io-util", "net"] }
+tokio-tungstenite = { version = "0.26", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
+tokio-util = "0.7"
+tracing = "0.1"
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "sync", "time", "macros", "fs", "io-util", "net", "test-util"] }
+
+[workspace]
