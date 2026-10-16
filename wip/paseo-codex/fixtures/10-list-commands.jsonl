@@ -1,0 +1,7 @@
+{"argv": ["app-server"], "env_keys": [], "synthesized_from": "01-single-prompt.jsonl"}
+{"dir": "in", "line": {"id": 1, "method": "initialize", "params": {"clientInfo": {"name": "codex_app_server_daemon", "title": "Codex App Server Daemon", "version": "0.0.0"}, "capabilities": {"experimentalApi": true, "mcpServerOpenaiFormElicitation": true}}}}
+{"dir": "out", "line": {"id": 1, "result": {"userAgent": "codex_cli_rs/0.160.0 (Mac OS 26.6.2; arm64) iTerm.app/3.7.5", "codexHome": "/home/user/.codex", "platformFamily": "unix", "platformOs": "macos"}}}
+{"dir": "in", "line": {"method": "initialized", "params": {}}}
+{"dir": "in", "line": {"id": 2, "method": "skills/list", "params": {"cwds": ["/tmp/paseo-codex-fixture"]}}}
+{"dir": "out", "line": {"id": 2, "result": {"data": [{"cwd": "/tmp/paseo-codex-fixture", "skills": [{"name": "example-skill", "description": "Example skill.", "path": "/home/user/.agents/skills/example-skill/SKILL.md", "scope": "user", "enabled": true, "pluginId": null}], "errors": []}]}}}
+{"exit": {"code": 0, "signal": null}}
