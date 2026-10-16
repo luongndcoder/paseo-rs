@@ -18,8 +18,19 @@ Cargo.toml                       # workspace root
 crates/
   paseo-protocol/                # generated wire types + golden conformance tests
   paseo-terminal-worker/         # P1 binary
-  paseod/                        # P2+ edge, later the full daemon
+  paseo-claude/                  # P5 native Claude CLI client
+  paseo-codex/                   # P5 native Codex app-server client
+  paseo-acp/                     # P5 ACP family client
+  paseo-opencode/                # P5 OpenCode HTTP + SSE client
+  paseo-pi/                      # P5 Pi / OMP RPC client
+  paseo-git/                     # P3 checkout/git domain
+  paseo-files/                   # P3 file explorer, suggestions, download/upload
+  paseo-file-observer/           # P3 recursive file observer (notify)
+  paseo-schedule/                # P3 scheduled agents
+  paseo-provider-host/           # P4 client for the TS provider host
   paseo-relay-crypto/            # tweetnacl-compatible box (P2)
+wip/
+  paseod/                        # P2+ edge, later the full daemon (not yet in workspace)
 ```
 
 npm scripts: `build:rust` (cargo build --release, copies binaries to `packages/server/dist/bin/<platform>`),

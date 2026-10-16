@@ -13,9 +13,7 @@ use std::time::Duration;
 use common::ReplayFactory;
 use paseo_codex::agent::*;
 use paseo_codex::error::Result;
-use paseo_codex::transport::{
-    BoxFuture, Transport, TransportEvent, TransportFactory, TransportIo,
-};
+use paseo_codex::transport::{BoxFuture, Transport, TransportEvent, TransportFactory, TransportIo};
 use paseo_codex::{CodexClient, Error};
 use tokio::sync::{mpsc, Notify};
 
@@ -121,7 +119,9 @@ async fn cancelled_start_turn_releases_the_guard_and_wakes_interrupt() {
 
     // While the start is in flight the session is busy.
     assert!(matches!(
-        session.start_turn("again".into(), RunOptions::default()).await,
+        session
+            .start_turn("again".into(), RunOptions::default())
+            .await,
         Err(Error::TurnActive)
     ));
 

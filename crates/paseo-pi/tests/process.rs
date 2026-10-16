@@ -181,10 +181,18 @@ fn close_while_a_writer_is_blocked_in_write_line() {
         std::thread::spawn(move || transport.close())
     };
     closer.join().unwrap();
-    assert!(started.elapsed() < Duration::from_secs(5), "close hung behind the writer");
+    assert!(
+        started.elapsed() < Duration::from_secs(5),
+        "close hung behind the writer"
+    );
 
-    let result = rx.recv_timeout(Duration::from_secs(5)).expect("writer never unblocked");
-    assert!(result.is_err(), "blocked write must fail once the process is gone");
+    let result = rx
+        .recv_timeout(Duration::from_secs(5))
+        .expect("writer never unblocked");
+    assert!(
+        result.is_err(),
+        "blocked write must fail once the process is gone"
+    );
     writer.join().unwrap();
 
     // Later writes see a closed/broken transport, and close() stays idempotent.

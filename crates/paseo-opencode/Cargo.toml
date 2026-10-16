@@ -1,0 +1,24 @@
+[package]
+name = "paseo-opencode"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Native Rust client for the OpenCode server (HTTP + SSE), with a provider-agnostic agent surface"
+
+[dependencies]
+async-trait.workspace = true
+bytes = "1"
+futures-util = "0.3"
+getrandom.workspace = true
+percent-encoding = "2"
+reqwest = { version = "0.12", default-features = false, features = ["stream"] }
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+thiserror.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "process", "io-util", "time", "sync", "net"] }
+
+[target.'cfg(unix)'.dependencies]
+libc.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "process", "io-util", "time", "sync", "net", "test-util"] }

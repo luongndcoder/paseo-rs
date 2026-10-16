@@ -1,0 +1,18 @@
+[package]
+name = "paseo-codex"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Native Rust client for the Codex CLI app-server (JSON-RPC over stdio)"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+base64.workspace = true
+thiserror.workspace = true
+libc.workspace = true
+tokio = { workspace = true, features = ["process", "io-util", "sync", "time", "rt", "macros"] }
+
+[dev-dependencies]
+libc.workspace = true
+tokio = { workspace = true, features = ["process", "io-util", "sync", "time", "rt", "rt-multi-thread", "macros"] }

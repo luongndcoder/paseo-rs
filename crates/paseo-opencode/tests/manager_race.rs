@@ -123,7 +123,10 @@ async fn overlapping_leases_share_one_server_until_last_release() {
     let b = mgr.acquire_arc(Acquire::Current).await.unwrap();
     assert_eq!(a.url, b.url);
     a.release().await;
-    assert!(!b.events.is_closed(), "first release must not stop a shared server");
+    assert!(
+        !b.events.is_closed(),
+        "first release must not stop a shared server"
+    );
     b.release().await;
     assert!(b.events.is_closed());
     assert_eq!(pids(&dir).len(), 1);
@@ -140,7 +143,10 @@ async fn new_retires_old_server_until_its_users_release() {
     assert_ne!(old.url, fresh.url);
     assert!(!old.events.is_closed(), "retired server lives while leased");
     old.release().await;
-    assert!(old.events.is_closed(), "retired server stops on last release");
+    assert!(
+        old.events.is_closed(),
+        "retired server stops on last release"
+    );
     assert!(!fresh.events.is_closed());
     fresh.release().await;
     assert_all_dead(&dir).await;

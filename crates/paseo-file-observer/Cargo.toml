@@ -1,0 +1,17 @@
+[package]
+name = "paseo-file-observer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Recursive file observation (notify-based) and git root observers for the Paseo daemon"
+
+[dependencies]
+notify = { version = "8", default-features = false, features = ["macos_fsevent"] }
+serde.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync"] }
+
+[dev-dependencies]
+serde_json = "1"
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "time", "sync"] }

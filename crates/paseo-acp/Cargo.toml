@@ -1,0 +1,11 @@
+[package]
+name = "paseo-acp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Native Rust client for Agent Client Protocol (ACP) agents: generic stdio core plus per-agent launch profiles"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+tokio = { workspace = true, features = ["rt", "rt-multi-thread", "process", "io-util", "sync", "time", "macros", "fs"] }

@@ -16,9 +16,9 @@ base64.workspace = true
 tracing.workspace = true
 anyhow.workspace = true
 portable-pty = "0.9"
-regex = "1"
-getrandom = "0.2"
+regex.workspace = true
+getrandom.workspace = true
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [target.'cfg(unix)'.dependencies]
-libc = "0.2"
+libc.workspace = true

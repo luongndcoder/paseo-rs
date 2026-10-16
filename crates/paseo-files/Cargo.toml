@@ -1,0 +1,15 @@
+[package]
+name = "paseo-files"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "File explorer, directory suggestions, file download framing and upload for the Paseo daemon"
+
+[dependencies]
+serde.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+uuid = { workspace = true, features = ["v4"] }
+libc.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

@@ -154,10 +154,17 @@ mod tests {
             peak <= MAX_QUEUED_BYTES + line_len,
             "queued {peak} exceeded limit {MAX_QUEUED_BYTES}"
         );
-        assert!(peak > MAX_QUEUED_BYTES / 2, "flood never built a backlog: {peak}");
+        assert!(
+            peak > MAX_QUEUED_BYTES / 2,
+            "flood never built a backlog: {peak}"
+        );
         let stalled = sent.load(Ordering::Relaxed);
         std::thread::sleep(Duration::from_millis(100));
-        assert_eq!(stalled, sent.load(Ordering::Relaxed), "producer not blocked");
+        assert_eq!(
+            stalled,
+            sent.load(Ordering::Relaxed),
+            "producer not blocked"
+        );
         assert!(!producer.is_finished());
 
         // Resume the consumer: backlog drains, producer finishes, nothing was dropped.
@@ -167,7 +174,10 @@ mod tests {
         out.quit();
         handle.join().unwrap();
         assert_eq!(out.1.queued.load(Ordering::Relaxed), 0);
-        assert_eq!(written.load(Ordering::Relaxed), sent.load(Ordering::Relaxed));
+        assert_eq!(
+            written.load(Ordering::Relaxed),
+            sent.load(Ordering::Relaxed)
+        );
     }
 
     #[test]
