@@ -1,0 +1,392 @@
+{
+  "provider": "pi",
+  "fixture": "05-interrupt",
+  "status": "partial",
+  "driver": "PiRpcAgentSession over FakePi: out lines replayed as runtime events; prompt/abort/extension_ui_response in-lines trigger startTurn/interrupt/respondToPermission",
+  "notes": [
+    "argv: [\"--mode\",\"rpc\",\"--model\",\"nvidia/openai/gpt-oss-20b\",\"--no-session\",\"--extension\",\"/var/folders/6p/l1pfzn650qv0v_d0g_33vbt40000gn/T/paseo-pi-extension-YN1XYB/paseo-integration.mjs\"]",
+    "startTurn(\"Count from 1 to 400, one number per line, with no other text\")",
+    "ignored in-line type=clear_queue",
+    "interrupt()"
+  ],
+  "eventCount": 42,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "pi",
+      "sessionId": "01a145c8-2de3-7770-a713-1304d26d2d65"
+    },
+    {
+      "type": "turn_started",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "user_message",
+        "text": "Count from 1 to 400, one number per line, with no other text.",
+        "messageId": "64252036"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " output"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " numbers"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " from"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " "
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "1"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " "
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "400"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ","
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " one"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " per"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " line"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Provide"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " output"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " It's"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " a"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " straightforward"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " task"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Just"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " produce"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " list"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "1",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "2",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "3",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "4",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "5",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "turn_canceled",
+      "provider": "pi",
+      "reason": "interrupted",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "provider": "pi",
+  "fixture": "08-catalog",
+  "status": "failed",
+  "reason": "no turn in this fixture (catalog/list-only)",
+  "driver": null,
+  "notes": [
+    "argv: [\"--mode\",\"rpc\"]"
+  ],
+  "eventCount": 0,
+  "events": []
+}

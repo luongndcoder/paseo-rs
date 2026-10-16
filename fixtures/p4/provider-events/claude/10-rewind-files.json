@@ -1,0 +1,92 @@
+{
+  "provider": "claude",
+  "fixture": "10-rewind-files",
+  "status": "partial",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Use the Write tool to overwrite notes.txt with the single li\")",
+    "ignored in control_request subtype=rewind_files",
+    "ignored in control_request subtype=rewind_files"
+  ],
+  "eventCount": 7,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Use the Write tool to overwrite notes.txt with the single line: modified",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "9353426f-aa93-4166-a5a6-13e782f238a2",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01KHKR4AxCGQzBjykrgExUJy",
+        "name": "Write",
+        "detail": {
+          "type": "write",
+          "filePath": "/tmp/paseo-claude-fixture/notes.txt",
+          "content": "modified\n"
+        },
+        "status": "running",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01KHKR4AxCGQzBjykrgExUJy",
+        "name": "Write",
+        "detail": {
+          "type": "write",
+          "filePath": "/tmp/paseo-claude-fixture/notes.txt",
+          "content": "modified\n"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "I overwrote `notes.txt` with the single line `modified`. The file is in the working directory.",
+        "messageId": "msg_011Cg6K2cKksRciibJ6LMnY9"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 4,
+        "cachedInputTokens": 27093,
+        "outputTokens": 311,
+        "totalCostUsd": 0.0018299300000000002,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 18081
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}

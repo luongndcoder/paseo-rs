@@ -1,0 +1,257 @@
+{
+  "provider": "codex",
+  "fixture": "05-resume",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Remember the secret word: banana. Reply with just: ok.\")",
+    "process-2: startTurn(\"What was the secret word? Reply with just the word. No tools\")"
+  ],
+  "eventCount": 12,
+  "segments": [
+    {
+      "label": "process-1",
+      "events": [
+        {
+          "type": "thread_started",
+          "provider": "codex",
+          "sessionId": "01a145c7-8672-72d3-b0f6-7dfda2bab45e",
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "turn_started",
+          "provider": "codex",
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "timeline",
+          "provider": "codex",
+          "item": {
+            "type": "user_message",
+            "text": "Remember the secret word: banana. Reply with just: ok.",
+            "messageId": "01a145c7-9128-7fc3-8624-0020ba6fb546"
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "timeline",
+          "provider": "codex",
+          "item": {
+            "type": "assistant_message",
+            "messageId": "msg_0e51490a64997d0b016ad26026b3c08191995dda24e21e6330",
+            "text": "ok"
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "usage_updated",
+          "provider": "codex",
+          "usage": {
+            "inputTokens": 23945,
+            "cachedInputTokens": 0,
+            "outputTokens": 5,
+            "contextWindowMaxTokens": 258400,
+            "contextWindowUsedTokens": 23950
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "turn_completed",
+          "provider": "codex",
+          "usage": {
+            "inputTokens": 23945,
+            "cachedInputTokens": 0,
+            "outputTokens": 5,
+            "contextWindowMaxTokens": 258400,
+            "contextWindowUsedTokens": 23950
+          },
+          "turnId": "codex-turn-0"
+        }
+      ]
+    },
+    {
+      "label": "process-2",
+      "events": [
+        {
+          "type": "usage_updated",
+          "provider": "codex",
+          "usage": {
+            "inputTokens": 23945,
+            "cachedInputTokens": 0,
+            "outputTokens": 5,
+            "contextWindowMaxTokens": 258400,
+            "contextWindowUsedTokens": 23950
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "turn_started",
+          "provider": "codex",
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "timeline",
+          "provider": "codex",
+          "item": {
+            "type": "user_message",
+            "text": "What was the secret word? Reply with just the word. No tools.",
+            "messageId": "01a145c7-a5b6-7460-83a9-fccd1a6235f7"
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "timeline",
+          "provider": "codex",
+          "item": {
+            "type": "assistant_message",
+            "messageId": "msg_0e51490a64997d0b016ad2602c0c848191888d5233eb55666d",
+            "text": "banana"
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "usage_updated",
+          "provider": "codex",
+          "usage": {
+            "inputTokens": 24018,
+            "cachedInputTokens": 7168,
+            "outputTokens": 19,
+            "contextWindowMaxTokens": 258400,
+            "contextWindowUsedTokens": 24037
+          },
+          "turnId": "codex-turn-0"
+        },
+        {
+          "type": "turn_completed",
+          "provider": "codex",
+          "usage": {
+            "inputTokens": 24018,
+            "cachedInputTokens": 7168,
+            "outputTokens": 19,
+            "contextWindowMaxTokens": 258400,
+            "contextWindowUsedTokens": 24037
+          },
+          "turnId": "codex-turn-0"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-8672-72d3-b0f6-7dfda2bab45e",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Remember the secret word: banana. Reply with just: ok.",
+        "messageId": "01a145c7-9128-7fc3-8624-0020ba6fb546"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_0e51490a64997d0b016ad26026b3c08191995dda24e21e6330",
+        "text": "ok"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23945,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 23950
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23945,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 23950
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23945,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 23950
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "What was the secret word? Reply with just the word. No tools.",
+        "messageId": "01a145c7-a5b6-7460-83a9-fccd1a6235f7"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_0e51490a64997d0b016ad2602c0c848191888d5233eb55666d",
+        "text": "banana"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24018,
+        "cachedInputTokens": 7168,
+        "outputTokens": 19,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24037
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24018,
+        "cachedInputTokens": 7168,
+        "outputTokens": 19,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24037
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

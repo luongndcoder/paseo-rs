@@ -1,0 +1,1126 @@
+{
+  "note": "merged = mergeToolCallItems(existing, incoming). JSON drops undefined-valued keys (e.g. metadata).",
+  "cases": [
+    {
+      "name": "status_running_to_running",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "status_running_to_completed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "name": "status_running_to_failed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      }
+    },
+    {
+      "name": "status_running_to_canceled",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      }
+    },
+    {
+      "name": "status_completed_to_running",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "status_completed_to_completed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "name": "status_completed_to_failed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      }
+    },
+    {
+      "name": "status_completed_to_canceled",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      }
+    },
+    {
+      "name": "status_failed_to_running",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "old"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "status_failed_to_completed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "old"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "name": "status_failed_to_failed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "old"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      }
+    },
+    {
+      "name": "status_failed_to_canceled",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "old"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      }
+    },
+    {
+      "name": "status_canceled_to_running",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "status_canceled_to_completed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "name": "status_canceled_to_failed",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "failed",
+        "error": {
+          "message": "new"
+        }
+      }
+    },
+    {
+      "name": "status_canceled_to_canceled",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "canceled",
+        "error": null
+      }
+    },
+    {
+      "name": "unknown_over_known",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "a": 1
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "known_over_unknown",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "a": 1
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "unknown_over_unknown",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "a": 1
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "unknown",
+          "input": 2,
+          "output": 3
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "unknown",
+          "input": 2,
+          "output": 3
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "known_over_known_other_type",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "x"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "read",
+          "filePath": "/a"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "read",
+          "filePath": "/a"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "metadata_both",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "a": 1,
+          "b": 1
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "b": 2,
+          "c": 3
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "a": 1,
+          "b": 2,
+          "c": 3
+        }
+      }
+    },
+    {
+      "name": "metadata_existing_only",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "a": 1
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "a": 1
+        }
+      }
+    },
+    {
+      "name": "metadata_incoming_only",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "z": 1
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "metadata": {
+          "z": 1
+        }
+      }
+    },
+    {
+      "name": "metadata_neither",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "running_with_error_overrides",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": {
+          "message": "warn"
+        }
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": {
+          "message": "warn"
+        }
+      }
+    },
+    {
+      "name": "running_null_error_keeps_existing_failed_error",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "kept"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "name": "extra_keys_and_name_override",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "old_name",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "title": "old",
+        "extra": 1
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "new_name",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "title": "new",
+        "other": true
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "new_name",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": null,
+        "title": "new",
+        "extra": 1,
+        "other": true
+      }
+    },
+    {
+      "name": "incoming_error_undefined_running",
+      "existing": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "failed",
+        "error": {
+          "message": "e"
+        }
+      },
+      "incoming": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running"
+      },
+      "merged": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls"
+        },
+        "status": "running",
+        "error": {
+          "message": "e"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,606 @@
+{
+  "provider": "codex",
+  "fixture": "03-tool-deny",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Run the shell command `touch out.txt` to create an empty fil\")",
+    "process-1: respondToPermission(permission-exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30, deny) for decision=decline"
+  ],
+  "eventCount": 55,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-4bc9-7991-88c5-59854fae8a50",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Run the shell command `touch out.txt` to create an empty file. The sandbox is read-only, so request escalated permissions for this command (sandbox_permissions require_escalated). Then say done.",
+        "messageId": "01a145c7-563d-75a2-8c27-7e318c720d2f"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": "T"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": "ôi"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " sẽ"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " chạy"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " `"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": "touch"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " out"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": ".txt"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": "`"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " với"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " quyền"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " được"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " nâng"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " cấp"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " theo"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " yêu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": " cầu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260175e388191ac6432f54bef8382",
+        "text": "."
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "tool_call",
+        "callId": "exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+        "name": "shell",
+        "status": "running",
+        "error": null,
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "permission_requested",
+      "provider": "codex",
+      "request": {
+        "id": "permission-exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+        "provider": "codex",
+        "name": "CodexBash",
+        "kind": "tool",
+        "title": "Run command: /bin/zsh -lc 'touch out.txt'",
+        "description": "Bạn có muốn cho phép tạo file rỗng out.txt trong workspace không?",
+        "input": {
+          "command": "/bin/zsh -lc 'touch out.txt'",
+          "cwd": "/tmp/paseo-codex-fixture"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        },
+        "metadata": {
+          "itemId": "exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+          "threadId": "01a145c7-4bc9-7991-88c5-59854fae8a50",
+          "turnId": "01a145c7-4c2f-7400-ab6d-76458c457a93"
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "tool_call",
+        "callId": "permission-exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+        "name": "shell",
+        "status": "failed",
+        "error": {
+          "message": "denied in fixture"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        },
+        "metadata": {
+          "permissionRequestId": "permission-exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+          "denied": true
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "permission_resolved",
+      "provider": "codex",
+      "requestId": "permission-exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+      "resolution": {
+        "behavior": "deny",
+        "message": "denied in fixture"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "tool_call",
+        "callId": "exec-eb0b846a-9a4b-4040-9df9-5ecea1d7ba30",
+        "name": "shell",
+        "status": "failed",
+        "error": {
+          "message": "Tool call failed"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23973,
+        "cachedInputTokens": 20736,
+        "outputTokens": 102,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24075
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "\n\n---\n\nKhông"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " tạo"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " được"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " `"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "out"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": ".txt"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "`"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " —"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " yêu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " cầu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " quyền"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " nâng"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " cấp"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " để"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " chạy"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " `"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "touch"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " out"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": ".txt"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "`"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " đã"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " bị"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " từ"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": " ch"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "ối"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_01fa46fa694fe86d016ad260198810819182d5eff0841107d2",
+        "text": "."
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24120,
+        "cachedInputTokens": 23808,
+        "outputTokens": 30,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24150
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24120,
+        "cachedInputTokens": 23808,
+        "outputTokens": 30,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24150
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

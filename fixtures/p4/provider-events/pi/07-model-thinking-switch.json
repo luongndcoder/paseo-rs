@@ -1,0 +1,55 @@
+{
+  "provider": "pi",
+  "fixture": "07-model-thinking-switch",
+  "status": "partial",
+  "driver": "PiRpcAgentSession over FakePi: out lines replayed as runtime events; prompt/abort/extension_ui_response in-lines trigger startTurn/interrupt/respondToPermission",
+  "notes": [
+    "argv: [\"--mode\",\"rpc\",\"--model\",\"nvidia/openai/gpt-oss-20b\",\"--no-session\",\"--extension\",\"/var/folders/6p/l1pfzn650qv0v_d0g_33vbt40000gn/T/paseo-pi-extension-JJXYXl/paseo-integration.mjs\"]",
+    "ignored in-line type=set_model",
+    "ignored in-line type=set_thinking_level",
+    "startTurn(\"Reply with exactly: pong\")"
+  ],
+  "eventCount": 6,
+  "events": [
+    {
+      "type": "thinking_option_changed",
+      "provider": "pi",
+      "thinkingOptionId": "high"
+    },
+    {
+      "type": "thread_started",
+      "provider": "pi",
+      "sessionId": "01a145c8-6190-7318-afd1-69fe74fcbe56"
+    },
+    {
+      "type": "turn_started",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: pong",
+        "messageId": "57e413d7"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "pong",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    }
+  ]
+}

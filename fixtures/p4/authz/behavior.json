@@ -1,0 +1,185 @@
+{
+  "note": "unmapped: TS throws on a type missing from the tables (Rust must deny instead). session: replace() semantics and Set ordering. parse/legacy: permission parsing helpers.",
+  "unmapped": {
+    "inbound": {
+      "ok": false,
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'some')"
+      }
+    },
+    "outbound": {
+      "ok": false,
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'some')"
+      }
+    }
+  },
+  "session": {
+    "initialListedPermissions": [
+      "workspace.read",
+      "daemon.read"
+    ],
+    "afterReplaceListedPermissions": [
+      "hub.execute",
+      "workspace.write"
+    ],
+    "allowsPermission": [
+      {
+        "permission": "daemon.read",
+        "allowed": false
+      },
+      {
+        "permission": "daemon.manage",
+        "allowed": false
+      },
+      {
+        "permission": "tunnel.manage",
+        "allowed": false
+      },
+      {
+        "permission": "access.manage",
+        "allowed": false
+      },
+      {
+        "permission": "workspace.read",
+        "allowed": false
+      },
+      {
+        "permission": "workspace.write",
+        "allowed": true
+      },
+      {
+        "permission": "workspace.manage",
+        "allowed": false
+      },
+      {
+        "permission": "automation.manage",
+        "allowed": false
+      },
+      {
+        "permission": "hub.execute",
+        "allowed": true
+      }
+    ]
+  },
+  "parseCases": [
+    {
+      "input": [],
+      "result": {
+        "ok": true,
+        "value": []
+      }
+    },
+    {
+      "input": [
+        "workspace.read",
+        "daemon.read"
+      ],
+      "result": {
+        "ok": true,
+        "value": [
+          "workspace.read",
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "input": [
+        "workspace.read",
+        "workspace.read",
+        "daemon.read",
+        "workspace.read"
+      ],
+      "result": {
+        "ok": true,
+        "value": [
+          "workspace.read",
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "input": [
+        "workspace.read",
+        "bogus.perm"
+      ],
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Invalid daemon permission"
+        }
+      }
+    },
+    {
+      "input": [
+        "hub.execution.*"
+      ],
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Invalid daemon permission"
+        }
+      }
+    },
+    {
+      "input": [
+        ""
+      ],
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Invalid daemon permission"
+        }
+      }
+    }
+  ],
+  "legacyScopes": [
+    {
+      "scopes": [],
+      "permissions": []
+    },
+    {
+      "scopes": [
+        "hub.execution.*"
+      ],
+      "permissions": [
+        "hub.execute"
+      ]
+    },
+    {
+      "scopes": [
+        "hub.execution.*",
+        "other"
+      ],
+      "permissions": [
+        "hub.execute"
+      ]
+    },
+    {
+      "scopes": [
+        "other"
+      ],
+      "permissions": []
+    },
+    {
+      "scopes": [
+        "hub.execution.agent.create"
+      ],
+      "permissions": []
+    },
+    {
+      "scopes": [
+        "workspace.read",
+        "hub.execution.*"
+      ],
+      "permissions": [
+        "hub.execute"
+      ]
+    }
+  ]
+}

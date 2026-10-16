@@ -1,0 +1,10 @@
+{
+  "provider": "pi",
+  "fixture": "omp-02-prompt-rejected",
+  "status": "failed",
+  "reason": "OMP is host-only in P4 (Q8); no native mapper to capture",
+  "driver": null,
+  "notes": [],
+  "eventCount": 0,
+  "events": []
+}

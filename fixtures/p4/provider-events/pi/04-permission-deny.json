@@ -1,0 +1,2483 @@
+{
+  "provider": "pi",
+  "fixture": "04-permission-deny",
+  "status": "ok",
+  "driver": "PiRpcAgentSession over FakePi: out lines replayed as runtime events; prompt/abort/extension_ui_response in-lines trigger startTurn/interrupt/respondToPermission",
+  "notes": [
+    "argv: [\"--mode\",\"rpc\",\"--model\",\"nvidia/openai/gpt-oss-20b\",\"--no-session\",\"--extension\",\"/var/folders/6p/l1pfzn650qv0v_d0g_33vbt40000gn/T/paseo-pi-extension-ooWoWK/paseo-integration.mjs\"]",
+    "startTurn(\"Call the ask_user_question tool exactly once with one questi\")",
+    "respondToPermission(rpiv-question:chatcmpl-tool-bbdab3ed1d83c80c, deny)"
+  ],
+  "eventCount": 264,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "pi",
+      "sessionId": "01a145c7-da98-7470-8d95-5881359ca75b"
+    },
+    {
+      "type": "turn_started",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "user_message",
+        "text": "Call the ask_user_question tool exactly once with one question 'Which snack?' and options Apple and Cookie. Then tell me what happened.",
+        "messageId": "4a18522b"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "User"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " says"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Call"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ask"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " once"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " with"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " one"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " '"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Which"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " snack"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "?'"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " and"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " options"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Apple"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " and"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Cookie"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Then"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tell"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " me"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " what"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " happened"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ".\""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " carry"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " out"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " call"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Use"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ask"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Must"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " obey"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " structure"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " can"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " include"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " multiple"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " options"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " unlimited"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " but"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " we"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " have"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " "
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "2"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " options"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Must"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " not"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " include"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " our"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " own"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Type"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " something"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ".\""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " etc"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Has"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " be"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " one"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Provide"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " header"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " too"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ". Header"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " small"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " maybe"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Snack"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "\"."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Ok"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Then"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " call"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " And"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " then"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " after"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ","
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tell what"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " happened"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " So"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " produce"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " a"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " response"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " summar"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "izing"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " was"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " invoked"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " and"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " response"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "?"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Lik"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "ely"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " we"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " cannot"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " run user's"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " inside"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " environment"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "?"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " should"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " execute"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " There's"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " no"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " output"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " hack"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "?"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Provide"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " call"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " format"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " one"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " call"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Ok"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Use"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ask"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "permission_requested",
+      "provider": "pi",
+      "request": {
+        "id": "rpiv-question:chatcmpl-tool-bbdab3ed1d83c80c",
+        "provider": "pi",
+        "name": "Pi ask_user_question",
+        "kind": "question",
+        "title": "Which snack?",
+        "input": {
+          "questions": [
+            {
+              "question": "Which snack?",
+              "header": "Snack",
+              "options": [
+                {
+                  "label": "Apple",
+                  "description": "Fresh apple"
+                },
+                {
+                  "label": "Cookie",
+                  "description": "Chocolate chip cookie"
+                }
+              ],
+              "multiSelect": false,
+              "allowOther": true
+            }
+          ]
+        }
+      },
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-bbdab3ed1d83c80c",
+        "name": "ask_user_question",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "questions": [
+              {
+                "question": "Which snack?",
+                "header": "Snack",
+                "options": [
+                  {
+                    "label": "Apple",
+                    "description": "Fresh apple"
+                  },
+                  {
+                    "label": "Cookie",
+                    "description": "Chocolate chip cookie"
+                  }
+                ],
+                "multiSelect": false
+              }
+            ]
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "type": "permission_resolved",
+      "provider": "pi",
+      "requestId": "rpiv-question:chatcmpl-tool-bbdab3ed1d83c80c",
+      "resolution": {
+        "behavior": "deny",
+        "message": "denied in fixture"
+      },
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-bbdab3ed1d83c80c",
+        "name": "ask_user_question",
+        "detail": {
+          "type": "plain_text",
+          "label": "Questions",
+          "text": "Cancelled"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " executed"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ask"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "_question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " It"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " returned"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " decline"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " asked"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Then"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tell"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " me"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " what"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " happened"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ".\" We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " explain"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " did"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ask"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " declined"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " respond"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " mention"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " was"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " called"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ","
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " question"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " was"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " asked"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ","
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " user"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " declined"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " That's"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " it"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "The",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " `",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "ask",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "_user",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "_question",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "`",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " tool",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " was",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " invoked",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " with",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " a",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " single",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " question",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": ":",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " **",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "“",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "Which",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " snack",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "?”",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "**",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " It",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " presented",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " two",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " options",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "—",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "Apple",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " and",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " Cookie",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " The",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " user",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " declined",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " to",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " answer",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": ",",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " so",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " we",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " have",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " no",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " selected",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " choice",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " from",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " the",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": " questionnaire",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    }
+  ]
+}

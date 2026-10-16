@@ -1,0 +1,3990 @@
+{
+  "note": "requirement.kind: always (null; no permission needed), one (single permission), any (any-of list). Types come from SessionInbound/OutboundMessageSchema options, so a new unmapped protocol type changes this file. `status` outbound is evaluated with payload.status=other for the table row; the special case is under statusSpecialCase.",
+  "daemonPermissions": [
+    "daemon.read",
+    "daemon.manage",
+    "tunnel.manage",
+    "access.manage",
+    "workspace.read",
+    "workspace.write",
+    "workspace.manage",
+    "automation.manage",
+    "hub.execute"
+  ],
+  "ownerPermissions": [
+    "daemon.read",
+    "daemon.manage",
+    "tunnel.manage",
+    "access.manage",
+    "workspace.read",
+    "workspace.write",
+    "workspace.manage",
+    "automation.manage",
+    "hub.execute"
+  ],
+  "inbound": [
+    {
+      "type": "browser.host.register.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "subscription.release.request",
+      "requirement": {
+        "kind": "always",
+        "permissions": []
+      }
+    },
+    {
+      "type": "session.events.set_subscription.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.create.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.validate.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.control.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "browser.automation.execute.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "voice_audio_chunk",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "abort_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "audio_played",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agents_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_history_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fetch_recent_provider_sessions_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fetch_workspaces_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "project.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "delete_agent_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "archive_agent_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "close_items_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "update_agent_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "project.rename.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.icon.set.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.remove.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.title.set.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.pin.set.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.assignment.set.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.update.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.delete.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.delete.inspect.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.recovery.inspect.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.recovery.restore.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "set_voice_mode",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "send_agent_message_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "wait_for_finish_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "daemon.get_status.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "daemon.get_pairing_offer.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "access.manage"
+        ]
+      }
+    },
+    {
+      "type": "daemon.config.reload.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.connect.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.get_status.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.disconnect.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.permissions.update.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "access.manage"
+        ]
+      }
+    },
+    {
+      "type": "diagnostics.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "plugin.catalog.get.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.logs.get.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.directory.install.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.directory.inspect.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.install.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.status.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.preview.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.apply.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.reload.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.enable.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.disable.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.remove.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.rpc.invoke.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.append.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.get_status.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.reconcile.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.uninstall.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.save_selection.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.import_legacy_selection.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "get_daemon_config_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "set_daemon_config_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "read_project_config_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "write_project_config_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_start",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_chunk",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_finish",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_cancel",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "create_agent_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_models_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_modes_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_features_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_available_providers_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "get_providers_snapshot_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "refresh_providers_snapshot_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "provider_diagnostic_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "provider.usage.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "usage.list_reports.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "resume_agent_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "import_agent_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "refresh_agent_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "cancel_agent_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "shutdown_server_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "restart_server_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "daemon.update.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_timeline_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.search.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.list_prompts.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.provider_subagents.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.provider_subagents.timeline.get.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.set_subscription.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.fork_context.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_mode_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_model_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_thinking_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_feature_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.config.apply.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.detach.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.rewind.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent_permission_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_status_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.diff.get.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "subscribe_checkout_diff_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "unsubscribe_checkout_diff_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_commit_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_merge_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_merge_from_base_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pull_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_push_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.refresh.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.discard_changes.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_create_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_merge_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.forge.set_auto_merge.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.github.set_auto_merge.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.commits.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.commits.file_diff.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.forge.get_check_details.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.github.get_check_details.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_status_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "pull_request_timeline_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_switch_branch_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.rename_branch.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "stash_save_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "stash_pop_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "stash_list_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "validate_branch_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "branch_suggestions_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "forge.search.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "github_search_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "directory_suggestions_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "paseo_worktree_list_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "paseo_worktree_archive_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "create_paseo_worktree_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace_setup_status_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.setup.run.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "list_available_editors_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "open_in_editor_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "open_project_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.add.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.create_directory.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.github.search_repositories.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.github.clone.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "archive_workspace_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.create.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.create.request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "creation.subscribe.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.clear_attention.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.mark_unread.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "file_explorer_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.subscribe.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.unsubscribe.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.write.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.create.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.rename.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.duplicate.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.delete.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "project_icon_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.icon.get.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "file_download_token_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "file.upload.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "clear_agent_attention",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "client_heartbeat",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "ping",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_commands_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "register_push_token",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "push.unregister.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "list_terminals_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "subscribe_terminals_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "unsubscribe_terminals_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "create_terminal_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "terminal.rename.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "start_workspace_script_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.list.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.start.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.stop.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "subscribe_terminal_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "unsubscribe_terminal_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "terminal_input",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "kill_terminal_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "capture_terminal_request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/create",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/list",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/inspect",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/delete",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/post",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/read",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/wait",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "schedule/create",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/list",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/inspect",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/logs",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/pause",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/resume",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/delete",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/run-once",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/run",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/list",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/inspect",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/logs",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/stop",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    }
+  ],
+  "outbound": [
+    {
+      "type": "browser.host.register.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "subscription.release.response",
+      "requirement": {
+        "kind": "always",
+        "permissions": []
+      }
+    },
+    {
+      "type": "session.events.set_subscription.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.create.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.validate.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.control.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "hub.execution.agent.stream",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "browser.automation.execute.request",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "plugin.catalog.get.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.logs.get.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.directory.install.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.directory.inspect.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.install.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.status.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.preview.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.source.update.apply.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.reload.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.enable.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.disable.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.remove.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "plugin.rpc.invoke.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.append.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.get_status.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.reconcile.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.uninstall.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.save_selection.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.skills.import_legacy_selection.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "activity_log",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "assistant_chunk",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "audio_output",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "transcription_result",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "voice_input_state",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_ack",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_finish_accepted",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_partial",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_final",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "dictation_stream_error",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "status",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "pong",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "push.unregister.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "rpc_error",
+      "requirement": {
+        "kind": "always",
+        "permissions": []
+      }
+    },
+    {
+      "type": "artifact",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent_update",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace_update",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.assignment.set.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.update.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.delete.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.label.delete.inspect.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "script_status_update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace_setup_progress",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace_setup_status_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.setup.run.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent_stream",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent_status",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agents_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_history_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fetch_recent_provider_sessions_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fetch_workspaces_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "project.add.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.create_directory.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "open_project_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.github.search_repositories.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.github.clone.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "start_workspace_script_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.start.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.script.stop.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "list_available_editors_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "open_in_editor_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "archive_workspace_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "fetch_agent_timeline_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.replacement",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.search.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.list_prompts.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.provider_subagents.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.provider_subagents.timeline.get.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.provider_subagents.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent.timeline.set_subscription.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent_attention_required",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.fork_context.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "cancel_agent_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "clear_agent_attention_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.create.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.create.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.create.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "agent.create.update",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "creation.subscribe.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "workspace.clear_attention.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "workspace.mark_unread.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "send_agent_message_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "set_voice_mode_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "daemon.get_status.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "daemon.get_pairing_offer.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "access.manage"
+        ]
+      }
+    },
+    {
+      "type": "daemon.config.reload.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.connect.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.get_status.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.disconnect.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "tunnel.manage"
+        ]
+      }
+    },
+    {
+      "type": "hub.management.daemon.permissions.update.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "access.manage"
+        ]
+      }
+    },
+    {
+      "type": "diagnostics.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "get_daemon_config_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "set_daemon_config_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "read_project_config_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "write_project_config_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_mode_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_model_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_thinking_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "set_agent_feature_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.config.apply.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent.detach.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "agent.rewind.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "update_agent_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "project.rename.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.icon.set.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "project.remove.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.title.set.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.pin.set.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "workspace.recovery.inspect.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "workspace.recovery.restore.response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.manage",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "wait_for_finish_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "agent_permission_request",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent_permission_resolved",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent_deleted",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "agent_archived",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "close_items_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "checkout_status_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_status_update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.diff.get.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "subscribe_checkout_diff_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_diff_update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_commit_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_merge_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_merge_from_base_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pull_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_push_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.refresh.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.discard_changes.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_create_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_merge_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.forge.set_auto_merge.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.github.set_auto_merge.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.commits.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.commits.file_diff.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.forge.get_check_details.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout.github.get_check_details.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_pr_status_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "pull_request_timeline_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "checkout_switch_branch_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "checkout.rename_branch.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "stash_save_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "stash_pop_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "stash_list_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "validate_branch_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "branch_suggestions_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "forge.search.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "github_search_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "directory_suggestions_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "paseo_worktree_list_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "paseo_worktree_archive_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "create_paseo_worktree_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.manage"
+        ]
+      }
+    },
+    {
+      "type": "file_explorer_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.subscribe.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.unsubscribe.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.write.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.create.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.rename.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.duplicate.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.entry.delete.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "fs.file.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project_icon_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "project.icon.get.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "file_download_token_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "file.upload.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_models_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_modes_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_provider_features_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_available_providers_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "get_providers_snapshot_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "providers_snapshot_update",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "refresh_providers_snapshot_response",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "daemon.read",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "type": "provider_diagnostic_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "provider.usage.list.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "usage.list_reports.update",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "usage.list_reports.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_commands_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "type": "list_terminals_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "terminals_changed",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "create_terminal_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "terminal.rename.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "subscribe_terminal_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "kill_terminal_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "capture_terminal_response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "terminal_stream_exit",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "terminal_attention_required",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/create/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/list/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/inspect/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/delete/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/post/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.write"
+        ]
+      }
+    },
+    {
+      "type": "chat/read/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "chat/wait/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "workspace.read"
+        ]
+      }
+    },
+    {
+      "type": "schedule/create/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/list/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/inspect/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/logs/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/pause/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/resume/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/delete/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/run-once/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "schedule/update/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/run/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/list/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/inspect/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/logs/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "loop/stop/response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "automation.manage"
+        ]
+      }
+    },
+    {
+      "type": "daemon.update.progress",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    },
+    {
+      "type": "daemon.update.response",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.manage"
+        ]
+      }
+    }
+  ],
+  "statusSpecialCase": [
+    {
+      "status": "agent_created",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "status": "agent_create_failed",
+      "requirement": {
+        "kind": "any",
+        "permissions": [
+          "workspace.write",
+          "hub.execute"
+        ]
+      }
+    },
+    {
+      "status": "daemon_config_updated",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "status": "other",
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    },
+    {
+      "status": null,
+      "requirement": {
+        "kind": "one",
+        "permissions": [
+          "daemon.read"
+        ]
+      }
+    }
+  ]
+}

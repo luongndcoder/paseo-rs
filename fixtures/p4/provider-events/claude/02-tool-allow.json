@@ -1,0 +1,121 @@
+{
+  "provider": "claude",
+  "fixture": "02-tool-allow",
+  "status": "ok",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Use the Bash tool to run `echo captured > out.txt` and then \")",
+    "respondToPermission(permission-00000000-0000-4000-8000-000000000003, allow)"
+  ],
+  "eventCount": 9,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Use the Bash tool to run `echo captured > out.txt` and then say done.",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "73a8c2c4-c2a5-41cc-8706-b73db8b0f78f",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01PEKuVEia7ma1RuAt7UJCXJ",
+        "name": "Bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "status": "running",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "permission_requested",
+      "provider": "claude",
+      "request": {
+        "id": "permission-00000000-0000-4000-8000-000000000003",
+        "provider": "claude",
+        "name": "Bash",
+        "kind": "tool",
+        "input": {
+          "command": "echo captured > out.txt",
+          "description": "Write \"captured\" to out.txt in the working directory"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "metadata": {
+          "toolUseId": "toolu_01PEKuVEia7ma1RuAt7UJCXJ"
+        }
+      },
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "permission_resolved",
+      "provider": "claude",
+      "requestId": "permission-00000000-0000-4000-8000-000000000003",
+      "resolution": {
+        "behavior": "allow"
+      },
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01PEKuVEia7ma1RuAt7UJCXJ",
+        "name": "Bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt",
+          "output": "(Bash completed with no output)"
+        },
+        "status": "completed",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "Done. I ran `echo captured > out.txt` in the working directory, and the command completed without output.",
+        "messageId": "msg_011Cg6JxepDChpCQvzLhnjaX"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 4,
+        "cachedInputTokens": 29564,
+        "outputTokens": 167,
+        "totalCostUsd": 0.00184764,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 19313
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}

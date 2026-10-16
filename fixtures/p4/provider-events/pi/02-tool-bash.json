@@ -1,0 +1,467 @@
+{
+  "provider": "pi",
+  "fixture": "02-tool-bash",
+  "status": "ok",
+  "driver": "PiRpcAgentSession over FakePi: out lines replayed as runtime events; prompt/abort/extension_ui_response in-lines trigger startTurn/interrupt/respondToPermission",
+  "notes": [
+    "argv: [\"--mode\",\"rpc\",\"--model\",\"nvidia/openai/gpt-oss-20b\",\"--no-session\",\"--extension\",\"/var/folders/6p/l1pfzn650qv0v_d0g_33vbt40000gn/T/paseo-pi-extension-o48T4A/paseo-integration.mjs\"]",
+    "startTurn(\"Use the bash tool to run `echo hello-from-pi` and tell me th\")"
+  ],
+  "eventCount": 47,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "pi",
+      "sessionId": "01a145c7-9326-7054-885a-486beffea5c6"
+    },
+    {
+      "type": "turn_started",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "user_message",
+        "text": "Use the bash tool to run `echo hello-from-pi` and tell me the output.",
+        "messageId": "b9bc2bbc"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " run"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " a"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " bash"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " command"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " `"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "echo"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " hello"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "-from"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "-p"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "i"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "`."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Then"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " provide"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " output"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Use"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " bash"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-b79dd49c9d31946d",
+        "name": "bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello-from-pi"
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-b79dd49c9d31946d",
+        "name": "bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello-from-pi",
+          "exitCode": null
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-b79dd49c9d31946d",
+        "name": "bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello-from-pi",
+          "output": "hello-from-pi\n",
+          "exitCode": null
+        },
+        "status": "running",
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "tool_call",
+        "callId": "chatcmpl-tool-b79dd49c9d31946d",
+        "name": "bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello-from-pi",
+          "output": "hello-from-pi\n",
+          "exitCode": null
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "We"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " simply"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " executed"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " output"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "``",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "`\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "hello",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "-from",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "-p",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "i",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "``",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "`\n",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{"fn":"projectAgentMessage","name":"plain-0","input":{"type":"user_message","text":"plain prompt"},"output":{"type":"user_message","text":"plain prompt"}}
+{"fn":"projectAgentMessage","name":"plain-1","input":{"type":"user_message","text":"<paseo-system>\nschedule fired\n</paseo-system>"},"output":null}
+{"fn":"projectAgentMessage","name":"plain-2","input":{"type":"user_message","text":"<paseo-system>\nunterminated"},"output":{"type":"user_message","text":"<paseo-system>\nunterminated"}}
+{"fn":"projectAgentMessage","name":"plain-3","input":{"type":"assistant_message","text":"hello"},"output":{"type":"assistant_message","text":"hello"}}
+{"fn":"projectAgentMessage","name":"plain-4","input":{"type":"reasoning","text":"think"},"output":{"type":"reasoning","text":"think"}}
+{"fn":"projectAgentMessage","name":"plain-5","input":{"type":"user_message","text":"","clientMessageId":"c"},"output":{"type":"user_message","text":"","clientMessageId":"c"}}
+{"fn":"projectAgentMessage","name":"envelope:user_without_source","input":{"type":"user_message","text":"from user"},"output":{"type":"user_message","text":"from user"}}
+{"fn":"prepareAgentMessage","name":"agent_message_with_title","input":{"prompt":"hello agent","source":{"kind":"agent-message","agentId":"a1","title":"Sender"}},"output":{"threw":{"name":"TypeError","message":"value.replace is not a function"}}}
+{"fn":"prepareAgentMessage","name":"agent_message_no_title","input":{"prompt":"hello agent","source":{"kind":"agent-message","agentId":"a1"}},"output":{"threw":{"name":"TypeError","message":"value.replace is not a function"}}}
+{"fn":"prepareAgentMessage","name":"notification_finished","input":{"prompt":"done","source":{"kind":"agent-notification","agentId":"a2","title":"Worker","event":"finished"}},"output":{"threw":{"name":"TypeError","message":"value.replace is not a function"}}}
+{"fn":"prepareAgentMessage","name":"notification_permission","input":{"prompt":"needs approval","source":{"kind":"agent-notification","agentId":"a2","event":"permission-required"}},"output":{"threw":{"name":"TypeError","message":"value.replace is not a function"}}}
+{"fn":"prepareAgentMessage","name":"user_without_source","input":{"prompt":"from user","source":null},"output":{"prompt":"from user","messageId":{"id":"msg-user_without_source"}}}

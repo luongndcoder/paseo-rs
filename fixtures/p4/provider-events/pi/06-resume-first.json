@@ -1,0 +1,282 @@
+{
+  "provider": "pi",
+  "fixture": "06-resume-first",
+  "status": "ok",
+  "driver": "PiRpcAgentSession over FakePi: out lines replayed as runtime events; prompt/abort/extension_ui_response in-lines trigger startTurn/interrupt/respondToPermission",
+  "notes": [
+    "argv: [\"--mode\",\"rpc\",\"--model\",\"nvidia/openai/gpt-oss-20b\",\"--extension\",\"/var/folders/6p/l1pfzn650qv0v_d0g_33vbt40000gn/T/paseo-pi-extension-awiCP2/paseo-integration.mjs\"]",
+    "startTurn(\"Remember the secret word: tangerine. Reply with exactly: ok\")"
+  ],
+  "eventCount": 31,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "pi",
+      "sessionId": "01a145c8-3eb4-72c0-b109-14c1104003df"
+    },
+    {
+      "type": "turn_started",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "user_message",
+        "text": "Remember the secret word: tangerine. Reply with exactly: ok",
+        "messageId": "16d0d5b2"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "The user says \"Remember"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " secret"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " word"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " t"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "anger"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "ine"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " Reply"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " with"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ok"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "\".\n\n"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "Need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " reply"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": ":"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " ok"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "\n\n"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "So"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " produce"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": " that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002",
+      "item": {
+        "type": "assistant_message",
+        "text": "ok",
+        "messageId": "00000000-0000-4000-8000-000000000003"
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "pi",
+      "turnId": "00000000-0000-4000-8000-000000000002"
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "provider": "acp",
+  "fixture": "06-model-mode-switch",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: copilot",
+    "session/prompt -> activeForegroundTurnId=turn-1",
+    "prompt response stopReason=\"end_turn\" -> turn cleared",
+    "5 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 10,
+  "events": [
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#plan",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#plan",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-5-mini",
+        "thinkingOptionId": "medium",
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "thinking_option_changed",
+      "provider": "copilot",
+      "thinkingOptionId": "medium"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "Error: Execution failed: CAPIError: 400 The requested model is not supported. (Request ID: E43E:4560C:1BC1E2F:1D4851B:6AD260E0)",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    }
+  ]
+}

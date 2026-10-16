@@ -1,0 +1,128 @@
+{
+  "provider": "codex",
+  "fixture": "06-mode-model-switch",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: no turn/start (catalog/list-only process); nothing to map",
+    "process-2: startTurn(\"Reply with exactly: one. No tools.\")",
+    "process-2: startTurn(\"Reply with exactly: two. No tools.\")"
+  ],
+  "eventCount": 12,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-b257-7d12-9a80-cad8ad7443af",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: one. No tools.",
+        "messageId": "01a145c7-be1c-7e21-b4b4-8746830a7489"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_02d681b7d3f6691d016ad26031d2e88191b254f6c7c8727d06",
+        "text": "one"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24467,
+        "cachedInputTokens": 12928,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24472
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24467,
+        "cachedInputTokens": 12928,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24472
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: two. No tools.",
+        "messageId": "01a145c7-c84a-7130-8ef4-a5c5c5b8d13c"
+      },
+      "turnId": "codex-turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_02d681b7d3f6691d016ad260354df881919ddd44cf31712946",
+        "text": "two"
+      },
+      "turnId": "codex-turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_02d681b7d3f6691d016ad260354df881919ddd44cf31712946",
+        "text": "."
+      },
+      "turnId": "codex-turn-1"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 36315,
+        "cachedInputTokens": 6784,
+        "outputTokens": 6,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 36321
+      },
+      "turnId": "codex-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 36315,
+        "cachedInputTokens": 6784,
+        "outputTokens": 6,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 36321
+      },
+      "turnId": "codex-turn-1"
+    }
+  ]
+}

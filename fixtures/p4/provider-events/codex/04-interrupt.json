@@ -1,0 +1,40 @@
+{
+  "provider": "codex",
+  "fixture": "04-interrupt",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Write a 2000 word essay about the history of the bicycle. Do\")",
+    "process-1: interrupt()"
+  ],
+  "eventCount": 4,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-7619-7983-9f19-ff69504d104a",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Write a 2000 word essay about the history of the bicycle. Do not use tools.",
+        "messageId": "01a145c7-7f87-7193-b282-808cc159d238"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_canceled",
+      "provider": "codex",
+      "reason": "interrupted",
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

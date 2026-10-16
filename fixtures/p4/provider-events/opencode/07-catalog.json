@@ -1,0 +1,10 @@
+{
+  "provider": "opencode",
+  "fixture": "07-catalog",
+  "status": "failed",
+  "reason": "no session id found in fixture",
+  "driver": null,
+  "notes": [],
+  "eventCount": 0,
+  "events": []
+}

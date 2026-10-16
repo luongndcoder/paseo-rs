@@ -1,0 +1,369 @@
+{
+  "note": "One entry per crate fixture. status ok = replayed through the TS adapter; partial = replayed with documented gaps (see notes in the per-fixture file); failed = not replayable (reason given).",
+  "fixtures": [
+    {
+      "provider": "pi",
+      "fixture": "01-prompt-reply",
+      "status": "ok",
+      "eventCount": 23
+    },
+    {
+      "provider": "pi",
+      "fixture": "02-tool-bash",
+      "status": "ok",
+      "eventCount": 47
+    },
+    {
+      "provider": "pi",
+      "fixture": "03-permission-allow",
+      "status": "ok",
+      "eventCount": 436
+    },
+    {
+      "provider": "pi",
+      "fixture": "04-permission-deny",
+      "status": "ok",
+      "eventCount": 264
+    },
+    {
+      "provider": "pi",
+      "fixture": "05-interrupt",
+      "status": "partial",
+      "eventCount": 42
+    },
+    {
+      "provider": "pi",
+      "fixture": "06-resume-first",
+      "status": "ok",
+      "eventCount": 31
+    },
+    {
+      "provider": "pi",
+      "fixture": "06-resume",
+      "status": "ok",
+      "eventCount": 57
+    },
+    {
+      "provider": "pi",
+      "fixture": "07-model-thinking-switch",
+      "status": "partial",
+      "eventCount": 6
+    },
+    {
+      "provider": "pi",
+      "fixture": "08-catalog",
+      "status": "failed",
+      "reason": "no turn in this fixture (catalog/list-only)",
+      "eventCount": 0
+    },
+    {
+      "provider": "pi",
+      "fixture": "omp-01-prompt-reply",
+      "status": "failed",
+      "reason": "OMP is host-only in P4 (Q8); no native mapper to capture",
+      "eventCount": 0
+    },
+    {
+      "provider": "pi",
+      "fixture": "omp-02-prompt-rejected",
+      "status": "failed",
+      "reason": "OMP is host-only in P4 (Q8); no native mapper to capture",
+      "eventCount": 0
+    },
+    {
+      "provider": "pi",
+      "fixture": "omp-03-host-tools-and-ui",
+      "status": "failed",
+      "reason": "OMP is host-only in P4 (Q8); no native mapper to capture",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "01-prompt-reply",
+      "status": "partial",
+      "eventCount": 3
+    },
+    {
+      "provider": "acp",
+      "fixture": "02-permission-allow",
+      "status": "partial",
+      "eventCount": 5
+    },
+    {
+      "provider": "acp",
+      "fixture": "03-permission-deny",
+      "status": "partial",
+      "eventCount": 4
+    },
+    {
+      "provider": "acp",
+      "fixture": "04-interrupt",
+      "status": "partial",
+      "eventCount": 73
+    },
+    {
+      "provider": "acp",
+      "fixture": "05-resume",
+      "status": "partial",
+      "eventCount": 3
+    },
+    {
+      "provider": "acp",
+      "fixture": "06-model-mode-switch",
+      "status": "partial",
+      "eventCount": 10
+    },
+    {
+      "provider": "acp",
+      "fixture": "07-allow-all-unsupported",
+      "status": "partial",
+      "eventCount": 2
+    },
+    {
+      "provider": "acp",
+      "fixture": "08-catalog",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "09-commands",
+      "status": "partial",
+      "eventCount": 2
+    },
+    {
+      "provider": "acp",
+      "fixture": "10-copilot-allow-all",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "11-kiro-commands",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "12-cursor-catalog",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "12b-cursor-catalog-old-cli",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "13-kimi-catalog",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "14-generic-commands",
+      "status": "partial",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "15-string-numeric-ids",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "16-list-sessions",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "acp",
+      "fixture": "17-resume-unstable",
+      "status": "failed",
+      "reason": "no session/update notifications (catalog/list-only fixture)",
+      "eventCount": 0
+    },
+    {
+      "provider": "opencode",
+      "fixture": "01-prompt-reply",
+      "status": "partial",
+      "eventCount": 17
+    },
+    {
+      "provider": "opencode",
+      "fixture": "02-permission-allow",
+      "status": "partial",
+      "eventCount": 60
+    },
+    {
+      "provider": "opencode",
+      "fixture": "03-permission-deny",
+      "status": "partial",
+      "eventCount": 75
+    },
+    {
+      "provider": "opencode",
+      "fixture": "04-interrupt",
+      "status": "partial",
+      "eventCount": 9
+    },
+    {
+      "provider": "opencode",
+      "fixture": "05-resume",
+      "status": "partial",
+      "eventCount": 55
+    },
+    {
+      "provider": "opencode",
+      "fixture": "06-model-mode-switch",
+      "status": "partial",
+      "eventCount": 35
+    },
+    {
+      "provider": "opencode",
+      "fixture": "07-catalog",
+      "status": "failed",
+      "reason": "no session id found in fixture",
+      "eventCount": 0
+    },
+    {
+      "provider": "opencode",
+      "fixture": "08-image-prompt",
+      "status": "partial",
+      "eventCount": 18
+    },
+    {
+      "provider": "codex",
+      "fixture": "01-single-prompt",
+      "status": "ok",
+      "eventCount": 6
+    },
+    {
+      "provider": "codex",
+      "fixture": "02-tool-allow",
+      "status": "ok",
+      "eventCount": 44
+    },
+    {
+      "provider": "codex",
+      "fixture": "03-tool-deny",
+      "status": "ok",
+      "eventCount": 55
+    },
+    {
+      "provider": "codex",
+      "fixture": "04-interrupt",
+      "status": "ok",
+      "eventCount": 4
+    },
+    {
+      "provider": "codex",
+      "fixture": "05-resume",
+      "status": "ok",
+      "eventCount": 12
+    },
+    {
+      "provider": "codex",
+      "fixture": "06-mode-model-switch",
+      "status": "ok",
+      "eventCount": 12
+    },
+    {
+      "provider": "codex",
+      "fixture": "07-catalog-commands",
+      "status": "failed",
+      "reason": "no process with a turn/start in this fixture",
+      "eventCount": 0
+    },
+    {
+      "provider": "codex",
+      "fixture": "08-image-input",
+      "status": "ok",
+      "eventCount": 6
+    },
+    {
+      "provider": "codex",
+      "fixture": "09-importable-sessions",
+      "status": "ok",
+      "eventCount": 6
+    },
+    {
+      "provider": "codex",
+      "fixture": "10-list-commands",
+      "status": "failed",
+      "reason": "no process with a turn/start in this fixture",
+      "eventCount": 0
+    },
+    {
+      "provider": "claude",
+      "fixture": "01-single-prompt",
+      "status": "ok",
+      "eventCount": 5
+    },
+    {
+      "provider": "claude",
+      "fixture": "02-tool-allow",
+      "status": "ok",
+      "eventCount": 9
+    },
+    {
+      "provider": "claude",
+      "fixture": "03-tool-deny",
+      "status": "ok",
+      "eventCount": 10
+    },
+    {
+      "provider": "claude",
+      "fixture": "04-pretooluse-hook",
+      "status": "partial",
+      "eventCount": 7
+    },
+    {
+      "provider": "claude",
+      "fixture": "05-sdk-mcp-tool",
+      "status": "partial",
+      "eventCount": 9
+    },
+    {
+      "provider": "claude",
+      "fixture": "06-interrupt",
+      "status": "ok",
+      "eventCount": 6
+    },
+    {
+      "provider": "claude",
+      "fixture": "07-controls",
+      "status": "partial",
+      "eventCount": 7
+    },
+    {
+      "provider": "claude",
+      "fixture": "08-resume",
+      "status": "ok",
+      "eventCount": 5
+    },
+    {
+      "provider": "claude",
+      "fixture": "09-partial-messages",
+      "status": "ok",
+      "eventCount": 9
+    },
+    {
+      "provider": "claude",
+      "fixture": "10-rewind-files",
+      "status": "partial",
+      "eventCount": 7
+    }
+  ]
+}

@@ -1,0 +1,546 @@
+{
+  "provider": "opencode",
+  "fixture": "02-permission-allow",
+  "status": "partial",
+  "driver": "translateOpenCodeEvent over recorded SSE payloads with one shared translation state",
+  "notes": [
+    "sessionId=ses_eba33c268ffeGnmeZmRlG1kxr7",
+    "136 SSE events seen, 37 sync/heartbeat events skipped",
+    "turn_started/turn_completed and prompt submission events come from the session controller, not translateOpenCodeEvent; user_message pending state is not primed"
+  ],
+  "eventCount": 60,
+  "events": [
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "user_message",
+        "text": "Use the bash tool to run exactly: echo captured > out.txt   Then reply done.",
+        "messageId": "msg_145cc403b001NAGEJKznDx1Sji"
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "error",
+        "message": "Provider retry (attempt 1): Upstream request failed: Endpoint is unavailable."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "error",
+        "message": "Provider retry (attempt 2): Upstream request failed: Endpoint is unavailable."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "error",
+        "message": "Provider retry (attempt 3): Upstream request failed: Endpoint is unavailable."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "error",
+        "message": "Provider retry (attempt 4): Upstream request failed: Endpoint is unavailable."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user wants me to run exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " `echo captured > out.txt"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "` using"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " the bash tool,"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " then reply \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "done\". The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " working"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " directory is /private/tmp/"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "claude-501/"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "oc-scratch/cap/"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "pc-02-permission-"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "allow-g7vsXU"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": ","
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " so the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " out"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": ".txt file"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " will be created there. This"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " is a simple,"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " benign"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " command"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " — just writing"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " word \"captured\" into"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " a file. I'll run"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " it and then confirm"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " with \"done\""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " as requested."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "ce655305-459c-4267-9848-5a49278c4898",
+        "name": "bash",
+        "status": "running",
+        "detail": {
+          "type": "unknown",
+          "input": {},
+          "output": null
+        },
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "ce655305-459c-4267-9848-5a49278c4898",
+        "name": "bash",
+        "status": "running",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "error": null
+      }
+    },
+    {
+      "type": "permission_requested",
+      "provider": "opencode",
+      "request": {
+        "id": "per_145ccf94f0014VeI7nqcZXMxNL",
+        "provider": "opencode",
+        "name": "bash",
+        "kind": "tool",
+        "title": "Run shell command",
+        "description": "Scope: echo captured > out.txt",
+        "input": {
+          "patterns": [
+            "echo captured > out.txt"
+          ],
+          "metadata": {
+            "command": "echo captured > out.txt"
+          },
+          "tool": {
+            "messageID": "msg_145cc40ef001McnaAUfFsTVJMF",
+            "callID": "ce655305-459c-4267-9848-5a49278c4898"
+          },
+          "command": "echo captured > out.txt"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "actions": [
+          {
+            "id": "deny",
+            "label": "Deny",
+            "behavior": "deny",
+            "variant": "danger",
+            "intent": "dismiss"
+          },
+          {
+            "id": "allow_always",
+            "label": "Allow always",
+            "behavior": "allow",
+            "variant": "secondary"
+          },
+          {
+            "id": "allow_once",
+            "label": "Allow once",
+            "behavior": "allow",
+            "variant": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "ce655305-459c-4267-9848-5a49278c4898",
+        "name": "bash",
+        "status": "running",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "error": null,
+        "metadata": {
+          "output": ""
+        }
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "ce655305-459c-4267-9848-5a49278c4898",
+        "name": "bash",
+        "status": "completed",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt",
+          "output": "(no output)"
+        },
+        "error": null,
+        "metadata": {
+          "output": "(no output)",
+          "exit": 0,
+          "truncated": false
+        }
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 27111,
+        "outputTokens": 116,
+        "contextWindowUsedTokens": 27227
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " command ran"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " successfully. The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user asked me to run"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " command and then reply \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "done\"."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "don",
+        "messageId": "msg_145ccfa07001kB5ZvNIdVtwZFq"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "e",
+        "messageId": "msg_145ccfa07001kB5ZvNIdVtwZFq"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 253,
+        "outputTokens": 23,
+        "contextWindowUsedTokens": 27156,
+        "cachedInputTokens": 26880
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba33c268ffeGnmeZmRlG1kxr7",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "provider_subagent",
+      "provider": "opencode",
+      "event": {
+        "type": "remove",
+        "id": "ses_eba33c268ffeGnmeZmRlG1kxr7"
+      }
+    }
+  ]
+}

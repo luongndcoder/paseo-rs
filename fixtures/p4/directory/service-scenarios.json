@@ -1,0 +1,2650 @@
+{
+  "note": "Each scenario runs on a fresh DirectorySyncService(generation). ops[].result is the TS return value (or {threw}). snapshot.gen expands to count entities with ids <prefix><index>.",
+  "scenarios": [
+    {
+      "name": "projects_latest_changes",
+      "description": "Initial snapshot, two upserts of the same project, then changes after seq 1 (seq 3).",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "One",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "syncSeq": 1
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Renamed",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Renamed",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            },
+            "generation": "gen-1",
+            "seq": 2
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Latest",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Latest",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            },
+            "generation": "gen-1",
+            "seq": 3
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "Latest",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 1
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "Latest",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "syncSeq": 3
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 3,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "projects_hard_removal_once",
+      "description": "Removal is sequenced once; repeating it returns the same seq; the tombstone shows in removals.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "One",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "syncSeq": 1
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "remove",
+            "projectId": "one"
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "projectId": "one",
+            "generation": "gen-1",
+            "seq": 2
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "remove",
+            "projectId": "one"
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "projectId": "one",
+            "generation": "gen-1",
+            "seq": 2
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 1
+          },
+          "result": {
+            "projects": [],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "one",
+                  "seq": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "remove",
+            "projectId": "never-existed"
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "projectId": "never-existed"
+          }
+        }
+      ]
+    },
+    {
+      "name": "projects_repeated_observation_same_seq",
+      "description": "Re-observing an identical value never bumps; includeSequence=false returns the bare payload.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            },
+            "generation": "gen-1",
+            "seq": 1
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            },
+            "generation": "gen-1",
+            "seq": 1
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": false,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": false,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            },
+            "generation": "gen-1",
+            "seq": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "projects_icon_revision_change",
+      "description": "Only the project whose projectIconRevision changed is re-sequenced.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git",
+              "projectIconRevision": "icon-a"
+            },
+            {
+              "projectId": "two",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/two",
+              "projectKind": "git",
+              "projectIconRevision": "icon-a"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "One",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "projectIconRevision": "icon-a",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "two",
+                "projectDisplayName": "Two",
+                "projectRootPath": "/two",
+                "projectKind": "git",
+                "projectIconRevision": "icon-a",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqProject",
+          "update": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git",
+              "projectIconRevision": "icon-b"
+            }
+          },
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "project": {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git",
+              "projectIconRevision": "icon-b"
+            },
+            "generation": "gen-1",
+            "seq": 3
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git",
+              "projectIconRevision": "icon-b"
+            },
+            {
+              "projectId": "two",
+              "projectDisplayName": "Two",
+              "projectRootPath": "/two",
+              "projectKind": "git",
+              "projectIconRevision": "icon-a"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 2
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "One",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "projectIconRevision": "icon-b",
+                "syncSeq": 3
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 3,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "cursor_resolution_order",
+      "description": "generation mismatch -> generation_changed (or no_cursor when generation absent) -> missing afterSeq -> no_cursor -> readAfter; afterSeq beyond head -> cursor_expired.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "old-gen",
+            "afterSeq": 1
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "generation_changed",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "afterSeq": 1
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1"
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 2
+          },
+          "result": {
+            "projects": [],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 0
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 3
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "cursor_expired",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": -1
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "cursor_expired",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "generation_changed_service",
+      "description": "A service with another generation answers an old cursor with a snapshot.",
+      "generation": "new-gen",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "one",
+              "projectDisplayName": "One",
+              "projectRootPath": "/one",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "old-gen",
+            "afterSeq": 10
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "one",
+                "projectDisplayName": "One",
+                "projectRootPath": "/one",
+                "projectKind": "git",
+                "syncSeq": 1
+              }
+            ],
+            "sync": {
+              "generation": "new-gen",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "generation_changed",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "snapshot_replace_all_mutates",
+      "description": "Snapshot reads call replaceAll first: values absent from the snapshot are removed (tombstoned), changed values bump, order is seq then id.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "b",
+              "projectDisplayName": "B",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "c",
+              "projectDisplayName": "C",
+              "projectRootPath": "/c",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "b",
+                "projectDisplayName": "B",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 2
+              },
+              {
+                "projectId": "c",
+                "projectDisplayName": "C",
+                "projectRootPath": "/c",
+                "projectKind": "git",
+                "syncSeq": 3
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 3,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "c",
+              "projectDisplayName": "C2",
+              "projectRootPath": "/c",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "a",
+                "projectDisplayName": "A",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "c",
+                "projectDisplayName": "C2",
+                "projectRootPath": "/c",
+                "projectKind": "git",
+                "syncSeq": 4
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 5,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "c",
+              "projectDisplayName": "C2",
+              "projectRootPath": "/c",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 3
+          },
+          "result": {
+            "projects": [
+              {
+                "projectId": "c",
+                "projectDisplayName": "C2",
+                "projectRootPath": "/c",
+                "projectKind": "git",
+                "syncSeq": 4
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 5,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "b",
+                  "seq": 5
+                }
+              ]
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "c",
+              "projectDisplayName": "C2",
+              "projectRootPath": "/c",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a",
+              "projectDisplayName": "A",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 5
+          },
+          "result": {
+            "projects": [],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 5,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "workspaces_basic_and_updates",
+      "description": "Workspace snapshot, upsert, removal, includeSequence=false, entries gain syncSeq.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            {
+              "id": "w2",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "two",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "one",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              },
+              {
+                "id": "w2",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "two",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 2
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "upsert",
+            "workspace": {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one-renamed",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          },
+          "value": {
+            "id": "w1",
+            "projectId": "prj_1",
+            "projectDisplayName": "Project",
+            "projectRootPath": "/repo",
+            "projectKind": "git",
+            "workspaceKind": "local_checkout",
+            "name": "one-renamed",
+            "status": "done",
+            "activityAt": null,
+            "diffStat": null
+          },
+          "id": "w1",
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "workspace": {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one-renamed",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            "generation": "gen-1",
+            "seq": 3
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "upsert",
+            "workspace": {
+              "id": "w3",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "three",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          },
+          "value": {
+            "id": "w3",
+            "projectId": "prj_1",
+            "projectDisplayName": "Project",
+            "projectRootPath": "/repo",
+            "projectKind": "git",
+            "workspaceKind": "local_checkout",
+            "name": "three",
+            "status": "done",
+            "activityAt": null,
+            "diffStat": null
+          },
+          "id": "w3",
+          "includeSequence": false,
+          "result": {
+            "kind": "upsert",
+            "workspace": {
+              "id": "w3",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "three",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "remove",
+            "id": "w2"
+          },
+          "value": null,
+          "id": "w2",
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "id": "w2",
+            "generation": "gen-1",
+            "seq": 5
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "remove",
+            "id": "w2"
+          },
+          "value": null,
+          "id": "w2",
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "id": "w2",
+            "generation": "gen-1",
+            "seq": 5
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one-renamed",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            {
+              "id": "w3",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "three",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 2
+          },
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "one-renamed",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 3
+              },
+              {
+                "id": "w3",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "three",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 4
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 5,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "w2",
+                  "seq": 5
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "workspaces_background_generation",
+      "description": "Background-including readers see `<generation>:background` in stamps and reads; update payloads stamped with includeBackground carry the background generation while internal sequence_for uses the bare generation.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {},
+          "includeBackground": true,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "one",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 1
+          },
+          "includeBackground": true,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "one",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "generation_changed",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1:background",
+            "afterSeq": 1
+          },
+          "includeBackground": true,
+          "result": {
+            "entries": [],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 1,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "one",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1:background",
+            "afterSeq": 1
+          },
+          "includeBackground": false,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "one",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 1,
+              "mode": "snapshot",
+              "reason": "generation_changed",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "upsert"
+          },
+          "value": {
+            "id": "w1",
+            "projectId": "prj_1",
+            "projectDisplayName": "Project",
+            "projectRootPath": "/repo",
+            "projectKind": "git",
+            "workspaceKind": "local_checkout",
+            "name": "one-b",
+            "status": "done",
+            "activityAt": null,
+            "diffStat": null
+          },
+          "id": "w1",
+          "includeSequence": true,
+          "includeBackground": true,
+          "result": {
+            "kind": "upsert",
+            "generation": "gen-1:background",
+            "seq": 2
+          }
+        },
+        {
+          "op": "seqWorkspace",
+          "payload": {
+            "kind": "upsert"
+          },
+          "value": {
+            "id": "w1",
+            "projectId": "prj_1",
+            "projectDisplayName": "Project",
+            "projectRootPath": "/repo",
+            "projectKind": "git",
+            "workspaceKind": "local_checkout",
+            "name": "one-c",
+            "status": "done",
+            "activityAt": null,
+            "diffStat": null
+          },
+          "id": "w1",
+          "includeSequence": true,
+          "includeBackground": false,
+          "result": {
+            "kind": "upsert",
+            "generation": "gen-1",
+            "seq": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "background_reader_alternation",
+      "description": "Quirk: one shared collection is fed by readers with different snapshots. A non-background reader that omits a background-only workspace tombstones it; the background reader then re-adds it with a new seq.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "visible",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            {
+              "id": "bg",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "background",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null,
+              "background": true
+            }
+          ],
+          "cursor": {},
+          "includeBackground": true,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "visible",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              },
+              {
+                "id": "bg",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "background",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "background": true,
+                "syncSeq": 2
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "visible",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {},
+          "includeBackground": false,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "visible",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 3,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "visible",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 2
+          },
+          "includeBackground": false,
+          "result": {
+            "entries": [],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 3,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "bg",
+                  "seq": 3
+                }
+              ]
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "visible",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            {
+              "id": "bg",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "background",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null,
+              "background": true
+            }
+          ],
+          "cursor": {},
+          "includeBackground": true,
+          "result": {
+            "entries": [
+              {
+                "id": "w1",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "visible",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "syncSeq": 1
+              },
+              {
+                "id": "bg",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "background",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "background": true,
+                "syncSeq": 4
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 4,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "syncWorkspaces",
+          "snapshot": [
+            {
+              "id": "w1",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "visible",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null
+            },
+            {
+              "id": "bg",
+              "projectId": "prj_1",
+              "projectDisplayName": "Project",
+              "projectRootPath": "/repo",
+              "projectKind": "git",
+              "workspaceKind": "local_checkout",
+              "name": "background",
+              "status": "done",
+              "activityAt": null,
+              "diffStat": null,
+              "background": true
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1:background",
+            "afterSeq": 2
+          },
+          "includeBackground": true,
+          "result": {
+            "entries": [
+              {
+                "id": "bg",
+                "projectId": "prj_1",
+                "projectDisplayName": "Project",
+                "projectRootPath": "/repo",
+                "projectKind": "git",
+                "workspaceKind": "local_checkout",
+                "name": "background",
+                "status": "done",
+                "activityAt": null,
+                "diffStat": null,
+                "background": true,
+                "syncSeq": 4
+              }
+            ],
+            "emptyProjects": [],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1:background",
+              "headSeq": 4,
+              "mode": "changes",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "agents_basic_and_updates",
+      "description": "Agent entries are {agent, project}; ids come from agent.id; sync, upsert, remove.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncAgents",
+          "snapshot": [
+            {
+              "agent": {
+                "id": "ag1",
+                "provider": "claude",
+                "cwd": "/repo",
+                "title": "one",
+                "status": "idle",
+                "updatedAt": "2026-01-01T00:00:00.000Z"
+              },
+              "project": {
+                "projectKey": "remote:github.com/acme/repo",
+                "projectName": "acme/repo",
+                "checkout": {
+                  "cwd": "/repo",
+                  "isGit": true
+                }
+              }
+            },
+            {
+              "agent": {
+                "id": "ag2",
+                "provider": "claude",
+                "cwd": "/repo",
+                "title": "two",
+                "status": "idle",
+                "updatedAt": "2026-01-01T00:00:00.000Z"
+              },
+              "project": {
+                "projectKey": "remote:github.com/acme/repo",
+                "projectName": "acme/repo",
+                "checkout": {
+                  "cwd": "/repo",
+                  "isGit": true
+                }
+              }
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "entries": [
+              {
+                "agent": {
+                  "id": "ag1",
+                  "provider": "claude",
+                  "cwd": "/repo",
+                  "title": "one",
+                  "status": "idle",
+                  "updatedAt": "2026-01-01T00:00:00.000Z"
+                },
+                "project": {
+                  "projectKey": "remote:github.com/acme/repo",
+                  "projectName": "acme/repo",
+                  "checkout": {
+                    "cwd": "/repo",
+                    "isGit": true
+                  }
+                },
+                "syncSeq": 1
+              },
+              {
+                "agent": {
+                  "id": "ag2",
+                  "provider": "claude",
+                  "cwd": "/repo",
+                  "title": "two",
+                  "status": "idle",
+                  "updatedAt": "2026-01-01T00:00:00.000Z"
+                },
+                "project": {
+                  "projectKey": "remote:github.com/acme/repo",
+                  "projectName": "acme/repo",
+                  "checkout": {
+                    "cwd": "/repo",
+                    "isGit": true
+                  }
+                },
+                "syncSeq": 2
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 2,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        },
+        {
+          "op": "seqAgent",
+          "payload": {
+            "kind": "upsert"
+          },
+          "value": {
+            "agent": {
+              "id": "ag1",
+              "provider": "claude",
+              "cwd": "/repo",
+              "title": "one",
+              "status": "running",
+              "updatedAt": "2026-01-01T00:00:00.000Z"
+            },
+            "project": {
+              "projectKey": "remote:github.com/acme/repo",
+              "projectName": "acme/repo",
+              "checkout": {
+                "cwd": "/repo",
+                "isGit": true
+              }
+            }
+          },
+          "id": "ag1",
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "generation": "gen-1",
+            "seq": 3
+          }
+        },
+        {
+          "op": "seqAgent",
+          "payload": {
+            "kind": "upsert"
+          },
+          "value": {
+            "agent": {
+              "id": "ag1",
+              "provider": "claude",
+              "cwd": "/repo",
+              "title": "one",
+              "status": "running",
+              "updatedAt": "2026-01-01T00:00:00.000Z"
+            },
+            "project": {
+              "projectKey": "remote:github.com/acme/repo",
+              "projectName": "acme/repo",
+              "checkout": {
+                "cwd": "/repo",
+                "isGit": true
+              }
+            }
+          },
+          "id": "ag1",
+          "includeSequence": true,
+          "result": {
+            "kind": "upsert",
+            "generation": "gen-1",
+            "seq": 3
+          }
+        },
+        {
+          "op": "seqAgent",
+          "payload": {
+            "kind": "remove"
+          },
+          "value": null,
+          "id": "ag2",
+          "includeSequence": true,
+          "result": {
+            "kind": "remove",
+            "generation": "gen-1",
+            "seq": 4
+          }
+        },
+        {
+          "op": "seqAgent",
+          "payload": {
+            "kind": "remove"
+          },
+          "value": null,
+          "id": "unknown",
+          "includeSequence": true,
+          "result": {
+            "kind": "remove"
+          }
+        },
+        {
+          "op": "syncAgents",
+          "snapshot": [
+            {
+              "agent": {
+                "id": "ag1",
+                "provider": "claude",
+                "cwd": "/repo",
+                "title": "one",
+                "status": "running",
+                "updatedAt": "2026-01-01T00:00:00.000Z"
+              },
+              "project": {
+                "projectKey": "remote:github.com/acme/repo",
+                "projectName": "acme/repo",
+                "checkout": {
+                  "cwd": "/repo",
+                  "isGit": true
+                }
+              }
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 2
+          },
+          "result": {
+            "entries": [
+              {
+                "agent": {
+                  "id": "ag1",
+                  "provider": "claude",
+                  "cwd": "/repo",
+                  "title": "one",
+                  "status": "running",
+                  "updatedAt": "2026-01-01T00:00:00.000Z"
+                },
+                "project": {
+                  "projectKey": "remote:github.com/acme/repo",
+                  "projectName": "acme/repo",
+                  "checkout": {
+                    "cwd": "/repo",
+                    "isGit": true
+                  }
+                },
+                "syncSeq": 3
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 4,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "ag2",
+                  "seq": 4
+                }
+              ]
+            }
+          }
+        },
+        {
+          "op": "syncAgents",
+          "snapshot": [
+            {
+              "agent": {
+                "id": "ag1",
+                "provider": "claude",
+                "cwd": "/repo",
+                "title": "one",
+                "status": "running",
+                "updatedAt": "2026-01-01T00:00:00.000Z"
+              },
+              "project": {
+                "projectKey": "remote:github.com/acme/repo",
+                "projectName": "acme/repo",
+                "checkout": {
+                  "cwd": "/repo",
+                  "isGit": true
+                }
+              }
+            }
+          ],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 0
+          },
+          "result": {
+            "entries": [
+              {
+                "agent": {
+                  "id": "ag1",
+                  "provider": "claude",
+                  "cwd": "/repo",
+                  "title": "one",
+                  "status": "running",
+                  "updatedAt": "2026-01-01T00:00:00.000Z"
+                },
+                "project": {
+                  "projectKey": "remote:github.com/acme/repo",
+                  "projectName": "acme/repo",
+                  "checkout": {
+                    "cwd": "/repo",
+                    "isGit": true
+                  }
+                },
+                "syncSeq": 3
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "prevCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 4,
+              "mode": "changes",
+              "removals": [
+                {
+                  "id": "ag2",
+                  "seq": 4
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ordering_locale_compare",
+      "description": "Same-seq values are ordered by id.localeCompare (ICU, en-US). Mixed case, digits, punctuation, accents.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": [
+            {
+              "projectId": "b",
+              "projectDisplayName": "name-b",
+              "projectRootPath": "/b",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "B",
+              "projectDisplayName": "name-B",
+              "projectRootPath": "/B",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a",
+              "projectDisplayName": "name-a",
+              "projectRootPath": "/a",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "A",
+              "projectDisplayName": "name-A",
+              "projectRootPath": "/A",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "_x",
+              "projectDisplayName": "name-_x",
+              "projectRootPath": "/_x",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "-y",
+              "projectDisplayName": "name--y",
+              "projectRootPath": "/-y",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "10",
+              "projectDisplayName": "name-10",
+              "projectRootPath": "/10",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "9",
+              "projectDisplayName": "name-9",
+              "projectRootPath": "/9",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "2",
+              "projectDisplayName": "name-2",
+              "projectRootPath": "/2",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "é",
+              "projectDisplayName": "name-é",
+              "projectRootPath": "/é",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "e",
+              "projectDisplayName": "name-e",
+              "projectRootPath": "/e",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "E",
+              "projectDisplayName": "name-E",
+              "projectRootPath": "/E",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "Z",
+              "projectDisplayName": "name-Z",
+              "projectRootPath": "/Z",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "z",
+              "projectDisplayName": "name-z",
+              "projectRootPath": "/z",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a b",
+              "projectDisplayName": "name-a b",
+              "projectRootPath": "/a b",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a-b",
+              "projectDisplayName": "name-a-b",
+              "projectRootPath": "/a-b",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "a_b",
+              "projectDisplayName": "name-a_b",
+              "projectRootPath": "/a_b",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "ab",
+              "projectDisplayName": "name-ab",
+              "projectRootPath": "/ab",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "Ä",
+              "projectDisplayName": "name-Ä",
+              "projectRootPath": "/Ä",
+              "projectKind": "git"
+            },
+            {
+              "projectId": "ae",
+              "projectDisplayName": "name-ae",
+              "projectRootPath": "/ae",
+              "projectKind": "git"
+            }
+          ],
+          "cursor": {},
+          "result": {
+            "projects": [
+              {
+                "projectId": "b",
+                "projectDisplayName": "name-b",
+                "projectRootPath": "/b",
+                "projectKind": "git",
+                "syncSeq": 1
+              },
+              {
+                "projectId": "B",
+                "projectDisplayName": "name-B",
+                "projectRootPath": "/B",
+                "projectKind": "git",
+                "syncSeq": 2
+              },
+              {
+                "projectId": "a",
+                "projectDisplayName": "name-a",
+                "projectRootPath": "/a",
+                "projectKind": "git",
+                "syncSeq": 3
+              },
+              {
+                "projectId": "A",
+                "projectDisplayName": "name-A",
+                "projectRootPath": "/A",
+                "projectKind": "git",
+                "syncSeq": 4
+              },
+              {
+                "projectId": "_x",
+                "projectDisplayName": "name-_x",
+                "projectRootPath": "/_x",
+                "projectKind": "git",
+                "syncSeq": 5
+              },
+              {
+                "projectId": "-y",
+                "projectDisplayName": "name--y",
+                "projectRootPath": "/-y",
+                "projectKind": "git",
+                "syncSeq": 6
+              },
+              {
+                "projectId": "10",
+                "projectDisplayName": "name-10",
+                "projectRootPath": "/10",
+                "projectKind": "git",
+                "syncSeq": 7
+              },
+              {
+                "projectId": "9",
+                "projectDisplayName": "name-9",
+                "projectRootPath": "/9",
+                "projectKind": "git",
+                "syncSeq": 8
+              },
+              {
+                "projectId": "2",
+                "projectDisplayName": "name-2",
+                "projectRootPath": "/2",
+                "projectKind": "git",
+                "syncSeq": 9
+              },
+              {
+                "projectId": "é",
+                "projectDisplayName": "name-é",
+                "projectRootPath": "/é",
+                "projectKind": "git",
+                "syncSeq": 10
+              },
+              {
+                "projectId": "e",
+                "projectDisplayName": "name-e",
+                "projectRootPath": "/e",
+                "projectKind": "git",
+                "syncSeq": 11
+              },
+              {
+                "projectId": "E",
+                "projectDisplayName": "name-E",
+                "projectRootPath": "/E",
+                "projectKind": "git",
+                "syncSeq": 12
+              },
+              {
+                "projectId": "Z",
+                "projectDisplayName": "name-Z",
+                "projectRootPath": "/Z",
+                "projectKind": "git",
+                "syncSeq": 13
+              },
+              {
+                "projectId": "z",
+                "projectDisplayName": "name-z",
+                "projectRootPath": "/z",
+                "projectKind": "git",
+                "syncSeq": 14
+              },
+              {
+                "projectId": "a b",
+                "projectDisplayName": "name-a b",
+                "projectRootPath": "/a b",
+                "projectKind": "git",
+                "syncSeq": 15
+              },
+              {
+                "projectId": "a-b",
+                "projectDisplayName": "name-a-b",
+                "projectRootPath": "/a-b",
+                "projectKind": "git",
+                "syncSeq": 16
+              },
+              {
+                "projectId": "a_b",
+                "projectDisplayName": "name-a_b",
+                "projectRootPath": "/a_b",
+                "projectKind": "git",
+                "syncSeq": 17
+              },
+              {
+                "projectId": "ab",
+                "projectDisplayName": "name-ab",
+                "projectRootPath": "/ab",
+                "projectKind": "git",
+                "syncSeq": 18
+              },
+              {
+                "projectId": "Ä",
+                "projectDisplayName": "name-Ä",
+                "projectRootPath": "/Ä",
+                "projectKind": "git",
+                "syncSeq": 19
+              },
+              {
+                "projectId": "ae",
+                "projectDisplayName": "name-ae",
+                "projectRootPath": "/ae",
+                "projectKind": "git",
+                "syncSeq": 20
+              }
+            ],
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 20,
+              "mode": "snapshot",
+              "reason": "no_cursor",
+              "removals": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tombstone_cap_5000",
+      "description": "5001 removals trim the oldest tombstone: expiredThroughSeq advances to its seq, so afterSeq below it falls back to cursor_expired.",
+      "generation": "gen-1",
+      "ops": [
+        {
+          "op": "syncProjects",
+          "snapshot": {
+            "gen": {
+              "count": 5001,
+              "prefix": "p",
+              "kind": "project"
+            }
+          },
+          "cursor": {},
+          "summary": true,
+          "result": {
+            "valueCount": 5001,
+            "firstSyncSeq": 1,
+            "lastSyncSeq": 5001,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 5001,
+              "mode": "snapshot",
+              "reason": "no_cursor"
+            },
+            "removalCount": 0,
+            "firstRemoval": null,
+            "lastRemoval": null
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {},
+          "summary": true,
+          "result": {
+            "valueCount": 0,
+            "firstSyncSeq": null,
+            "lastSyncSeq": null,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 10002,
+              "mode": "snapshot",
+              "reason": "no_cursor"
+            },
+            "removalCount": 0,
+            "firstRemoval": null,
+            "lastRemoval": null
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 5001
+          },
+          "summary": true,
+          "result": {
+            "valueCount": 0,
+            "firstSyncSeq": null,
+            "lastSyncSeq": null,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 10002,
+              "mode": "snapshot",
+              "reason": "cursor_expired"
+            },
+            "removalCount": 0,
+            "firstRemoval": null,
+            "lastRemoval": null
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 5002
+          },
+          "summary": true,
+          "result": {
+            "valueCount": 0,
+            "firstSyncSeq": null,
+            "lastSyncSeq": null,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 10002,
+              "mode": "changes"
+            },
+            "removalCount": 5000,
+            "firstRemoval": {
+              "id": "p1",
+              "seq": 5003
+            },
+            "lastRemoval": {
+              "id": "p5000",
+              "seq": 10002
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 5003
+          },
+          "summary": true,
+          "result": {
+            "valueCount": 0,
+            "firstSyncSeq": null,
+            "lastSyncSeq": null,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 10002,
+              "mode": "changes"
+            },
+            "removalCount": 4999,
+            "firstRemoval": {
+              "id": "p2",
+              "seq": 5004
+            },
+            "lastRemoval": {
+              "id": "p5000",
+              "seq": 10002
+            }
+          }
+        },
+        {
+          "op": "syncProjects",
+          "snapshot": [],
+          "cursor": {
+            "generation": "gen-1",
+            "afterSeq": 10002
+          },
+          "summary": true,
+          "result": {
+            "valueCount": 0,
+            "firstSyncSeq": null,
+            "lastSyncSeq": null,
+            "sync": {
+              "generation": "gen-1",
+              "headSeq": 10002,
+              "mode": "changes"
+            },
+            "removalCount": 0,
+            "firstRemoval": null,
+            "lastRemoval": null
+          }
+        }
+      ]
+    }
+  ]
+}

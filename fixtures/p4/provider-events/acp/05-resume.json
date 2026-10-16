@@ -1,0 +1,43 @@
+{
+  "provider": "acp",
+  "fixture": "05-resume",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: copilot",
+    "session/prompt -> activeForegroundTurnId=turn-1",
+    "prompt response stopReason=\"end_turn\" -> turn cleared",
+    "3 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 3,
+  "events": [
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly the word: pong. Do not use any tools."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "pong",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "pong",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "provider": "codex",
+  "fixture": "10-list-commands",
+  "status": "failed",
+  "reason": "no process with a turn/start in this fixture",
+  "driver": null,
+  "notes": [
+    "process-1: no turn/start (catalog/list-only process); nothing to map"
+  ],
+  "eventCount": 0,
+  "events": []
+}

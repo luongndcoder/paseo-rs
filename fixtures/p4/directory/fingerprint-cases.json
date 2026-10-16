@@ -1,0 +1,131 @@
+{
+  "note": "Default fingerprint is JSON.stringify(value). secondObservationBumped is true when b differs from a after a was replaced.",
+  "cases": [
+    {
+      "name": "identical",
+      "aJson": "{\"id\":\"x\",\"n\":1}",
+      "bJson": "{\"id\":\"x\",\"n\":1}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "key_order_differs",
+      "aJson": "{\"id\":\"x\",\"a\":1,\"b\":2}",
+      "bJson": "{\"id\":\"x\",\"b\":2,\"a\":1}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "undefined_vs_missing",
+      "aJson": "{\"id\":\"x\"}",
+      "bJson": "{\"id\":\"x\"}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "null_vs_missing",
+      "aJson": "{\"id\":\"x\",\"v\":null}",
+      "bJson": "{\"id\":\"x\"}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "negative_zero_vs_zero",
+      "aJson": "{\"id\":\"x\",\"v\":0}",
+      "bJson": "{\"id\":\"x\",\"v\":0}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "nan_vs_null",
+      "aJson": "{\"id\":\"x\",\"v\":null}",
+      "bJson": "{\"id\":\"x\",\"v\":null}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "infinity_vs_null",
+      "aJson": "{\"id\":\"x\",\"v\":null}",
+      "bJson": "{\"id\":\"x\",\"v\":null}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "float_formats",
+      "aJson": "{\"id\":\"x\",\"v\":1}",
+      "bJson": "{\"id\":\"x\",\"v\":1}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "exponent_numbers",
+      "aJson": "{\"id\":\"x\",\"v\":1e+21}",
+      "bJson": "{\"id\":\"x\",\"v\":100000000000000000000}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "small_exponent",
+      "aJson": "{\"id\":\"x\",\"v\":1e-7}",
+      "bJson": "{\"id\":\"x\",\"v\":1e-7}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "array_with_undefined",
+      "aJson": "{\"id\":\"x\",\"v\":[null,1]}",
+      "bJson": "{\"id\":\"x\",\"v\":[null,1]}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "nested_order",
+      "aJson": "{\"id\":\"x\",\"o\":{\"b\":1,\"a\":2}}",
+      "bJson": "{\"id\":\"x\",\"o\":{\"a\":2,\"b\":1}}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "unicode_escape_lone_surrogate",
+      "aJson": "{\"id\":\"x\",\"v\":\"\\ud83d\"}",
+      "bJson": "{\"id\":\"x\",\"v\":\"\\\\ud83d\"}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "astral_vs_escaped",
+      "aJson": "{\"id\":\"x\",\"v\":\"😀\"}",
+      "bJson": "{\"id\":\"x\",\"v\":\"😀\"}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "control_chars",
+      "aJson": "{\"id\":\"x\",\"v\":\"a\\u0007\\u001f\\n\\\"\\\\/\"}",
+      "bJson": "{\"id\":\"x\",\"v\":\"a\"}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "integer_like_keys_reorder",
+      "aJson": "{\"1\":2,\"2\":1,\"id\":\"x\",\"z\":3}",
+      "bJson": "{\"1\":2,\"2\":1,\"id\":\"x\",\"z\":3}",
+      "secondObservationBumped": false,
+      "headSeq": 1
+    },
+    {
+      "name": "u2028",
+      "aJson": "{\"id\":\"x\",\"v\":\"  \"}",
+      "bJson": "{\"id\":\"x\",\"v\":\"\"}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    },
+    {
+      "name": "boolean_vs_string",
+      "aJson": "{\"id\":\"x\",\"v\":true}",
+      "bJson": "{\"id\":\"x\",\"v\":\"true\"}",
+      "secondObservationBumped": true,
+      "headSeq": 2
+    }
+  ]
+}

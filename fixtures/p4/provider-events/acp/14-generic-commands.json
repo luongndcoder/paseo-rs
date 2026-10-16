@@ -1,0 +1,13 @@
+{
+  "provider": "acp",
+  "fixture": "14-generic-commands",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: acp",
+    "1 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 0,
+  "events": []
+}

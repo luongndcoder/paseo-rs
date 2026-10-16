@@ -1,0 +1,56 @@
+{
+  "provider": "claude",
+  "fixture": "01-single-prompt",
+  "status": "ok",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Reply with exactly the word: pong. No tools.\")"
+  ],
+  "eventCount": 5,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly the word: pong. No tools.",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "c013e709-4377-4a6a-8971-f68b7c332b89",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "pong",
+        "messageId": "msg_011Cg6JzHHxvPQYi6grKkxsL"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 2,
+        "cachedInputTokens": 11548,
+        "outputTokens": 4,
+        "totalCostUsd": 0.0010400799999999999,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 15538
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}

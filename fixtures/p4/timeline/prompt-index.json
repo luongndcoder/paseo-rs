@@ -1,0 +1,138 @@
+{
+  "note": "preview collapses whitespace, trims, truncates at 119 UTF-16 units + U+2026 when > 120 (can leave a lone surrogate).",
+  "epoch": "epoch-1",
+  "rows": [
+    {
+      "seq": 1,
+      "timestamp": "2026-01-01T00:00:01.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "  hello\n\tworld   again  "
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-01-01T00:00:02.000Z",
+      "item": {
+        "type": "assistant_message",
+        "text": "not a prompt"
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-01-01T00:00:03.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-01-01T00:00:04.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-01-01T00:00:05.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz😀tail"
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-01-01T00:00:06.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中"
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-01-01T00:00:07.000Z",
+      "item": {
+        "type": "user_message",
+        "text": ""
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-01-01T00:00:08.000Z",
+      "item": {
+        "type": "user_message",
+        "text": " \n "
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-01-01T00:00:09.000Z",
+      "item": {
+        "type": "tool_call",
+        "callId": "c",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "echo c"
+        },
+        "status": "completed",
+        "error": null
+      }
+    },
+    {
+      "seq": 10,
+      "timestamp": "2026-01-01T00:00:10.000Z",
+      "item": {
+        "type": "user_message",
+        "text": "last"
+      }
+    }
+  ],
+  "result": {
+    "epoch": "epoch-1",
+    "prompts": [
+      {
+        "seq": 1,
+        "timestamp": "2026-01-01T00:00:01.000Z",
+        "preview": "hello world again"
+      },
+      {
+        "seq": 3,
+        "timestamp": "2026-01-01T00:00:03.000Z",
+        "preview": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      {
+        "seq": 4,
+        "timestamp": "2026-01-01T00:00:04.000Z",
+        "preview": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy…"
+      },
+      {
+        "seq": 5,
+        "timestamp": "2026-01-01T00:00:05.000Z",
+        "preview": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\ud83d…"
+      },
+      {
+        "seq": 6,
+        "timestamp": "2026-01-01T00:00:06.000Z",
+        "preview": "中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中…"
+      },
+      {
+        "seq": 7,
+        "timestamp": "2026-01-01T00:00:07.000Z",
+        "preview": ""
+      },
+      {
+        "seq": 8,
+        "timestamp": "2026-01-01T00:00:08.000Z",
+        "preview": ""
+      },
+      {
+        "seq": 10,
+        "timestamp": "2026-01-01T00:00:10.000Z",
+        "preview": "last"
+      }
+    ]
+  }
+}

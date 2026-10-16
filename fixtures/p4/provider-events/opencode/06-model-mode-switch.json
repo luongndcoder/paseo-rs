@@ -1,0 +1,251 @@
+{
+  "provider": "opencode",
+  "fixture": "06-model-mode-switch",
+  "status": "partial",
+  "driver": "translateOpenCodeEvent over recorded SSE payloads with one shared translation state",
+  "notes": [
+    "sessionId=ses_eba31dcb0ffe2AljMHzziP0XA4",
+    "111 SSE events seen, 36 sync/heartbeat events skipped",
+    "turn_started/turn_completed and prompt submission events come from the session controller, not translateOpenCodeEvent; user_message pending state is not primed"
+  ],
+  "eventCount": 35,
+  "events": [
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: one. No tools.",
+        "messageId": "msg_145ce26640017TjpCBnCEMbeWM"
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user wants me to reply with"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " exactly \"one.\""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " Nothing"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " more"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " No"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " tools needed."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "one.",
+        "messageId": "msg_145ce26b1002nWaoL06cZpWodz"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 27262,
+        "outputTokens": 22,
+        "contextWindowUsedTokens": 27284
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: two. No tools.",
+        "messageId": "msg_145ce3437001uTS7d3RxMnvVD4"
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user wants exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " \"two.\" No tools"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "two",
+        "messageId": "msg_145ce3473002oc25hrWCIIxkQ4"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "msg_145ce3473002oc25hrWCIIxkQ4"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 26643,
+        "outputTokens": 3,
+        "contextWindowUsedTokens": 28448,
+        "cachedInputTokens": 1792
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31dcb0ffe2AljMHzziP0XA4",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "provider_subagent",
+      "provider": "opencode",
+      "event": {
+        "type": "remove",
+        "id": "ses_eba31dcb0ffe2AljMHzziP0XA4"
+      }
+    }
+  ]
+}

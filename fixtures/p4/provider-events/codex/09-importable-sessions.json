@@ -1,0 +1,68 @@
+{
+  "provider": "codex",
+  "fixture": "09-importable-sessions",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Reply with exactly the word: ok. No tools.\")",
+    "process-2: no turn/start (catalog/list-only process); nothing to map"
+  ],
+  "eventCount": 6,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145d4-9d01-7f83-ae00-b4302caa5265",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly the word: ok. No tools.",
+        "messageId": "01a145d4-a721-7ab3-a339-aab36a26d5a6"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_0a83dd07fc61e0c2016ad2638025f08191858e4ae797badc18",
+        "text": "ok"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23999,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24004
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23999,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24004
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

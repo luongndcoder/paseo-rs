@@ -1,0 +1,1650 @@
+{
+  "note": "callTool responses through McpServer/Client in-memory transport against hand-built stubs (agents: live idle, live running with a pending permission, one stored; workspaces: 4 incl. background and archived; clock fixed at 2026-02-01T12:00:00.000Z). sideEffects are the recorded stub invocations.",
+  "stubs": {
+    "liveAgentIds": [
+      "11111111-1111-4111-8111-111111111111",
+      "33333333-3333-4333-8333-333333333333"
+    ],
+    "storedAgentId": "22222222-2222-4222-8222-222222222222",
+    "timeline": [
+      {
+        "type": "user_message",
+        "text": "hello"
+      },
+      {
+        "type": "assistant_message",
+        "text": "Hi "
+      },
+      {
+        "type": "assistant_message",
+        "text": "there"
+      },
+      {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "ls",
+          "output": "a\nb"
+        },
+        "status": "completed",
+        "error": null
+      }
+    ]
+  },
+  "transcripts": [
+    {
+      "config": "default",
+      "tool": "list_providers",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "providers_count=2\nproviders_ids=claude,codex\n\n{\n  \"providers\": [\n    {\n      \"id\": \"claude\",\n      \"label\": \"Claude\",\n      \"description\": \"Anthropic Claude\",\n      \"enabled\": true,\n      \"modes\": [\n        {\n          \"id\": \"default\",\n          \"label\": \"Default\",\n          \"description\": \"Ask first\"\n        },\n        {\n          \"id\": \"bypassPermissions\",\n          \"label\": \"Bypass\",\n          \"description\": \"No prompts\",\n          \"isUnattended\": true\n        }\n      ],\n      \"status\": \"available\"\n    },\n    {\n      \"id\": \"codex\",\n      \"label\": \"Codex\",\n      \"description\": \"OpenAI Codex\",\n      \"enabled\": false,\n      \"modes\": [],\n      \"status\": \"unavailable\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "providers": [
+            {
+              "id": "claude",
+              "label": "Claude",
+              "description": "Anthropic Claude",
+              "enabled": true,
+              "modes": [
+                {
+                  "id": "default",
+                  "label": "Default",
+                  "description": "Ask first"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "No prompts",
+                  "isUnattended": true
+                }
+              ],
+              "status": "available"
+            },
+            {
+              "id": "codex",
+              "label": "Codex",
+              "description": "OpenAI Codex",
+              "enabled": false,
+              "modes": [],
+              "status": "unavailable"
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_models",
+      "args": {
+        "provider": "claude"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "models_count=2\nmodels_ids=model-a,model-b\n\n{\n  \"provider\": \"claude\",\n  \"models\": [\n    {\n      \"provider\": \"claude\",\n      \"id\": \"model-a\",\n      \"label\": \"Model A\",\n      \"isDefault\": true,\n      \"thinkingOptions\": [\n        {\n          \"id\": \"high\",\n          \"label\": \"High\"\n        }\n      ],\n      \"defaultThinkingOptionId\": \"high\"\n    },\n    {\n      \"provider\": \"claude\",\n      \"id\": \"model-b\",\n      \"label\": \"Model B\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "provider": "claude",
+          "models": [
+            {
+              "provider": "claude",
+              "id": "model-a",
+              "label": "Model A",
+              "isDefault": true,
+              "thinkingOptions": [
+                {
+                  "id": "high",
+                  "label": "High"
+                }
+              ],
+              "defaultThinkingOptionId": "high"
+            },
+            {
+              "provider": "claude",
+              "id": "model-b",
+              "label": "Model B"
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_models",
+      "args": {},
+      "note": "missing required arg -> validation error",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool list_models: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_profiles",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "profiles_count=1\nprofiles_ids=reviewer\n\n{\n  \"profiles\": [\n    {\n      \"id\": \"reviewer\",\n      \"label\": \"Reviewer\",\n      \"provider\": \"claude\",\n      \"model\": \"model-a\",\n      \"modeId\": \"default\",\n      \"notes\": \"Careful code review.\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "profiles": [
+            {
+              "id": "reviewer",
+              "label": "Reviewer",
+              "provider": "claude",
+              "model": "model-a",
+              "modeId": "default",
+              "notes": "Careful code review."
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "inspect_provider",
+      "args": {
+        "provider": "claude",
+        "cwd": "/work/repo"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "modes_count=2\nmodes_ids=default,bypassPermissions\nfeatures_count=1\nfeatures_ids=fast\n\n{\n  \"provider\": \"claude\",\n  \"label\": \"Claude\",\n  \"description\": \"Anthropic Claude\",\n  \"enabled\": true,\n  \"status\": \"available\",\n  \"modes\": [\n    {\n      \"id\": \"default\",\n      \"label\": \"Default\",\n      \"description\": \"Ask first\"\n    },\n    {\n      \"id\": \"bypassPermissions\",\n      \"label\": \"Bypass\",\n      \"description\": \"No prompts\",\n      \"isUnattended\": true\n    }\n  ],\n  \"selectedModel\": null,\n  \"features\": [\n    {\n      \"type\": \"toggle\",\n      \"id\": \"fast\",\n      \"label\": \"Fast\",\n      \"value\": false\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "provider": "claude",
+          "label": "Claude",
+          "description": "Anthropic Claude",
+          "enabled": true,
+          "status": "available",
+          "modes": [
+            {
+              "id": "default",
+              "label": "Default",
+              "description": "Ask first"
+            },
+            {
+              "id": "bypassPermissions",
+              "label": "Bypass",
+              "description": "No prompts",
+              "isUnattended": true
+            }
+          ],
+          "selectedModel": null,
+          "features": [
+            {
+              "type": "toggle",
+              "id": "fast",
+              "label": "Fast",
+              "value": false
+            }
+          ]
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "agentManager",
+          "method": "listDraftFeatures",
+          "args": [
+            {
+              "provider": "claude",
+              "cwd": "/work/repo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "inspect_provider",
+      "args": {
+        "provider": "codex",
+        "cwd": "/work/repo"
+      },
+      "note": "disabled provider error",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Provider 'codex' is disabled"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_workspaces",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "workspaces_count=2\n\n{\n  \"workspaces\": [\n    {\n      \"workspaceId\": \"wks_0000000000000001\",\n      \"projectId\": \"prj_0000000000000001\",\n      \"cwd\": \"/work/repo\",\n      \"isolation\": \"local\",\n      \"kind\": \"local_checkout\",\n      \"title\": null,\n      \"background\": false\n    },\n    {\n      \"workspaceId\": \"wks_0000000000000002\",\n      \"projectId\": \"prj_0000000000000001\",\n      \"cwd\": \"/work/repo-wt\",\n      \"isolation\": \"worktree\",\n      \"kind\": \"worktree\",\n      \"title\": \"Feature\",\n      \"background\": false\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "workspaces": [
+            {
+              "workspaceId": "wks_0000000000000001",
+              "projectId": "prj_0000000000000001",
+              "cwd": "/work/repo",
+              "isolation": "local",
+              "kind": "local_checkout",
+              "title": null,
+              "background": false
+            },
+            {
+              "workspaceId": "wks_0000000000000002",
+              "projectId": "prj_0000000000000001",
+              "cwd": "/work/repo-wt",
+              "isolation": "worktree",
+              "kind": "worktree",
+              "title": "Feature",
+              "background": false
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_workspaces",
+      "args": {
+        "includeBackground": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "workspaces_count=3\n\n{\n  \"workspaces\": [\n    {\n      \"workspaceId\": \"wks_0000000000000001\",\n      \"projectId\": \"prj_0000000000000001\",\n      \"cwd\": \"/work/repo\",\n      \"isolation\": \"local\",\n      \"kind\": \"local_checkout\",\n      \"title\": null,\n      \"background\": false\n    },\n    {\n      \"workspaceId\": \"wks_0000000000000002\",\n      \"projectId\": \"prj_0000000000000001\",\n      \"cwd\": \"/work/repo-wt\",\n      \"isolation\": \"worktree\",\n      \"kind\": \"worktree\",\n      \"title\": \"Feature\",\n      \"background\": false\n    },\n    {\n      \"workspaceId\": \"wks_0000000000000003\",\n      \"projectId\": \"prj_0000000000000002\",\n      \"cwd\": \"/work/bg\",\n      \"isolation\": \"local\",\n      \"kind\": \"directory\",\n      \"title\": null,\n      \"background\": true\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "workspaces": [
+            {
+              "workspaceId": "wks_0000000000000001",
+              "projectId": "prj_0000000000000001",
+              "cwd": "/work/repo",
+              "isolation": "local",
+              "kind": "local_checkout",
+              "title": null,
+              "background": false
+            },
+            {
+              "workspaceId": "wks_0000000000000002",
+              "projectId": "prj_0000000000000001",
+              "cwd": "/work/repo-wt",
+              "isolation": "worktree",
+              "kind": "worktree",
+              "title": "Feature",
+              "background": false
+            },
+            {
+              "workspaceId": "wks_0000000000000003",
+              "projectId": "prj_0000000000000002",
+              "cwd": "/work/bg",
+              "isolation": "local",
+              "kind": "directory",
+              "title": null,
+              "background": true
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_agents",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "agents_count=3\nagents_ids=33333333-3333-4333-8333-333333333333,11111111-1111-4111-8111-111111111111,22222222-2222-4222-8222-222222222222\n\n{\n  \"agents\": [\n    {\n      \"id\": \"33333333-3333-4333-8333-333333333333\",\n      \"shortId\": \"3333333\",\n      \"title\": null,\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"running\",\n      \"cwd\": \"/work/repo\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    },\n    {\n      \"id\": \"11111111-1111-4111-8111-111111111111\",\n      \"shortId\": \"1111111\",\n      \"title\": null,\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"idle\",\n      \"cwd\": \"/work/repo\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    },\n    {\n      \"id\": \"22222222-2222-4222-8222-222222222222\",\n      \"shortId\": \"2222222\",\n      \"title\": \"Stored agent\",\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"closed\",\n      \"cwd\": \"/work/other\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "33333333-3333-4333-8333-333333333333",
+              "shortId": "3333333",
+              "title": null,
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "running",
+              "cwd": "/work/repo",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            },
+            {
+              "id": "11111111-1111-4111-8111-111111111111",
+              "shortId": "1111111",
+              "title": null,
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "idle",
+              "cwd": "/work/repo",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            },
+            {
+              "id": "22222222-2222-4222-8222-222222222222",
+              "shortId": "2222222",
+              "title": "Stored agent",
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "closed",
+              "cwd": "/work/other",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_agents",
+      "args": {
+        "statuses": [
+          "running"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "agents_count=1\nagents_ids=33333333-3333-4333-8333-333333333333\n\n{\n  \"agents\": [\n    {\n      \"id\": \"33333333-3333-4333-8333-333333333333\",\n      \"shortId\": \"3333333\",\n      \"title\": null,\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"running\",\n      \"cwd\": \"/work/repo\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "33333333-3333-4333-8333-333333333333",
+              "shortId": "3333333",
+              "title": null,
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "running",
+              "cwd": "/work/repo",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_agents",
+      "args": {
+        "cwd": "/work/other",
+        "limit": 1
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "agents_count=1\nagents_ids=22222222-2222-4222-8222-222222222222\n\n{\n  \"agents\": [\n    {\n      \"id\": \"22222222-2222-4222-8222-222222222222\",\n      \"shortId\": \"2222222\",\n      \"title\": \"Stored agent\",\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"closed\",\n      \"cwd\": \"/work/other\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "22222222-2222-4222-8222-222222222222",
+              "shortId": "2222222",
+              "title": "Stored agent",
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "closed",
+              "cwd": "/work/other",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "get_agent_status",
+      "args": {
+        "agentId": "11111111-1111-4111-8111-111111111111"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": \"idle\",\n  \"snapshot\": {\n    \"id\": \"11111111-1111-4111-8111-111111111111\",\n    \"provider\": \"claude\",\n    \"cwd\": \"/work/repo\",\n    \"workspaceId\": \"wks_0000000000000001\",\n    \"model\": null,\n    \"thinkingOptionId\": null,\n    \"effectiveThinkingOptionId\": null,\n    \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n    \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n    \"lastUserMessageAt\": null,\n    \"status\": \"idle\",\n    \"activeTurn\": null,\n    \"capabilities\": {\n      \"supportsStreaming\": false,\n      \"supportsSessionPersistence\": false,\n      \"supportsDynamicModes\": false,\n      \"supportsMcpServers\": true,\n      \"supportsReasoningStream\": false,\n      \"supportsToolInvocations\": true\n    },\n    \"currentModeId\": \"default\",\n    \"availableModes\": [],\n    \"features\": [],\n    \"pendingPermissions\": [],\n    \"persistence\": null,\n    \"title\": null,\n    \"labels\": {},\n    \"requiresAttention\": false,\n    \"attentionReason\": null,\n    \"attentionTimestamp\": null\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": "idle",
+          "snapshot": {
+            "id": "11111111-1111-4111-8111-111111111111",
+            "provider": "claude",
+            "cwd": "/work/repo",
+            "workspaceId": "wks_0000000000000001",
+            "model": null,
+            "thinkingOptionId": null,
+            "effectiveThinkingOptionId": null,
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "updatedAt": "2026-01-15T10:00:00.000Z",
+            "lastUserMessageAt": null,
+            "status": "idle",
+            "activeTurn": null,
+            "capabilities": {
+              "supportsStreaming": false,
+              "supportsSessionPersistence": false,
+              "supportsDynamicModes": false,
+              "supportsMcpServers": true,
+              "supportsReasoningStream": false,
+              "supportsToolInvocations": true
+            },
+            "currentModeId": "default",
+            "availableModes": [],
+            "features": [],
+            "pendingPermissions": [],
+            "persistence": null,
+            "title": null,
+            "labels": {},
+            "requiresAttention": false,
+            "attentionReason": null,
+            "attentionTimestamp": null
+          }
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "get_agent_status",
+      "args": {
+        "agentId": "22222222-2222-4222-8222-222222222222"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": \"closed\",\n  \"snapshot\": {\n    \"id\": \"22222222-2222-4222-8222-222222222222\",\n    \"provider\": \"claude\",\n    \"cwd\": \"/work/other\",\n    \"model\": null,\n    \"thinkingOptionId\": null,\n    \"effectiveThinkingOptionId\": null,\n    \"runtimeInfo\": {\n      \"provider\": \"claude\",\n      \"sessionId\": \"s-1\"\n    },\n    \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n    \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n    \"lastUserMessageAt\": null,\n    \"status\": \"closed\",\n    \"capabilities\": {\n      \"supportsStreaming\": false,\n      \"supportsSessionPersistence\": true,\n      \"supportsDynamicModes\": false,\n      \"supportsMcpServers\": false,\n      \"supportsReasoningStream\": false,\n      \"supportsToolInvocations\": true,\n      \"supportsRewindConversation\": false,\n      \"supportsRewindFiles\": false,\n      \"supportsRewindBoth\": false\n    },\n    \"currentModeId\": \"default\",\n    \"availableModes\": [],\n    \"pendingPermissions\": [],\n    \"persistence\": {\n      \"provider\": \"claude\",\n      \"sessionId\": \"s-1\"\n    },\n    \"title\": \"Stored agent\",\n    \"requiresAttention\": false,\n    \"attentionReason\": null,\n    \"attentionTimestamp\": null,\n    \"archivedAt\": null,\n    \"labels\": {}\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": "closed",
+          "snapshot": {
+            "id": "22222222-2222-4222-8222-222222222222",
+            "provider": "claude",
+            "cwd": "/work/other",
+            "model": null,
+            "thinkingOptionId": null,
+            "effectiveThinkingOptionId": null,
+            "runtimeInfo": {
+              "provider": "claude",
+              "sessionId": "s-1"
+            },
+            "createdAt": "2026-01-15T10:00:00.000Z",
+            "updatedAt": "2026-01-15T10:00:00.000Z",
+            "lastUserMessageAt": null,
+            "status": "closed",
+            "capabilities": {
+              "supportsStreaming": false,
+              "supportsSessionPersistence": true,
+              "supportsDynamicModes": false,
+              "supportsMcpServers": false,
+              "supportsReasoningStream": false,
+              "supportsToolInvocations": true,
+              "supportsRewindConversation": false,
+              "supportsRewindFiles": false,
+              "supportsRewindBoth": false
+            },
+            "currentModeId": "default",
+            "availableModes": [],
+            "pendingPermissions": [],
+            "persistence": {
+              "provider": "claude",
+              "sessionId": "s-1"
+            },
+            "title": "Stored agent",
+            "requiresAttention": false,
+            "attentionReason": null,
+            "attentionTimestamp": null,
+            "archivedAt": null,
+            "labels": {}
+          }
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "get_agent_status",
+      "args": {
+        "agentId": "missing"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Agent missing not found"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "get_agent_activity",
+      "args": {
+        "agentId": "11111111-1111-4111-8111-111111111111"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"agentId\": \"11111111-1111-4111-8111-111111111111\",\n  \"updateCount\": 4,\n  \"currentModeId\": \"default\",\n  \"content\": \"Showing all 3 activities\\n\\n[User] hello\\nHi there\\n[Shell] ls\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "agentId": "11111111-1111-4111-8111-111111111111",
+          "updateCount": 4,
+          "currentModeId": "default",
+          "content": "Showing all 3 activities\n\n[User] hello\nHi there\n[Shell] ls"
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "get_agent_activity",
+      "args": {
+        "agentId": "11111111-1111-4111-8111-111111111111",
+        "limit": 1
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"agentId\": \"11111111-1111-4111-8111-111111111111\",\n  \"updateCount\": 4,\n  \"currentModeId\": \"default\",\n  \"content\": \"Showing 1 of 3 activities (limited to 1)\\n\\n[Shell] ls\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "agentId": "11111111-1111-4111-8111-111111111111",
+          "updateCount": 4,
+          "currentModeId": "default",
+          "content": "Showing 1 of 3 activities (limited to 1)\n\n[Shell] ls"
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_pending_permissions",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "permissions_count=1\n\n{\n  \"permissions\": [\n    {\n      \"agentId\": \"33333333-3333-4333-8333-333333333333\",\n      \"status\": \"running\",\n      \"request\": {\n        \"id\": \"perm-1\",\n        \"provider\": \"claude\",\n        \"name\": \"Bash\",\n        \"kind\": \"tool\",\n        \"title\": \"Run command\",\n        \"input\": {\n          \"command\": \"ls\"\n        }\n      }\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "permissions": [
+            {
+              "agentId": "33333333-3333-4333-8333-333333333333",
+              "status": "running",
+              "request": {
+                "id": "perm-1",
+                "provider": "claude",
+                "name": "Bash",
+                "kind": "tool",
+                "title": "Run command",
+                "input": {
+                  "command": "ls"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "set_agent_mode",
+      "args": {
+        "agentId": "11111111-1111-4111-8111-111111111111",
+        "modeId": "plan"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true,\n  \"newMode\": \"plan\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true,
+          "newMode": "plan"
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "agentManager",
+          "method": "setAgentMode",
+          "args": [
+            "11111111-1111-4111-8111-111111111111",
+            "plan"
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "respond_to_permission",
+      "args": {
+        "agentId": "11111111-1111-4111-8111-111111111111",
+        "requestId": "perm-1",
+        "response": {
+          "behavior": "allow"
+        }
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "agentManager",
+          "method": "respondToPermission",
+          "args": [
+            "11111111-1111-4111-8111-111111111111",
+            "perm-1",
+            {
+              "behavior": "allow"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "list_terminals",
+      "args": {
+        "cwd": "/work/repo"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "terminals_count=1\nterminals_ids=term-1\n\n{\n  \"terminals\": [\n    {\n      \"id\": \"term-1\",\n      \"name\": \"main\",\n      \"cwd\": \"/work/repo\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "terminals": [
+            {
+              "id": "term-1",
+              "name": "main",
+              "cwd": "/work/repo"
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_terminals",
+      "args": {
+        "all": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "terminals_count=2\nterminals_ids=term-1,term-2\n\n{\n  \"terminals\": [\n    {\n      \"id\": \"term-1\",\n      \"name\": \"main\",\n      \"cwd\": \"/work/repo\"\n    },\n    {\n      \"id\": \"term-2\",\n      \"name\": \"logs\",\n      \"cwd\": \"/work/other\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "terminals": [
+            {
+              "id": "term-1",
+              "name": "main",
+              "cwd": "/work/repo"
+            },
+            {
+              "id": "term-2",
+              "name": "logs",
+              "cwd": "/work/other"
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "list_terminals",
+      "args": {},
+      "note": "no cwd outside agent session",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "cwd is required"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "create_terminal",
+      "args": {
+        "cwd": "/work/repo",
+        "name": " build "
+      },
+      "note": "no workspace minting configured",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "workspaceId is required outside an agent-scoped session"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "capture_terminal",
+      "args": {
+        "terminalId": "term-1",
+        "scrollback": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "lines_count=2\n\n{\n  \"terminalId\": \"term-1\",\n  \"lines\": [\n    \"$ ls\",\n    \"a b c\"\n  ],\n  \"totalLines\": 2\n}"
+          }
+        ],
+        "structuredContent": {
+          "terminalId": "term-1",
+          "lines": [
+            "$ ls",
+            "a b c"
+          ],
+          "totalLines": 2
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "terminalManager",
+          "method": "captureTerminal",
+          "args": [
+            "term-1",
+            {
+              "start": 0,
+              "stripAnsi": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "capture_terminal",
+      "args": {
+        "terminalId": "nope"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Terminal nope not found"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "send_terminal_keys",
+      "args": {
+        "terminalId": "term-1",
+        "keys": "C-c"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "terminal",
+          "method": "send",
+          "args": [
+            {
+              "type": "input",
+              "data": "\u0003"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "send_terminal_keys",
+      "args": {
+        "terminalId": "term-1",
+        "keys": "C-c",
+        "literal": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "terminal",
+          "method": "send",
+          "args": [
+            {
+              "type": "input",
+              "data": "C-c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "kill_terminal",
+      "args": {
+        "terminalId": "term-2"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "terminal",
+          "method": "kill",
+          "args": []
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "list_schedules",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "schedules_count=1\nschedules_ids=sch-1\n\n{\n  \"schedules\": [\n    {\n      \"id\": \"sch-1\",\n      \"name\": \"nightly\",\n      \"prompt\": \"run tests\",\n      \"cadence\": {\n        \"type\": \"cron\",\n        \"expression\": \"0 2 * * *\",\n        \"timezone\": \"UTC\"\n      },\n      \"target\": {\n        \"type\": \"new-agent\",\n        \"config\": {\n          \"provider\": \"claude\",\n          \"cwd\": \"/work/repo\"\n        }\n      },\n      \"status\": \"active\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"nextRunAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastRunAt\": null,\n      \"pausedAt\": null,\n      \"expiresAt\": null,\n      \"maxRuns\": null\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "schedules": [
+            {
+              "id": "sch-1",
+              "name": "nightly",
+              "prompt": "run tests",
+              "cadence": {
+                "type": "cron",
+                "expression": "0 2 * * *",
+                "timezone": "UTC"
+              },
+              "target": {
+                "type": "new-agent",
+                "config": {
+                  "provider": "claude",
+                  "cwd": "/work/repo"
+                }
+              },
+              "status": "active",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "nextRunAt": "2026-01-15T10:00:00.000Z",
+              "lastRunAt": null,
+              "pausedAt": null,
+              "expiresAt": null,
+              "maxRuns": null
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "inspect_schedule",
+      "args": {
+        "id": "sch-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "runs_count=1\nruns_ids=run-1\n\n{\n  \"id\": \"sch-1\",\n  \"name\": \"nightly\",\n  \"prompt\": \"run tests\",\n  \"cadence\": {\n    \"type\": \"cron\",\n    \"expression\": \"0 2 * * *\",\n    \"timezone\": \"UTC\"\n  },\n  \"target\": {\n    \"type\": \"new-agent\",\n    \"config\": {\n      \"provider\": \"claude\",\n      \"cwd\": \"/work/repo\"\n    }\n  },\n  \"status\": \"active\",\n  \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n  \"nextRunAt\": \"2026-01-15T10:00:00.000Z\",\n  \"lastRunAt\": null,\n  \"pausedAt\": null,\n  \"expiresAt\": null,\n  \"maxRuns\": null,\n  \"runs\": [\n    {\n      \"id\": \"run-1\",\n      \"scheduledFor\": \"2026-01-15T10:00:00.000Z\",\n      \"startedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"endedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"status\": \"succeeded\",\n      \"agentId\": \"11111111-1111-4111-8111-111111111111\",\n      \"workspaceId\": null,\n      \"output\": \"ok\",\n      \"error\": null\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "id": "sch-1",
+          "name": "nightly",
+          "prompt": "run tests",
+          "cadence": {
+            "type": "cron",
+            "expression": "0 2 * * *",
+            "timezone": "UTC"
+          },
+          "target": {
+            "type": "new-agent",
+            "config": {
+              "provider": "claude",
+              "cwd": "/work/repo"
+            }
+          },
+          "status": "active",
+          "createdAt": "2026-01-15T10:00:00.000Z",
+          "updatedAt": "2026-01-15T10:00:00.000Z",
+          "nextRunAt": "2026-01-15T10:00:00.000Z",
+          "lastRunAt": null,
+          "pausedAt": null,
+          "expiresAt": null,
+          "maxRuns": null,
+          "runs": [
+            {
+              "id": "run-1",
+              "scheduledFor": "2026-01-15T10:00:00.000Z",
+              "startedAt": "2026-01-15T10:00:00.000Z",
+              "endedAt": "2026-01-15T10:00:00.000Z",
+              "status": "succeeded",
+              "agentId": "11111111-1111-4111-8111-111111111111",
+              "workspaceId": null,
+              "output": "ok",
+              "error": null
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "inspect_schedule",
+      "args": {
+        "id": "sch-hb"
+      },
+      "note": "heartbeat is not a new-agent schedule",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Schedule not found: sch-hb"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "pause_schedule",
+      "args": {
+        "id": "sch-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "pause",
+          "args": [
+            "sch-1"
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "resume_schedule",
+      "args": {
+        "id": "sch-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "resume",
+          "args": [
+            "sch-1"
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "delete_schedule",
+      "args": {
+        "id": "sch-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"success\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "success": true
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "delete",
+          "args": [
+            "sch-1"
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "run_schedule_once",
+      "args": {
+        "id": "sch-1"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "runs_count=1\nruns_ids=run-1\n\n{\n  \"id\": \"sch-1\",\n  \"name\": \"nightly\",\n  \"prompt\": \"run tests\",\n  \"cadence\": {\n    \"type\": \"cron\",\n    \"expression\": \"0 2 * * *\",\n    \"timezone\": \"UTC\"\n  },\n  \"target\": {\n    \"type\": \"new-agent\",\n    \"config\": {\n      \"provider\": \"claude\",\n      \"cwd\": \"/work/repo\"\n    }\n  },\n  \"status\": \"active\",\n  \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n  \"nextRunAt\": \"2026-01-15T10:00:00.000Z\",\n  \"lastRunAt\": null,\n  \"pausedAt\": null,\n  \"expiresAt\": null,\n  \"maxRuns\": null,\n  \"runs\": [\n    {\n      \"id\": \"run-1\",\n      \"scheduledFor\": \"2026-01-15T10:00:00.000Z\",\n      \"startedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"endedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"status\": \"succeeded\",\n      \"agentId\": \"11111111-1111-4111-8111-111111111111\",\n      \"workspaceId\": null,\n      \"output\": \"ok\",\n      \"error\": null\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "id": "sch-1",
+          "name": "nightly",
+          "prompt": "run tests",
+          "cadence": {
+            "type": "cron",
+            "expression": "0 2 * * *",
+            "timezone": "UTC"
+          },
+          "target": {
+            "type": "new-agent",
+            "config": {
+              "provider": "claude",
+              "cwd": "/work/repo"
+            }
+          },
+          "status": "active",
+          "createdAt": "2026-01-15T10:00:00.000Z",
+          "updatedAt": "2026-01-15T10:00:00.000Z",
+          "nextRunAt": "2026-01-15T10:00:00.000Z",
+          "lastRunAt": null,
+          "pausedAt": null,
+          "expiresAt": null,
+          "maxRuns": null,
+          "runs": [
+            {
+              "id": "run-1",
+              "scheduledFor": "2026-01-15T10:00:00.000Z",
+              "startedAt": "2026-01-15T10:00:00.000Z",
+              "endedAt": "2026-01-15T10:00:00.000Z",
+              "status": "succeeded",
+              "agentId": "11111111-1111-4111-8111-111111111111",
+              "workspaceId": null,
+              "output": "ok",
+              "error": null
+            }
+          ]
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "runOnce",
+          "args": [
+            "sch-1"
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "create_schedule",
+      "args": {
+        "prompt": " run tests ",
+        "cron": "0 2 * * *",
+        "provider": "claude",
+        "cwd": "/work/repo",
+        "name": " nightly "
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"id\": \"sch-new\",\n  \"name\": \"nightly\",\n  \"prompt\": \"run tests\",\n  \"cadence\": {\n    \"type\": \"cron\",\n    \"expression\": \"0 2 * * *\",\n    \"timezone\": \"UTC\"\n  },\n  \"target\": {\n    \"type\": \"new-agent\",\n    \"config\": {\n      \"provider\": \"claude\",\n      \"cwd\": \"/work/repo\"\n    }\n  },\n  \"status\": \"active\",\n  \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n  \"nextRunAt\": \"2026-01-15T10:00:00.000Z\",\n  \"lastRunAt\": null,\n  \"pausedAt\": null,\n  \"expiresAt\": null,\n  \"maxRuns\": null\n}"
+          }
+        ],
+        "structuredContent": {
+          "id": "sch-new",
+          "name": "nightly",
+          "prompt": "run tests",
+          "cadence": {
+            "type": "cron",
+            "expression": "0 2 * * *",
+            "timezone": "UTC"
+          },
+          "target": {
+            "type": "new-agent",
+            "config": {
+              "provider": "claude",
+              "cwd": "/work/repo"
+            }
+          },
+          "status": "active",
+          "createdAt": "2026-01-15T10:00:00.000Z",
+          "updatedAt": "2026-01-15T10:00:00.000Z",
+          "nextRunAt": "2026-01-15T10:00:00.000Z",
+          "lastRunAt": null,
+          "pausedAt": null,
+          "expiresAt": null,
+          "maxRuns": null
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "createOrReplace",
+          "args": [
+            {
+              "prompt": "run tests",
+              "cadence": {
+                "type": "cron",
+                "expression": "0 2 * * *"
+              },
+              "target": {
+                "type": "new-agent",
+                "config": {
+                  "provider": "claude",
+                  "cwd": "/work/repo"
+                }
+              },
+              "name": "nightly"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "default",
+      "tool": "create_schedule",
+      "args": {
+        "prompt": "x",
+        "cron": "0 2 * * *"
+      },
+      "note": "provider required without caller",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool create_schedule: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "create_heartbeat",
+      "args": {
+        "prompt": "x",
+        "cron": "* * * * *"
+      },
+      "note": "needs agent session",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "create_heartbeat requires an agent-scoped session"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "caller_agent",
+      "tool": "create_heartbeat",
+      "args": {
+        "prompt": "ping",
+        "cron": "*/5 * * * *",
+        "name": "hb"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"id\": \"sch-new\",\n  \"name\": \"hb\",\n  \"prompt\": \"run tests\",\n  \"cadence\": {\n    \"type\": \"cron\",\n    \"expression\": \"0 2 * * *\",\n    \"timezone\": \"UTC\"\n  },\n  \"target\": {\n    \"type\": \"new-agent\",\n    \"config\": {\n      \"provider\": \"claude\",\n      \"cwd\": \"/work/repo\"\n    }\n  },\n  \"status\": \"active\",\n  \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n  \"nextRunAt\": \"2026-01-15T10:00:00.000Z\",\n  \"lastRunAt\": null,\n  \"pausedAt\": null,\n  \"expiresAt\": null,\n  \"maxRuns\": null\n}"
+          }
+        ],
+        "structuredContent": {
+          "id": "sch-new",
+          "name": "hb",
+          "prompt": "run tests",
+          "cadence": {
+            "type": "cron",
+            "expression": "0 2 * * *",
+            "timezone": "UTC"
+          },
+          "target": {
+            "type": "new-agent",
+            "config": {
+              "provider": "claude",
+              "cwd": "/work/repo"
+            }
+          },
+          "status": "active",
+          "createdAt": "2026-01-15T10:00:00.000Z",
+          "updatedAt": "2026-01-15T10:00:00.000Z",
+          "nextRunAt": "2026-01-15T10:00:00.000Z",
+          "lastRunAt": null,
+          "pausedAt": null,
+          "expiresAt": null,
+          "maxRuns": null
+        }
+      },
+      "sideEffects": [
+        {
+          "target": "scheduleService",
+          "method": "createOrReplace",
+          "args": [
+            {
+              "prompt": "ping",
+              "cadence": {
+                "type": "cron",
+                "expression": "*/5 * * * *"
+              },
+              "target": {
+                "type": "agent",
+                "agentId": "11111111-1111-4111-8111-111111111111"
+              },
+              "name": "hb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config": "caller_agent",
+      "tool": "speak",
+      "args": {
+        "text": "hello there"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"ok\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "caller_agent",
+      "tool": "speak",
+      "args": {
+        "text": "   "
+      },
+      "note": "validation error",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool speak: [\n  {\n    \"origin\": \"string\",\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"inclusive\": true,\n    \"path\": [\n      \"text\"\n    ],\n    \"message\": \"text is required\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "caller_agent",
+      "tool": "list_terminals",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "terminals_count=1\nterminals_ids=term-1\n\n{\n  \"terminals\": [\n    {\n      \"id\": \"term-1\",\n      \"name\": \"main\",\n      \"cwd\": \"/work/repo\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "terminals": [
+            {
+              "id": "term-1",
+              "name": "main",
+              "cwd": "/work/repo"
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "caller_agent",
+      "tool": "list_agents",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "agents_count=2\nagents_ids=33333333-3333-4333-8333-333333333333,11111111-1111-4111-8111-111111111111\n\n{\n  \"agents\": [\n    {\n      \"id\": \"33333333-3333-4333-8333-333333333333\",\n      \"shortId\": \"3333333\",\n      \"title\": null,\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"running\",\n      \"cwd\": \"/work/repo\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    },\n    {\n      \"id\": \"11111111-1111-4111-8111-111111111111\",\n      \"shortId\": \"1111111\",\n      \"title\": null,\n      \"provider\": \"claude\",\n      \"model\": null,\n      \"thinkingOptionId\": null,\n      \"effectiveThinkingOptionId\": null,\n      \"status\": \"idle\",\n      \"cwd\": \"/work/repo\",\n      \"createdAt\": \"2026-01-15T10:00:00.000Z\",\n      \"updatedAt\": \"2026-01-15T10:00:00.000Z\",\n      \"lastUserMessageAt\": null,\n      \"archivedAt\": null,\n      \"requiresAttention\": false,\n      \"attentionReason\": null,\n      \"attentionTimestamp\": null,\n      \"labels\": {}\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "33333333-3333-4333-8333-333333333333",
+              "shortId": "3333333",
+              "title": null,
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "running",
+              "cwd": "/work/repo",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            },
+            {
+              "id": "11111111-1111-4111-8111-111111111111",
+              "shortId": "1111111",
+              "title": null,
+              "provider": "claude",
+              "model": null,
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "status": "idle",
+              "cwd": "/work/repo",
+              "createdAt": "2026-01-15T10:00:00.000Z",
+              "updatedAt": "2026-01-15T10:00:00.000Z",
+              "lastUserMessageAt": null,
+              "archivedAt": null,
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "labels": {}
+            }
+          ]
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "full",
+      "tool": "browser_list_tabs",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "This browser tool needs a workspace. Start the agent from a Paseo workspace before calling browser_new_tab or browser_list_tabs."
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "browser_denied",
+            "message": "This browser tool needs a workspace. Start the agent from a Paseo workspace before calling browser_new_tab or browser_list_tabs.",
+            "retryable": false
+          },
+          "context": {}
+        }
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "policy_disabled_tools",
+      "tool": "list_providers",
+      "args": {},
+      "note": "disabled tool is absent at execute",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Tool list_providers not found"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    },
+    {
+      "config": "default",
+      "tool": "no_such_tool",
+      "args": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Tool no_such_tool not found"
+          }
+        ],
+        "isError": true
+      },
+      "sideEffects": []
+    }
+  ],
+  "directCatalogExecution": [
+    {
+      "tool": "no_such_tool",
+      "args": {},
+      "threw": {
+        "name": "Error",
+        "message": "Paseo tool not found: no_such_tool"
+      }
+    },
+    {
+      "tool": "list_models",
+      "args": {},
+      "threw": {
+        "name": "ZodError",
+        "message": "[\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+      }
+    },
+    {
+      "tool": "list_providers",
+      "args": {},
+      "result": {
+        "content": [],
+        "structuredContent": {
+          "providers": [
+            {
+              "id": "claude",
+              "label": "Claude",
+              "description": "Anthropic Claude",
+              "enabled": true,
+              "modes": [
+                {
+                  "id": "default",
+                  "label": "Default",
+                  "description": "Ask first"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "No prompts",
+                  "isUnattended": true
+                }
+              ],
+              "status": "available"
+            },
+            {
+              "id": "codex",
+              "label": "Codex",
+              "description": "OpenAI Codex",
+              "enabled": false,
+              "modes": [],
+              "status": "unavailable"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "tool": "list_workspaces",
+      "args": {
+        "includeBackground": "yes"
+      },
+      "threw": {
+        "name": "ZodError",
+        "message": "[\n  {\n    \"expected\": \"boolean\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"includeBackground\"\n    ],\n    \"message\": \"Invalid input: expected boolean, received string\"\n  }\n]"
+      }
+    }
+  ],
+  "speakCalls": [
+    {
+      "text": "hello there",
+      "callerAgentId": "11111111-1111-4111-8111-111111111111",
+      "signal": {}
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "provider": "codex",
+  "fixture": "08-image-input",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"What color is the attached image? Reply with one word. No to\")"
+  ],
+  "eventCount": 6,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-df4d-7ce3-88fd-cc5bc48162fb",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "What color is the attached image? Reply with one word. No tools.",
+        "messageId": "01a145c7-e9ad-7753-bf4a-1cd6d96b8b11"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_04ca595db021fa39016ad2603d1fd081919da70c2bdf2142b3",
+        "text": "Red"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24092,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24097
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24092,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24097
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

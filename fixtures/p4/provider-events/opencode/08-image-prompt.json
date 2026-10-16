@@ -1,0 +1,131 @@
+{
+  "provider": "opencode",
+  "fixture": "08-image-prompt",
+  "status": "partial",
+  "driver": "translateOpenCodeEvent over recorded SSE payloads with one shared translation state",
+  "notes": [
+    "sessionId=ses_eba31a686ffeC9HExd45CEsGZw",
+    "64 SSE events seen, 21 sync/heartbeat events skipped",
+    "turn_started/turn_completed and prompt submission events come from the session controller, not translateOpenCodeEvent; user_message pending state is not primed"
+  ],
+  "eventCount": 18,
+  "events": [
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31a686ffeC9HExd45CEsGZw",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31a686ffeC9HExd45CEsGZw",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "user_message",
+        "text": "Describe this image in five words. No tools.",
+        "messageId": "msg_145ce5e1a0017KYdM87HQmL6d6"
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31a686ffeC9HExd45CEsGZw",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31a686ffeC9HExd45CEsGZw",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " image appears to be entirely black — a small solid dark square with no discernible content."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " The user wants exactly five words describing it. \"Solid black square, no content\""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " works as a five-word description. No tools needed here."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "Solid black square,",
+        "messageId": "msg_145ce5f12001Ry60EWVX0NB7BM"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": " no content.",
+        "messageId": "msg_145ce5f12001Ry60EWVX0NB7BM"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 27081,
+        "outputTokens": 9,
+        "contextWindowUsedTokens": 27138
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba31a686ffeC9HExd45CEsGZw",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "provider_subagent",
+      "provider": "opencode",
+      "event": {
+        "type": "remove",
+        "id": "ses_eba31a686ffeC9HExd45CEsGZw"
+      }
+    }
+  ]
+}

@@ -1,0 +1,481 @@
+{
+  "provider": "codex",
+  "fixture": "02-tool-allow",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Run the shell command `touch out.txt` to create an empty fil\")",
+    "process-1: respondToPermission(permission-exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563, allow) for decision=accept"
+  ],
+  "eventCount": 44,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c7-2d91-7f42-9120-bcfbd2f7e433",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Run the shell command `touch out.txt` to create an empty file. The sandbox is read-only, so request escalated permissions for this command (sandbox_permissions require_escalated). Then say done.",
+        "messageId": "01a145c7-3838-7571-8c1a-ef3ac2d5ec16"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "M"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "ình"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " sẽ"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " chạy"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " đúng"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " l"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "ệnh"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " `"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "touch"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " out"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": ".txt"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "`"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " với"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " quyền"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " nâng"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " cao"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " như"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " bạn"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " yêu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": " cầu"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad2600fdfe481919ab15ccc77244c7e",
+        "text": "."
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "tool_call",
+        "callId": "exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563",
+        "name": "shell",
+        "status": "running",
+        "error": null,
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "permission_requested",
+      "provider": "codex",
+      "request": {
+        "id": "permission-exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563",
+        "provider": "codex",
+        "name": "CodexBash",
+        "kind": "tool",
+        "title": "Run command: /bin/zsh -lc 'touch out.txt'",
+        "description": "Bạn có muốn cho phép tạo file rỗng out.txt bằng lệnh touch không?",
+        "input": {
+          "command": "/bin/zsh -lc 'touch out.txt'",
+          "cwd": "/tmp/paseo-codex-fixture"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture"
+        },
+        "metadata": {
+          "itemId": "exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563",
+          "threadId": "01a145c7-2d91-7f42-9120-bcfbd2f7e433",
+          "turnId": "01a145c7-2df4-7140-9590-95bd230dc78e"
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "permission_resolved",
+      "provider": "codex",
+      "requestId": "permission-exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563",
+      "resolution": {
+        "behavior": "allow"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "tool_call",
+        "callId": "exec-cb0c7ef0-3e19-44af-bbd4-0d13d5e6c563",
+        "name": "shell",
+        "status": "completed",
+        "error": null,
+        "detail": {
+          "type": "shell",
+          "command": "touch out.txt",
+          "cwd": "/tmp/paseo-codex-fixture",
+          "exitCode": 0
+        }
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23975,
+        "cachedInputTokens": 7168,
+        "outputTokens": 91,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24066
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "\n\n---\n\nX"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "ong"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " —"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " đã"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " tạo"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " file"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " r"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "ỗ"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "ng"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": " `"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "out"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": ".txt"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_08d067ea3d3eeb28016ad260119f0c819180cf968dfae0cee3",
+        "text": "`."
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24122,
+        "cachedInputTokens": 23808,
+        "outputTokens": 17,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24139
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 24122,
+        "cachedInputTokens": 23808,
+        "outputTokens": 17,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 24139
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

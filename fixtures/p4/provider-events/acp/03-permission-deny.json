@@ -1,0 +1,93 @@
+{
+  "provider": "acp",
+  "fixture": "03-permission-deny",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: copilot",
+    "session/prompt -> activeForegroundTurnId=turn-1",
+    "prompt response stopReason=\"end_turn\" -> turn cleared",
+    "3 session/update notifications translated",
+    "1 session/request_permission requests not driven (permission mapping lives in the controller)",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 4,
+  "events": [
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "tool_call",
+        "callId": "call_BDe3LumbM60KFiGVv6LdM653",
+        "name": "execute",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello > hello.txt"
+        },
+        "metadata": {
+          "kind": "execute",
+          "title": "Create hello.txt with 'hello' content"
+        },
+        "status": "running",
+        "error": null
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "tool_call",
+        "callId": "call_BDe3LumbM60KFiGVv6LdM653",
+        "name": "execute",
+        "detail": {
+          "type": "shell",
+          "command": "echo hello > hello.txt"
+        },
+        "metadata": {
+          "kind": "execute",
+          "title": "Create hello.txt with 'hello' content"
+        },
+        "status": "failed",
+        "error": {
+          "message": "The user rejected this tool call."
+        }
+      },
+      "turnId": "turn-1"
+    }
+  ]
+}

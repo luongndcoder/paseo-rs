@@ -1,0 +1,6188 @@
+{
+  "note": "Replay `seed` through initialize(agentId,{epoch,timestamp,...seed}) then each append step; `expected` is the store state after all appends and enrichments.",
+  "unknownAgentFetchError": {
+    "name": "Error",
+    "message": "Unknown agent 'ghost'"
+  },
+  "timelines": [
+    {
+      "name": "empty",
+      "description": "No rows: window {0,0,1}.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 0,
+          "maxSeq": 0,
+          "nextSeq": 1
+        },
+        "items": [],
+        "projectedRows": [],
+        "lastItem": null,
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "single_user",
+      "description": "One user_message.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "hello",
+            "clientMessageId": "cm-1"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "hello",
+              "clientMessageId": "cm-1"
+            }
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 1,
+          "nextSeq": 2
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "hello",
+            "clientMessageId": "cm-1"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "hello",
+              "clientMessageId": "cm-1"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          }
+        ],
+        "lastItem": {
+          "type": "user_message",
+          "text": "hello",
+          "clientMessageId": "cm-1"
+        },
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-1",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "hello",
+                "clientMessageId": "cm-1"
+              },
+              "timestamp": "2026-01-01T00:00:20.000Z",
+              "seqStart": 1,
+              "seqEnd": 1,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 1,
+                  "endSeq": 1
+                }
+              ],
+              "collapsed": [],
+              "seq": 1
+            }
+          },
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "text_chunks_same_turn",
+      "description": "Adjacent assistant chunks without messageId merge into the last row.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "go"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "go"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "Hel"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "Hel"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "lo "
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "lo "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "wor"
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "wor"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "ld"
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "ld"
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 5,
+          "nextSeq": 6
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "go"
+          },
+          {
+            "type": "assistant_message",
+            "text": "Hello world"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "go"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "Hello world"
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 2,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 5
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "Hello world"
+        },
+        "lastAssistantMessage": "Hello world",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "assistant_message_id_rules",
+      "description": "Explicit differing messageId breaks the merge; undefined messageId merges into the previous row; same id merges.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "a1 ",
+            "messageId": "m1"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "a1 ",
+              "messageId": "m1"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "a2 ",
+            "messageId": "m1"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "a2 ",
+              "messageId": "m1"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "b1 ",
+            "messageId": "m2"
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "b1 ",
+              "messageId": "m2"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "b2-no-id "
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "b2-no-id "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "b3 ",
+            "messageId": "m2"
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "b3 ",
+              "messageId": "m2"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "c1 ",
+            "messageId": "m3"
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "c1 ",
+              "messageId": "m3"
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 6,
+          "nextSeq": 7
+        },
+        "items": [
+          {
+            "type": "assistant_message",
+            "text": "a1 a2 ",
+            "messageId": "m1"
+          },
+          {
+            "type": "assistant_message",
+            "text": "b1 b2-no-id b3 ",
+            "messageId": "m2"
+          },
+          {
+            "type": "assistant_message",
+            "text": "c1 ",
+            "messageId": "m3"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "a1 a2 ",
+              "messageId": "m1"
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "b1 b2-no-id b3 ",
+              "messageId": "m2"
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "c1 ",
+              "messageId": "m3"
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "t1",
+            "seqStart": 6,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [],
+            "seq": 6
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "c1 ",
+          "messageId": "m3"
+        },
+        "lastAssistantMessage": "c1 ",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "turn_id_change",
+      "description": "Same text kind with a different turnId (or absent turnId) never merges.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "x "
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "x "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "y "
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t2",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "y "
+            },
+            "turnId": "t2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "z "
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "z "
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "w "
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "w "
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "r1 "
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t2",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "r1 "
+            },
+            "turnId": "t2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "r2 "
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t3",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "r2 "
+            },
+            "turnId": "t3"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 6,
+          "nextSeq": 7
+        },
+        "items": [
+          {
+            "type": "assistant_message",
+            "text": "x "
+          },
+          {
+            "type": "assistant_message",
+            "text": "y "
+          },
+          {
+            "type": "assistant_message",
+            "text": "z w "
+          },
+          {
+            "type": "reasoning",
+            "text": "r1 "
+          },
+          {
+            "type": "reasoning",
+            "text": "r2 "
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "x "
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "y "
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t2",
+            "seqStart": 2,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "z w "
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "seqStart": 3,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 4
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "r1 "
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t2",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "r2 "
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "t3",
+            "seqStart": 6,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [],
+            "seq": 6
+          }
+        ],
+        "lastItem": {
+          "type": "reasoning",
+          "text": "r2 "
+        },
+        "lastAssistantMessage": "z w ",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "reasoning_merge",
+      "description": "Reasoning chunks merge when adjacent and same turn.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "one "
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "one "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "two "
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "two "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "answer"
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "answer"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "three"
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "three"
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 4,
+          "nextSeq": 5
+        },
+        "items": [
+          {
+            "type": "reasoning",
+            "text": "one two "
+          },
+          {
+            "type": "assistant_message",
+            "text": "answer"
+          },
+          {
+            "type": "reasoning",
+            "text": "three"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "one two "
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "answer"
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "three"
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "turnId": "t1",
+            "seqStart": 4,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 4,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [],
+            "seq": 4
+          }
+        ],
+        "lastItem": {
+          "type": "reasoning",
+          "text": "three"
+        },
+        "lastAssistantMessage": "answer",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "tool_interleaved",
+      "description": "Tool updates merge into the first row by callId; seqEnd of the first row is non-monotonic against later rows.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "run things"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "run things"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "A",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo A"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "A",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo A"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "between "
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "between "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "B",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo B"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "B",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo B"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "A",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo A",
+              "output": "A out"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "A",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo A",
+                "output": "A out"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "more "
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "more "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "B",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo B"
+            },
+            "status": "failed",
+            "error": {
+              "message": "B failed",
+              "code": 2
+            }
+          },
+          "timestamp": "2026-01-01T00:00:26.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 7,
+            "timestamp": "2026-01-01T00:00:26.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "B",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo B"
+              },
+              "status": "failed",
+              "error": {
+                "message": "B failed",
+                "code": 2
+              }
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "end"
+          },
+          "timestamp": "2026-01-01T00:00:27.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 8,
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "end"
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 8,
+          "nextSeq": 9
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "run things"
+          },
+          {
+            "type": "tool_call",
+            "callId": "A",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo A",
+              "output": "A out"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "between "
+          },
+          {
+            "type": "tool_call",
+            "callId": "B",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo B"
+            },
+            "status": "failed",
+            "error": {
+              "message": "B failed",
+              "code": 2
+            }
+          },
+          {
+            "type": "assistant_message",
+            "text": "more "
+          },
+          {
+            "type": "assistant_message",
+            "text": "end"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "run things"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "A",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo A",
+                "output": "A out"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 2,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              },
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "between "
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "B",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo B"
+              },
+              "status": "failed",
+              "error": {
+                "message": "B failed",
+                "code": 2
+              }
+            },
+            "timestamp": "2026-01-01T00:00:26.000Z",
+            "turnId": "t1",
+            "seqStart": 4,
+            "seqEnd": 7,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 4,
+                "endSeq": 4
+              },
+              {
+                "startSeq": 7,
+                "endSeq": 7
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 7
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "more "
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "t1",
+            "seqStart": 6,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [],
+            "seq": 6
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "end"
+            },
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "turnId": "t1",
+            "seqStart": 8,
+            "seqEnd": 8,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 8,
+                "endSeq": 8
+              }
+            ],
+            "collapsed": [],
+            "seq": 8
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "end"
+        },
+        "lastAssistantMessage": "end",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "tool_same_callid_new_turn",
+      "description": "Same callId under a different turnId starts a new row and takes the identity.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "first"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "first"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t2",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "second"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t2",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "second"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "t2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "third (turn absent)"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "third (turn absent)"
+              },
+              "status": "completed",
+              "error": null
+            }
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 5,
+          "nextSeq": 6
+        },
+        "items": [
+          {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "first"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "second"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "tool_call",
+            "callId": "X",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo X",
+              "output": "third (turn absent)"
+            },
+            "status": "completed",
+            "error": null
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "first"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "second"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "turnId": "t2",
+            "seqStart": 3,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 4
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "X",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo X",
+                "output": "third (turn absent)"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          }
+        ],
+        "lastItem": {
+          "type": "tool_call",
+          "callId": "X",
+          "name": "shell",
+          "detail": {
+            "type": "shell",
+            "command": "echo X",
+            "output": "third (turn absent)"
+          },
+          "status": "completed",
+          "error": null
+        },
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "tool_detail_merge",
+      "description": "unknown detail never overwrites a known one; known replaces unknown; metadata shallow-merges; error rules per status.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "K",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo K"
+            },
+            "status": "running",
+            "error": null,
+            "metadata": {
+              "a": 1,
+              "b": 1
+            }
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "K",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo K"
+              },
+              "status": "running",
+              "error": null,
+              "metadata": {
+                "a": 1,
+                "b": 1
+              }
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "K",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": null,
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "K",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": null,
+                "output": null
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "K",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo K",
+              "output": "ok"
+            },
+            "status": "completed",
+            "error": null,
+            "metadata": {
+              "b": 2,
+              "c": 3
+            }
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "K",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo K",
+                "output": "ok"
+              },
+              "status": "completed",
+              "error": null,
+              "metadata": {
+                "b": 2,
+                "c": 3
+              }
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "U",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": {
+                "q": 1
+              },
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "U",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": {
+                  "q": 1
+                },
+                "output": null
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "U",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo U"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "U",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo U"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "F",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": null,
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "F",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": null,
+                "output": null
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "F",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": null,
+              "output": null
+            },
+            "status": "failed",
+            "error": {
+              "message": "boom"
+            }
+          },
+          "timestamp": "2026-01-01T00:00:26.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 7,
+            "timestamp": "2026-01-01T00:00:26.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "F",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": null,
+                "output": null
+              },
+              "status": "failed",
+              "error": {
+                "message": "boom"
+              }
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "F",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": null,
+              "output": "done"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:27.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 8,
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "F",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": null,
+                "output": "done"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 8,
+          "nextSeq": 9
+        },
+        "items": [
+          {
+            "type": "tool_call",
+            "callId": "K",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo K",
+              "output": "ok"
+            },
+            "status": "completed",
+            "error": null,
+            "metadata": {
+              "a": 1,
+              "b": 2,
+              "c": 3
+            }
+          },
+          {
+            "type": "tool_call",
+            "callId": "U",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo U"
+            },
+            "status": "running",
+            "error": null
+          },
+          {
+            "type": "tool_call",
+            "callId": "F",
+            "name": "mystery",
+            "detail": {
+              "type": "unknown",
+              "input": null,
+              "output": "done"
+            },
+            "status": "completed",
+            "error": null
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "K",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo K",
+                "output": "ok"
+              },
+              "status": "completed",
+              "error": null,
+              "metadata": {
+                "a": 1,
+                "b": 2,
+                "c": 3
+              }
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "U",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo U"
+              },
+              "status": "running",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 4,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 4,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "F",
+              "name": "mystery",
+              "detail": {
+                "type": "unknown",
+                "input": null,
+                "output": "done"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "turnId": "t1",
+            "seqStart": 6,
+            "seqEnd": 8,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 8
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 8
+          }
+        ],
+        "lastItem": {
+          "type": "tool_call",
+          "callId": "F",
+          "name": "mystery",
+          "detail": {
+            "type": "unknown",
+            "input": null,
+            "output": "done"
+          },
+          "status": "completed",
+          "error": null
+        },
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "tool_error_semantics",
+      "description": "failed sets error, completed/canceled null it, running keeps/overrides when present.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E1"
+            },
+            "status": "failed",
+            "error": {
+              "message": "first"
+            }
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E1"
+              },
+              "status": "failed",
+              "error": {
+                "message": "first"
+              }
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E1"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E1"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E2"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E2"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E2"
+            },
+            "status": "canceled",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E2"
+              },
+              "status": "canceled",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E3"
+            },
+            "status": "failed",
+            "error": "string error"
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E3"
+              },
+              "status": "failed",
+              "error": "string error"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "E3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E3"
+            },
+            "status": "failed",
+            "error": {
+              "message": "second"
+            }
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "E3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E3"
+              },
+              "status": "failed",
+              "error": {
+                "message": "second"
+              }
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 6,
+          "nextSeq": 7
+        },
+        "items": [
+          {
+            "type": "tool_call",
+            "callId": "E1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E1"
+            },
+            "status": "running",
+            "error": null
+          },
+          {
+            "type": "tool_call",
+            "callId": "E2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E2"
+            },
+            "status": "canceled",
+            "error": null
+          },
+          {
+            "type": "tool_call",
+            "callId": "E3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo E3"
+            },
+            "status": "failed",
+            "error": {
+              "message": "second"
+            }
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "E1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E1"
+              },
+              "status": "running",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "E2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E2"
+              },
+              "status": "canceled",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 4
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "E3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo E3"
+              },
+              "status": "failed",
+              "error": {
+                "message": "second"
+              }
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "t1",
+            "seqStart": 5,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 6
+          }
+        ],
+        "lastItem": {
+          "type": "tool_call",
+          "callId": "E3",
+          "name": "shell",
+          "detail": {
+            "type": "shell",
+            "command": "echo E3"
+          },
+          "status": "failed",
+          "error": {
+            "message": "second"
+          }
+        },
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "plugin_identity",
+      "description": "Plugin items with the same pluginId/id replace the item but keep seqStart; other plugin ids stay separate.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 1
+            }
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 1
+              }
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "text between"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "text between"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "plugin",
+            "pluginId": "p.two",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 10
+            }
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.two",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 10
+              }
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 2
+            }
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 2
+              }
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-2",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 3
+            }
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-2",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 3
+              }
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 4
+            }
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 4
+              }
+            }
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 6,
+          "nextSeq": 7
+        },
+        "items": [
+          {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 4
+            }
+          },
+          {
+            "type": "assistant_message",
+            "text": "text between"
+          },
+          {
+            "type": "plugin",
+            "pluginId": "p.two",
+            "id": "card-1",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 10
+            }
+          },
+          {
+            "type": "plugin",
+            "pluginId": "p.one",
+            "id": "card-2",
+            "kind": "card",
+            "version": 1,
+            "data": {
+              "n": 3
+            }
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 4
+              }
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "seqStart": 1,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              },
+              {
+                "startSeq": 4,
+                "endSeq": 4
+              },
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [
+              "identity"
+            ],
+            "seq": 6
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "text between"
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "seqStart": 2,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.two",
+              "id": "card-1",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 10
+              }
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "plugin",
+              "pluginId": "p.one",
+              "id": "card-2",
+              "kind": "card",
+              "version": 1,
+              "data": {
+                "n": 3
+              }
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          }
+        ],
+        "lastItem": {
+          "type": "plugin",
+          "pluginId": "p.one",
+          "id": "card-1",
+          "kind": "card",
+          "version": 1,
+          "data": {
+            "n": 4
+          }
+        },
+        "lastAssistantMessage": "text between",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "non_merging_types",
+      "description": "todo, error, notification and compaction rows never merge.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "todo",
+            "items": [
+              {
+                "text": "one",
+                "completed": false
+              }
+            ]
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "todo",
+              "items": [
+                {
+                  "text": "one",
+                  "completed": false
+                }
+              ]
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "todo",
+            "items": [
+              {
+                "text": "one",
+                "completed": true
+              }
+            ]
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "todo",
+              "items": [
+                {
+                  "text": "one",
+                  "completed": true
+                }
+              ]
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "error",
+            "message": "bad"
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "error",
+              "message": "bad"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "notification",
+            "level": "info",
+            "message": "fyi"
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "notification",
+              "level": "info",
+              "message": "fyi"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "compaction",
+            "status": "loading",
+            "trigger": "auto"
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "compaction",
+              "status": "loading",
+              "trigger": "auto"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "compaction",
+            "status": "completed",
+            "trigger": "auto",
+            "preTokens": 10
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "compaction",
+              "status": "completed",
+              "trigger": "auto",
+              "preTokens": 10
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 6,
+          "nextSeq": 7
+        },
+        "items": [
+          {
+            "type": "todo",
+            "items": [
+              {
+                "text": "one",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "type": "todo",
+            "items": [
+              {
+                "text": "one",
+                "completed": true
+              }
+            ]
+          },
+          {
+            "type": "error",
+            "message": "bad"
+          },
+          {
+            "type": "notification",
+            "level": "info",
+            "message": "fyi"
+          },
+          {
+            "type": "compaction",
+            "status": "loading",
+            "trigger": "auto"
+          },
+          {
+            "type": "compaction",
+            "status": "completed",
+            "trigger": "auto",
+            "preTokens": 10
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "todo",
+              "items": [
+                {
+                  "text": "one",
+                  "completed": false
+                }
+              ]
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "todo",
+              "items": [
+                {
+                  "text": "one",
+                  "completed": true
+                }
+              ]
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "seqStart": 2,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "error",
+              "message": "bad"
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "notification",
+              "level": "info",
+              "message": "fyi"
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "turnId": "t1",
+            "seqStart": 4,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 4,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [],
+            "seq": 4
+          },
+          {
+            "item": {
+              "type": "compaction",
+              "status": "loading",
+              "trigger": "auto"
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "compaction",
+              "status": "completed",
+              "trigger": "auto",
+              "preTokens": 10
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "t1",
+            "seqStart": 6,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [],
+            "seq": 6
+          }
+        ],
+        "lastItem": {
+          "type": "compaction",
+          "status": "completed",
+          "trigger": "auto",
+          "preTokens": 10
+        },
+        "lastAssistantMessage": null,
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "text_tool_text",
+      "description": "Text separated by a tool row does not merge across it.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "before "
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "before "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "T",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo T"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "T",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo T"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "after "
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "after "
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "after2"
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "after2"
+            },
+            "turnId": "t1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "T",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo T"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "t1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "T",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo T"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "t1"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 5,
+          "nextSeq": 6
+        },
+        "items": [
+          {
+            "type": "assistant_message",
+            "text": "before "
+          },
+          {
+            "type": "tool_call",
+            "callId": "T",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo T"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "after after2"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "before "
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "turnId": "t1",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "T",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo T"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "t1",
+            "seqStart": 2,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              },
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "after after2"
+            },
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "turnId": "t1",
+            "seqStart": 3,
+            "seqEnd": 4,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 4
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 4
+          }
+        ],
+        "lastItem": {
+          "type": "tool_call",
+          "callId": "T",
+          "name": "shell",
+          "detail": {
+            "type": "shell",
+            "command": "echo T"
+          },
+          "status": "completed",
+          "error": null
+        },
+        "lastAssistantMessage": "after after2",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "provider_message_id_enrich",
+      "description": "Submitted user rows get providerMessageId via enrich; rows keep turnId/providerMessageId.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "first",
+            "clientMessageId": "cm-a"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "first",
+              "clientMessageId": "cm-a"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "reply"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t1",
+          "providerMessageId": "prov-1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "reply"
+            },
+            "turnId": "t1",
+            "providerMessageId": "prov-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "second",
+            "clientMessageId": "cm-b"
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "second",
+              "clientMessageId": "cm-b"
+            }
+          }
+        }
+      ],
+      "enrich": [
+        {
+          "clientMessageId": "cm-b",
+          "providerMessageId": "prov-user-2",
+          "result": {
+            "item": {
+              "type": "user_message",
+              "text": "second",
+              "clientMessageId": "cm-b"
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3,
+            "providerMessageId": "prov-user-2"
+          }
+        },
+        {
+          "clientMessageId": "cm-missing",
+          "providerMessageId": "nope",
+          "result": null
+        }
+      ],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 3,
+          "nextSeq": 4
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "first",
+            "clientMessageId": "cm-a"
+          },
+          {
+            "type": "assistant_message",
+            "text": "reply"
+          },
+          {
+            "type": "user_message",
+            "text": "second",
+            "clientMessageId": "cm-b"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "first",
+              "clientMessageId": "cm-a"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "reply"
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t1",
+            "providerMessageId": "prov-1",
+            "seqStart": 2,
+            "seqEnd": 2,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 2
+              }
+            ],
+            "collapsed": [],
+            "seq": 2
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "second",
+              "clientMessageId": "cm-b"
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "seqStart": 3,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 3,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [],
+            "seq": 3,
+            "providerMessageId": "prov-user-2"
+          }
+        ],
+        "lastItem": {
+          "type": "user_message",
+          "text": "second",
+          "clientMessageId": "cm-b"
+        },
+        "lastAssistantMessage": "reply",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-a",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "first",
+                "clientMessageId": "cm-a"
+              },
+              "timestamp": "2026-01-01T00:00:20.000Z",
+              "seqStart": 1,
+              "seqEnd": 1,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 1,
+                  "endSeq": 1
+                }
+              ],
+              "collapsed": [],
+              "seq": 1
+            }
+          },
+          {
+            "clientMessageId": "cm-b",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "second",
+                "clientMessageId": "cm-b"
+              },
+              "timestamp": "2026-01-01T00:00:22.000Z",
+              "seqStart": 3,
+              "seqEnd": 3,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 3,
+                  "endSeq": 3
+                }
+              ],
+              "collapsed": [],
+              "seq": 3,
+              "providerMessageId": "prov-user-2"
+            }
+          },
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "seeded_items_next_seq",
+      "description": "initialize({items,nextSeq}) numbers seeded rows from nextSeq (imported agents).",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": {
+        "items": [
+          {
+            "type": "user_message",
+            "text": "old prompt"
+          },
+          {
+            "type": "assistant_message",
+            "text": "old "
+          },
+          {
+            "type": "assistant_message",
+            "text": "answer"
+          },
+          {
+            "type": "tool_call",
+            "callId": "S",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo S"
+            },
+            "status": "completed",
+            "error": null
+          }
+        ],
+        "nextSeq": 10
+      },
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "new prompt"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 14,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "new prompt"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "fresh"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "t9",
+          "returnedRow": {
+            "seq": 15,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "fresh"
+            },
+            "turnId": "t9"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 10,
+          "maxSeq": 15,
+          "nextSeq": 16
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "old prompt"
+          },
+          {
+            "type": "assistant_message",
+            "text": "old answer"
+          },
+          {
+            "type": "tool_call",
+            "callId": "S",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo S"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "user_message",
+            "text": "new prompt"
+          },
+          {
+            "type": "assistant_message",
+            "text": "fresh"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "old prompt"
+            },
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "seqStart": 10,
+            "seqEnd": 10,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 10,
+                "endSeq": 10
+              }
+            ],
+            "collapsed": [],
+            "seq": 10
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "old answer"
+            },
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "seqStart": 11,
+            "seqEnd": 12,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 11,
+                "endSeq": 12
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 12
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "S",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo S"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:00.000Z",
+            "seqStart": 13,
+            "seqEnd": 13,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 13,
+                "endSeq": 13
+              }
+            ],
+            "collapsed": [],
+            "seq": 13
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "new prompt"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 14,
+            "seqEnd": 14,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 14,
+                "endSeq": 14
+              }
+            ],
+            "collapsed": [],
+            "seq": 14
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "fresh"
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "turnId": "t9",
+            "seqStart": 15,
+            "seqEnd": 15,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 15,
+                "endSeq": 15
+              }
+            ],
+            "collapsed": [],
+            "seq": 15
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "fresh"
+        },
+        "lastAssistantMessage": "fresh",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "seeded_rows_gap",
+      "description": "Seeded rows start at seq 5: minSeq 5, so after-cursors below 4 are gaps.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": {
+        "rows": [
+          {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:05.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "p"
+            }
+          },
+          {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:06.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "a "
+            }
+          },
+          {
+            "seq": 7,
+            "timestamp": "2026-01-01T00:00:07.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "b"
+            }
+          },
+          {
+            "seq": 8,
+            "timestamp": "2026-01-01T00:00:08.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "G",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo G"
+              },
+              "status": "running",
+              "error": null
+            }
+          }
+        ]
+      },
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "G",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo G",
+              "output": "late"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 9,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "G",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo G",
+                "output": "late"
+              },
+              "status": "completed",
+              "error": null
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "tail"
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "returnedRow": {
+            "seq": 10,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "tail"
+            }
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 5,
+          "maxSeq": 10,
+          "nextSeq": 11
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "p"
+          },
+          {
+            "type": "assistant_message",
+            "text": "a b"
+          },
+          {
+            "type": "tool_call",
+            "callId": "G",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo G",
+              "output": "late"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "tail"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "p"
+            },
+            "timestamp": "2026-01-01T00:00:05.000Z",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "a b"
+            },
+            "timestamp": "2026-01-01T00:00:07.000Z",
+            "seqStart": 6,
+            "seqEnd": 7,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 6,
+                "endSeq": 7
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 7
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "G",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo G",
+                "output": "late"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 8,
+            "seqEnd": 9,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 8,
+                "endSeq": 9
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 9
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "tail"
+            },
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "seqStart": 10,
+            "seqEnd": 10,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 10,
+                "endSeq": 10
+              }
+            ],
+            "collapsed": [],
+            "seq": 10
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "tail"
+        },
+        "lastAssistantMessage": "tail",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "long_multi_turn",
+      "description": "Six turns mixing reasoning, tools and text; used for limit/paging matrices.",
+      "epoch": "epoch-1",
+      "agentId": "agent-1",
+      "seed": null,
+      "initTimestamp": "2026-01-01T00:00:00.000Z",
+      "steps": [
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 1",
+            "clientMessageId": "cm-1"
+          },
+          "timestamp": "2026-01-01T00:00:20.000Z",
+          "returnedRow": {
+            "seq": 1,
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 1",
+              "clientMessageId": "cm-1"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:00:21.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 2,
+            "timestamp": "2026-01-01T00:00:21.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 1"
+          },
+          "timestamp": "2026-01-01T00:00:22.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 3,
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 1"
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-1"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:23.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 4,
+            "timestamp": "2026-01-01T00:00:23.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-1"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 1 ",
+            "messageId": "msg-1"
+          },
+          "timestamp": "2026-01-01T00:00:24.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 5,
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 1 ",
+              "messageId": "msg-1"
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-1",
+              "output": "out 1"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:25.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 6,
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-1",
+                "output": "out 1"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-1"
+          },
+          "timestamp": "2026-01-01T00:00:26.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 7,
+            "timestamp": "2026-01-01T00:00:26.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-1"
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-1"
+          },
+          "timestamp": "2026-01-01T00:00:27.000Z",
+          "turnId": "turn-1",
+          "returnedRow": {
+            "seq": 8,
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-1"
+            },
+            "turnId": "turn-1"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 2",
+            "clientMessageId": "cm-2"
+          },
+          "timestamp": "2026-01-01T00:00:28.000Z",
+          "returnedRow": {
+            "seq": 9,
+            "timestamp": "2026-01-01T00:00:28.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 2",
+              "clientMessageId": "cm-2"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:00:29.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 10,
+            "timestamp": "2026-01-01T00:00:29.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 2"
+          },
+          "timestamp": "2026-01-01T00:00:30.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 11,
+            "timestamp": "2026-01-01T00:00:30.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 2"
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-2"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:31.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 12,
+            "timestamp": "2026-01-01T00:00:31.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-2"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 2 ",
+            "messageId": "msg-2"
+          },
+          "timestamp": "2026-01-01T00:00:32.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 13,
+            "timestamp": "2026-01-01T00:00:32.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 2 ",
+              "messageId": "msg-2"
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-2",
+              "output": "out 2"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:33.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 14,
+            "timestamp": "2026-01-01T00:00:33.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-2",
+                "output": "out 2"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-2"
+          },
+          "timestamp": "2026-01-01T00:00:34.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 15,
+            "timestamp": "2026-01-01T00:00:34.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-2"
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-2"
+          },
+          "timestamp": "2026-01-01T00:00:35.000Z",
+          "turnId": "turn-2",
+          "returnedRow": {
+            "seq": 16,
+            "timestamp": "2026-01-01T00:00:35.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-2"
+            },
+            "turnId": "turn-2"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 3",
+            "clientMessageId": "cm-3"
+          },
+          "timestamp": "2026-01-01T00:00:36.000Z",
+          "returnedRow": {
+            "seq": 17,
+            "timestamp": "2026-01-01T00:00:36.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 3",
+              "clientMessageId": "cm-3"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:00:37.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 18,
+            "timestamp": "2026-01-01T00:00:37.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 3"
+          },
+          "timestamp": "2026-01-01T00:00:38.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 19,
+            "timestamp": "2026-01-01T00:00:38.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 3"
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-3"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:39.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 20,
+            "timestamp": "2026-01-01T00:00:39.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-3"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 3 ",
+            "messageId": "msg-3"
+          },
+          "timestamp": "2026-01-01T00:00:40.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 21,
+            "timestamp": "2026-01-01T00:00:40.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 3 ",
+              "messageId": "msg-3"
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-3",
+              "output": "out 3"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:41.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 22,
+            "timestamp": "2026-01-01T00:00:41.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-3",
+                "output": "out 3"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-3"
+          },
+          "timestamp": "2026-01-01T00:00:42.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 23,
+            "timestamp": "2026-01-01T00:00:42.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-3"
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-3"
+          },
+          "timestamp": "2026-01-01T00:00:43.000Z",
+          "turnId": "turn-3",
+          "returnedRow": {
+            "seq": 24,
+            "timestamp": "2026-01-01T00:00:43.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-3"
+            },
+            "turnId": "turn-3"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 4",
+            "clientMessageId": "cm-4"
+          },
+          "timestamp": "2026-01-01T00:00:44.000Z",
+          "returnedRow": {
+            "seq": 25,
+            "timestamp": "2026-01-01T00:00:44.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 4",
+              "clientMessageId": "cm-4"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:00:45.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 26,
+            "timestamp": "2026-01-01T00:00:45.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 4"
+          },
+          "timestamp": "2026-01-01T00:00:46.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 27,
+            "timestamp": "2026-01-01T00:00:46.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 4"
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-4",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-4"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:47.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 28,
+            "timestamp": "2026-01-01T00:00:47.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-4",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-4"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 4 ",
+            "messageId": "msg-4"
+          },
+          "timestamp": "2026-01-01T00:00:48.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 29,
+            "timestamp": "2026-01-01T00:00:48.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 4 ",
+              "messageId": "msg-4"
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-4",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-4",
+              "output": "out 4"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:49.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 30,
+            "timestamp": "2026-01-01T00:00:49.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-4",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-4",
+                "output": "out 4"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-4"
+          },
+          "timestamp": "2026-01-01T00:00:50.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 31,
+            "timestamp": "2026-01-01T00:00:50.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-4"
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-4"
+          },
+          "timestamp": "2026-01-01T00:00:51.000Z",
+          "turnId": "turn-4",
+          "returnedRow": {
+            "seq": 32,
+            "timestamp": "2026-01-01T00:00:51.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-4"
+            },
+            "turnId": "turn-4"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 5",
+            "clientMessageId": "cm-5"
+          },
+          "timestamp": "2026-01-01T00:00:52.000Z",
+          "returnedRow": {
+            "seq": 33,
+            "timestamp": "2026-01-01T00:00:52.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 5",
+              "clientMessageId": "cm-5"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:00:53.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 34,
+            "timestamp": "2026-01-01T00:00:53.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 5"
+          },
+          "timestamp": "2026-01-01T00:00:54.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 35,
+            "timestamp": "2026-01-01T00:00:54.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 5"
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-5",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-5"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:55.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 36,
+            "timestamp": "2026-01-01T00:00:55.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-5",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-5"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 5 ",
+            "messageId": "msg-5"
+          },
+          "timestamp": "2026-01-01T00:00:56.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 37,
+            "timestamp": "2026-01-01T00:00:56.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 5 ",
+              "messageId": "msg-5"
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-5",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-5",
+              "output": "out 5"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:00:57.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 38,
+            "timestamp": "2026-01-01T00:00:57.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-5",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-5",
+                "output": "out 5"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-5"
+          },
+          "timestamp": "2026-01-01T00:00:58.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 39,
+            "timestamp": "2026-01-01T00:00:58.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-5"
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-5"
+          },
+          "timestamp": "2026-01-01T00:00:59.000Z",
+          "turnId": "turn-5",
+          "returnedRow": {
+            "seq": 40,
+            "timestamp": "2026-01-01T00:00:59.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-5"
+            },
+            "turnId": "turn-5"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "user_message",
+            "text": "prompt 6",
+            "clientMessageId": "cm-6"
+          },
+          "timestamp": "2026-01-01T00:01:00.000Z",
+          "returnedRow": {
+            "seq": 41,
+            "timestamp": "2026-01-01T00:01:00.000Z",
+            "item": {
+              "type": "user_message",
+              "text": "prompt 6",
+              "clientMessageId": "cm-6"
+            }
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "think "
+          },
+          "timestamp": "2026-01-01T00:01:01.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 42,
+            "timestamp": "2026-01-01T00:01:01.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "think "
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "reasoning",
+            "text": "about 6"
+          },
+          "timestamp": "2026-01-01T00:01:02.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 43,
+            "timestamp": "2026-01-01T00:01:02.000Z",
+            "item": {
+              "type": "reasoning",
+              "text": "about 6"
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-6",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-6"
+            },
+            "status": "running",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:01:03.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 44,
+            "timestamp": "2026-01-01T00:01:03.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-6",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-6"
+              },
+              "status": "running",
+              "error": null
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "working on 6 ",
+            "messageId": "msg-6"
+          },
+          "timestamp": "2026-01-01T00:01:04.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 45,
+            "timestamp": "2026-01-01T00:01:04.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 6 ",
+              "messageId": "msg-6"
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "tool_call",
+            "callId": "call-6",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-6",
+              "output": "out 6"
+            },
+            "status": "completed",
+            "error": null
+          },
+          "timestamp": "2026-01-01T00:01:05.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 46,
+            "timestamp": "2026-01-01T00:01:05.000Z",
+            "item": {
+              "type": "tool_call",
+              "callId": "call-6",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-6",
+                "output": "out 6"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "done ",
+            "messageId": "msg-6"
+          },
+          "timestamp": "2026-01-01T00:01:06.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 47,
+            "timestamp": "2026-01-01T00:01:06.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "done ",
+              "messageId": "msg-6"
+            },
+            "turnId": "turn-6"
+          }
+        },
+        {
+          "op": "append",
+          "item": {
+            "type": "assistant_message",
+            "text": "now",
+            "messageId": "msg-6"
+          },
+          "timestamp": "2026-01-01T00:01:07.000Z",
+          "turnId": "turn-6",
+          "returnedRow": {
+            "seq": 48,
+            "timestamp": "2026-01-01T00:01:07.000Z",
+            "item": {
+              "type": "assistant_message",
+              "text": "now",
+              "messageId": "msg-6"
+            },
+            "turnId": "turn-6"
+          }
+        }
+      ],
+      "enrich": [],
+      "expected": {
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 48,
+          "nextSeq": 49
+        },
+        "items": [
+          {
+            "type": "user_message",
+            "text": "prompt 1",
+            "clientMessageId": "cm-1"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 1"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-1",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-1",
+              "output": "out 1"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 1 ",
+            "messageId": "msg-1"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-1"
+          },
+          {
+            "type": "user_message",
+            "text": "prompt 2",
+            "clientMessageId": "cm-2"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 2"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-2",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-2",
+              "output": "out 2"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 2 ",
+            "messageId": "msg-2"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-2"
+          },
+          {
+            "type": "user_message",
+            "text": "prompt 3",
+            "clientMessageId": "cm-3"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 3"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-3",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-3",
+              "output": "out 3"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 3 ",
+            "messageId": "msg-3"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-3"
+          },
+          {
+            "type": "user_message",
+            "text": "prompt 4",
+            "clientMessageId": "cm-4"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 4"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-4",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-4",
+              "output": "out 4"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 4 ",
+            "messageId": "msg-4"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-4"
+          },
+          {
+            "type": "user_message",
+            "text": "prompt 5",
+            "clientMessageId": "cm-5"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 5"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-5",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-5",
+              "output": "out 5"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 5 ",
+            "messageId": "msg-5"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-5"
+          },
+          {
+            "type": "user_message",
+            "text": "prompt 6",
+            "clientMessageId": "cm-6"
+          },
+          {
+            "type": "reasoning",
+            "text": "think about 6"
+          },
+          {
+            "type": "tool_call",
+            "callId": "call-6",
+            "name": "shell",
+            "detail": {
+              "type": "shell",
+              "command": "echo call-6",
+              "output": "out 6"
+            },
+            "status": "completed",
+            "error": null
+          },
+          {
+            "type": "assistant_message",
+            "text": "working on 6 ",
+            "messageId": "msg-6"
+          },
+          {
+            "type": "assistant_message",
+            "text": "done now",
+            "messageId": "msg-6"
+          }
+        ],
+        "projectedRows": [
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 1",
+              "clientMessageId": "cm-1"
+            },
+            "timestamp": "2026-01-01T00:00:20.000Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "collapsed": [],
+            "seq": 1
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 1"
+            },
+            "timestamp": "2026-01-01T00:00:22.000Z",
+            "turnId": "turn-1",
+            "seqStart": 2,
+            "seqEnd": 3,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 3
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 3
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-1",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-1",
+                "output": "out 1"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:25.000Z",
+            "turnId": "turn-1",
+            "seqStart": 4,
+            "seqEnd": 6,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 4,
+                "endSeq": 4
+              },
+              {
+                "startSeq": 6,
+                "endSeq": 6
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 6
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 1 ",
+              "messageId": "msg-1"
+            },
+            "timestamp": "2026-01-01T00:00:24.000Z",
+            "turnId": "turn-1",
+            "seqStart": 5,
+            "seqEnd": 5,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 5,
+                "endSeq": 5
+              }
+            ],
+            "collapsed": [],
+            "seq": 5
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-1"
+            },
+            "timestamp": "2026-01-01T00:00:27.000Z",
+            "turnId": "turn-1",
+            "seqStart": 7,
+            "seqEnd": 8,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 7,
+                "endSeq": 8
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 8
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 2",
+              "clientMessageId": "cm-2"
+            },
+            "timestamp": "2026-01-01T00:00:28.000Z",
+            "seqStart": 9,
+            "seqEnd": 9,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 9,
+                "endSeq": 9
+              }
+            ],
+            "collapsed": [],
+            "seq": 9
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 2"
+            },
+            "timestamp": "2026-01-01T00:00:30.000Z",
+            "turnId": "turn-2",
+            "seqStart": 10,
+            "seqEnd": 11,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 10,
+                "endSeq": 11
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 11
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-2",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-2",
+                "output": "out 2"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:33.000Z",
+            "turnId": "turn-2",
+            "seqStart": 12,
+            "seqEnd": 14,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 12,
+                "endSeq": 12
+              },
+              {
+                "startSeq": 14,
+                "endSeq": 14
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 14
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 2 ",
+              "messageId": "msg-2"
+            },
+            "timestamp": "2026-01-01T00:00:32.000Z",
+            "turnId": "turn-2",
+            "seqStart": 13,
+            "seqEnd": 13,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 13,
+                "endSeq": 13
+              }
+            ],
+            "collapsed": [],
+            "seq": 13
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-2"
+            },
+            "timestamp": "2026-01-01T00:00:35.000Z",
+            "turnId": "turn-2",
+            "seqStart": 15,
+            "seqEnd": 16,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 15,
+                "endSeq": 16
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 16
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 3",
+              "clientMessageId": "cm-3"
+            },
+            "timestamp": "2026-01-01T00:00:36.000Z",
+            "seqStart": 17,
+            "seqEnd": 17,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 17,
+                "endSeq": 17
+              }
+            ],
+            "collapsed": [],
+            "seq": 17
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 3"
+            },
+            "timestamp": "2026-01-01T00:00:38.000Z",
+            "turnId": "turn-3",
+            "seqStart": 18,
+            "seqEnd": 19,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 18,
+                "endSeq": 19
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 19
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-3",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-3",
+                "output": "out 3"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:41.000Z",
+            "turnId": "turn-3",
+            "seqStart": 20,
+            "seqEnd": 22,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 20,
+                "endSeq": 20
+              },
+              {
+                "startSeq": 22,
+                "endSeq": 22
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 22
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 3 ",
+              "messageId": "msg-3"
+            },
+            "timestamp": "2026-01-01T00:00:40.000Z",
+            "turnId": "turn-3",
+            "seqStart": 21,
+            "seqEnd": 21,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 21,
+                "endSeq": 21
+              }
+            ],
+            "collapsed": [],
+            "seq": 21
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-3"
+            },
+            "timestamp": "2026-01-01T00:00:43.000Z",
+            "turnId": "turn-3",
+            "seqStart": 23,
+            "seqEnd": 24,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 23,
+                "endSeq": 24
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 24
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 4",
+              "clientMessageId": "cm-4"
+            },
+            "timestamp": "2026-01-01T00:00:44.000Z",
+            "seqStart": 25,
+            "seqEnd": 25,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 25,
+                "endSeq": 25
+              }
+            ],
+            "collapsed": [],
+            "seq": 25
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 4"
+            },
+            "timestamp": "2026-01-01T00:00:46.000Z",
+            "turnId": "turn-4",
+            "seqStart": 26,
+            "seqEnd": 27,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 26,
+                "endSeq": 27
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 27
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-4",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-4",
+                "output": "out 4"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:49.000Z",
+            "turnId": "turn-4",
+            "seqStart": 28,
+            "seqEnd": 30,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 28,
+                "endSeq": 28
+              },
+              {
+                "startSeq": 30,
+                "endSeq": 30
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 30
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 4 ",
+              "messageId": "msg-4"
+            },
+            "timestamp": "2026-01-01T00:00:48.000Z",
+            "turnId": "turn-4",
+            "seqStart": 29,
+            "seqEnd": 29,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 29,
+                "endSeq": 29
+              }
+            ],
+            "collapsed": [],
+            "seq": 29
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-4"
+            },
+            "timestamp": "2026-01-01T00:00:51.000Z",
+            "turnId": "turn-4",
+            "seqStart": 31,
+            "seqEnd": 32,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 31,
+                "endSeq": 32
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 32
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 5",
+              "clientMessageId": "cm-5"
+            },
+            "timestamp": "2026-01-01T00:00:52.000Z",
+            "seqStart": 33,
+            "seqEnd": 33,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 33,
+                "endSeq": 33
+              }
+            ],
+            "collapsed": [],
+            "seq": 33
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 5"
+            },
+            "timestamp": "2026-01-01T00:00:54.000Z",
+            "turnId": "turn-5",
+            "seqStart": 34,
+            "seqEnd": 35,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 34,
+                "endSeq": 35
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 35
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-5",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-5",
+                "output": "out 5"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:00:57.000Z",
+            "turnId": "turn-5",
+            "seqStart": 36,
+            "seqEnd": 38,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 36,
+                "endSeq": 36
+              },
+              {
+                "startSeq": 38,
+                "endSeq": 38
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 38
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 5 ",
+              "messageId": "msg-5"
+            },
+            "timestamp": "2026-01-01T00:00:56.000Z",
+            "turnId": "turn-5",
+            "seqStart": 37,
+            "seqEnd": 37,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 37,
+                "endSeq": 37
+              }
+            ],
+            "collapsed": [],
+            "seq": 37
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-5"
+            },
+            "timestamp": "2026-01-01T00:00:59.000Z",
+            "turnId": "turn-5",
+            "seqStart": 39,
+            "seqEnd": 40,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 39,
+                "endSeq": 40
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 40
+          },
+          {
+            "item": {
+              "type": "user_message",
+              "text": "prompt 6",
+              "clientMessageId": "cm-6"
+            },
+            "timestamp": "2026-01-01T00:01:00.000Z",
+            "seqStart": 41,
+            "seqEnd": 41,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 41,
+                "endSeq": 41
+              }
+            ],
+            "collapsed": [],
+            "seq": 41
+          },
+          {
+            "item": {
+              "type": "reasoning",
+              "text": "think about 6"
+            },
+            "timestamp": "2026-01-01T00:01:02.000Z",
+            "turnId": "turn-6",
+            "seqStart": 42,
+            "seqEnd": 43,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 42,
+                "endSeq": 43
+              }
+            ],
+            "collapsed": [
+              "reasoning_merge"
+            ],
+            "seq": 43
+          },
+          {
+            "item": {
+              "type": "tool_call",
+              "callId": "call-6",
+              "name": "shell",
+              "detail": {
+                "type": "shell",
+                "command": "echo call-6",
+                "output": "out 6"
+              },
+              "status": "completed",
+              "error": null
+            },
+            "timestamp": "2026-01-01T00:01:05.000Z",
+            "turnId": "turn-6",
+            "seqStart": 44,
+            "seqEnd": 46,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 44,
+                "endSeq": 44
+              },
+              {
+                "startSeq": 46,
+                "endSeq": 46
+              }
+            ],
+            "collapsed": [
+              "tool_lifecycle"
+            ],
+            "seq": 46
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "working on 6 ",
+              "messageId": "msg-6"
+            },
+            "timestamp": "2026-01-01T00:01:04.000Z",
+            "turnId": "turn-6",
+            "seqStart": 45,
+            "seqEnd": 45,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 45,
+                "endSeq": 45
+              }
+            ],
+            "collapsed": [],
+            "seq": 45
+          },
+          {
+            "item": {
+              "type": "assistant_message",
+              "text": "done now",
+              "messageId": "msg-6"
+            },
+            "timestamp": "2026-01-01T00:01:07.000Z",
+            "turnId": "turn-6",
+            "seqStart": 47,
+            "seqEnd": 48,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 47,
+                "endSeq": 48
+              }
+            ],
+            "collapsed": [
+              "assistant_merge"
+            ],
+            "seq": 48
+          }
+        ],
+        "lastItem": {
+          "type": "assistant_message",
+          "text": "done now",
+          "messageId": "msg-6"
+        },
+        "lastAssistantMessage": "done now",
+        "epoch": "epoch-1",
+        "submittedUserMessages": [
+          {
+            "clientMessageId": "cm-1",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 1",
+                "clientMessageId": "cm-1"
+              },
+              "timestamp": "2026-01-01T00:00:20.000Z",
+              "seqStart": 1,
+              "seqEnd": 1,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 1,
+                  "endSeq": 1
+                }
+              ],
+              "collapsed": [],
+              "seq": 1
+            }
+          },
+          {
+            "clientMessageId": "cm-2",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 2",
+                "clientMessageId": "cm-2"
+              },
+              "timestamp": "2026-01-01T00:00:28.000Z",
+              "seqStart": 9,
+              "seqEnd": 9,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 9,
+                  "endSeq": 9
+                }
+              ],
+              "collapsed": [],
+              "seq": 9
+            }
+          },
+          {
+            "clientMessageId": "cm-3",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 3",
+                "clientMessageId": "cm-3"
+              },
+              "timestamp": "2026-01-01T00:00:36.000Z",
+              "seqStart": 17,
+              "seqEnd": 17,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 17,
+                  "endSeq": 17
+                }
+              ],
+              "collapsed": [],
+              "seq": 17
+            }
+          },
+          {
+            "clientMessageId": "cm-4",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 4",
+                "clientMessageId": "cm-4"
+              },
+              "timestamp": "2026-01-01T00:00:44.000Z",
+              "seqStart": 25,
+              "seqEnd": 25,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 25,
+                  "endSeq": 25
+                }
+              ],
+              "collapsed": [],
+              "seq": 25
+            }
+          },
+          {
+            "clientMessageId": "cm-5",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 5",
+                "clientMessageId": "cm-5"
+              },
+              "timestamp": "2026-01-01T00:00:52.000Z",
+              "seqStart": 33,
+              "seqEnd": 33,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 33,
+                  "endSeq": 33
+                }
+              ],
+              "collapsed": [],
+              "seq": 33
+            }
+          },
+          {
+            "clientMessageId": "cm-6",
+            "row": {
+              "item": {
+                "type": "user_message",
+                "text": "prompt 6",
+                "clientMessageId": "cm-6"
+              },
+              "timestamp": "2026-01-01T00:01:00.000Z",
+              "seqStart": 41,
+              "seqEnd": 41,
+              "sourceSeqRanges": [
+                {
+                  "startSeq": 41,
+                  "endSeq": 41
+                }
+              ],
+              "collapsed": [],
+              "seq": 41
+            }
+          },
+          {
+            "clientMessageId": "cm-missing",
+            "row": null
+          }
+        ]
+      }
+    }
+  ]
+}

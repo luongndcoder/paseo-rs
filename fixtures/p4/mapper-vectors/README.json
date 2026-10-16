@@ -1,0 +1,13 @@
+{
+  "note": "Each *.jsonl line is {fn,name,input,output,threw?}. `input` is the JSON-safe call input (null in place of undefined; *Undefined flags mark where undefined was passed). `output: null` with `threw` set means the TS function threw. mapper vectors with inputs harvested from the paseo-* crate fixtures are named <fixture>:<tool>:<id>; handwritten edge cases are named hand-*/edge:*. serializeAgentStreamEvent returns null when TS drops the event (validation failure).",
+  "counts": {
+    "tool-call-mapper-utils": 669,
+    "claude": 97,
+    "codex": 29,
+    "opencode": 22,
+    "pi": 51,
+    "omp": 68,
+    "agent-messages": 12,
+    "wire-serializer": 43
+  }
+}

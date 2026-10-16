@@ -1,0 +1,485 @@
+{
+  "note": "addModelVisibleStructuredContent vectors: per array key `<k>_count=N`, `<k>_ids=a,b` when every item has a non-empty string id, blank line, JSON.stringify(x,null,2).",
+  "cases": [
+    {
+      "name": "object_with_id_arrays",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "a"
+            },
+            {
+              "id": "b"
+            }
+          ],
+          "count": 2
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "agents_count=2\nagents_ids=a,b\n\n{\n  \"agents\": [\n    {\n      \"id\": \"a\"\n    },\n    {\n      \"id\": \"b\"\n    }\n  ],\n  \"count\": 2\n}"
+          }
+        ],
+        "structuredContent": {
+          "agents": [
+            {
+              "id": "a"
+            },
+            {
+              "id": "b"
+            }
+          ],
+          "count": 2
+        }
+      }
+    },
+    {
+      "name": "array_missing_ids",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            },
+            {
+              "name": "x"
+            }
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=2\n\n{\n  \"items\": [\n    {\n      \"id\": \"a\"\n    },\n    {\n      \"name\": \"x\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            },
+            {
+              "name": "x"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "array_non_string_id",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": [
+            {
+              "id": 1
+            },
+            {
+              "id": 2
+            }
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=2\n\n{\n  \"items\": [\n    {\n      \"id\": 1\n    },\n    {\n      \"id\": 2\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": 1
+            },
+            {
+              "id": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "array_empty_id_string",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": [
+            {
+              "id": ""
+            }
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=1\n\n{\n  \"items\": [\n    {\n      \"id\": \"\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "empty_array",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": []
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=0\n\n{\n  \"items\": []\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": []
+        }
+      }
+    },
+    {
+      "name": "scalar_arrays",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "tags": [
+            "a",
+            "b"
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "tags_count=2\n\n{\n  \"tags\": [\n    \"a\",\n    \"b\"\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "tags": [
+            "a",
+            "b"
+          ]
+        }
+      }
+    },
+    {
+      "name": "two_arrays",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "a": [
+            {
+              "id": "x"
+            }
+          ],
+          "b": [
+            {
+              "id": "y"
+            },
+            {
+              "id": "z"
+            }
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "a_count=1\na_ids=x\nb_count=2\nb_ids=y,z\n\n{\n  \"a\": [\n    {\n      \"id\": \"x\"\n    }\n  ],\n  \"b\": [\n    {\n      \"id\": \"y\"\n    },\n    {\n      \"id\": \"z\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "a": [
+            {
+              "id": "x"
+            }
+          ],
+          "b": [
+            {
+              "id": "y"
+            },
+            {
+              "id": "z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "no_arrays",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "ok": true
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"ok\": true\n}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true
+        }
+      }
+    },
+    {
+      "name": "nested_array_ignored",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "outer": {
+            "inner": [
+              {
+                "id": "q"
+              }
+            ]
+          }
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"outer\": {\n    \"inner\": [\n      {\n        \"id\": \"q\"\n      }\n    ]\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "outer": {
+            "inner": [
+              {
+                "id": "q"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "top_level_array",
+      "input": {
+        "content": [],
+        "structuredContent": [
+          {
+            "id": "a"
+          }
+        ]
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "[\n  {\n    \"id\": \"a\"\n  }\n]"
+          }
+        ],
+        "structuredContent": [
+          {
+            "id": "a"
+          }
+        ]
+      }
+    },
+    {
+      "name": "null_structured",
+      "input": {
+        "content": [],
+        "structuredContent": null
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "null"
+          }
+        ],
+        "structuredContent": null
+      }
+    },
+    {
+      "name": "string_structured",
+      "input": {
+        "content": [],
+        "structuredContent": "hello"
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "\"hello\""
+          }
+        ],
+        "structuredContent": "hello"
+      }
+    },
+    {
+      "name": "number_structured",
+      "input": {
+        "content": [],
+        "structuredContent": 42
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "42"
+          }
+        ],
+        "structuredContent": 42
+      }
+    },
+    {
+      "name": "existing_content_untouched",
+      "input": {
+        "content": [
+          {
+            "type": "text",
+            "text": "kept"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            }
+          ]
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "kept"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "no_structured_content",
+      "input": {
+        "content": []
+      },
+      "output": {
+        "content": []
+      }
+    },
+    {
+      "name": "is_error_preserved",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            }
+          ]
+        },
+        "isError": true
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=1\nitems_ids=a\n\n{\n  \"items\": [\n    {\n      \"id\": \"a\"\n    }\n  ]\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "a"
+            }
+          ]
+        },
+        "isError": true
+      }
+    },
+    {
+      "name": "unicode_and_escapes",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "é😀"
+            }
+          ],
+          "note": "line\nbreak \"q\"  "
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=1\nitems_ids=é😀\n\n{\n  \"items\": [\n    {\n      \"id\": \"é😀\"\n    }\n  ],\n  \"note\": \"line\\nbreak \\\"q\\\"  \"\n}"
+          }
+        ],
+        "structuredContent": {
+          "items": [
+            {
+              "id": "é😀"
+            }
+          ],
+          "note": "line\nbreak \"q\"  "
+        }
+      }
+    },
+    {
+      "name": "key_order_preserved",
+      "input": {
+        "content": [],
+        "structuredContent": {
+          "z": 1,
+          "items": [
+            {
+              "id": "a"
+            }
+          ],
+          "a": 2
+        }
+      },
+      "output": {
+        "content": [
+          {
+            "type": "text",
+            "text": "items_count=1\nitems_ids=a\n\n{\n  \"z\": 1,\n  \"items\": [\n    {\n      \"id\": \"a\"\n    }\n  ],\n  \"a\": 2\n}"
+          }
+        ],
+        "structuredContent": {
+          "z": 1,
+          "items": [
+            {
+              "id": "a"
+            }
+          ],
+          "a": 2
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "provider": "claude",
+  "fixture": "05-sdk-mcp-tool",
+  "status": "partial",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Call the add_numbers tool from the fixture MCP server with a\")",
+    "out control_request subtype=mcp_message not driven",
+    "ignored in control_response 3c34e259-7bb0-45f1-b0ce-75e1dafbf3c8 (hook/mcp callback)",
+    "out control_request subtype=mcp_message not driven",
+    "ignored in control_response d3ab6855-cf93-4f3d-afae-9b63cc398114 (hook/mcp callback)",
+    "out control_request subtype=mcp_message not driven",
+    "ignored in control_response a46cf628-4078-4175-a725-d2a4c56d2c4b (hook/mcp callback)",
+    "out control_request subtype=mcp_message not driven",
+    "ignored in control_response 3e35c776-231f-4e19-bdc8-99bbfa453a1a (hook/mcp callback)"
+  ],
+  "eventCount": 9,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Call the add_numbers tool from the fixture MCP server with a=17 and b=25, then state the result.",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "a8971889-1357-49f3-9d53-b772725c72b3",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01SJn3ynaDK2iUpdqGgCJkAr",
+        "name": "ToolSearch",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "query": "select:mcp__fixture__add_numbers",
+            "max_results": 1
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01SJn3ynaDK2iUpdqGgCJkAr",
+        "name": "ToolSearch",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "query": "select:mcp__fixture__add_numbers",
+            "max_results": 1
+          },
+          "output": {
+            "output": [
+              {
+                "tool_name": "mcp__fixture__add_numbers",
+                "type": "tool_reference"
+              }
+            ]
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_017qkHaAzh4r53H1j5MXCg5M",
+        "name": "mcp__fixture__add_numbers",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "a": 17,
+            "b": 25
+          },
+          "output": null
+        },
+        "status": "running",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_017qkHaAzh4r53H1j5MXCg5M",
+        "name": "mcp__fixture__add_numbers",
+        "detail": {
+          "type": "unknown",
+          "input": {
+            "a": 17,
+            "b": 25
+          },
+          "output": {
+            "output": 42
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "The fixture MCP server's `add_numbers` tool returned **42** for a=17 and b=25.",
+        "messageId": "msg_011Cg6Jwiq3D5npPCsjBhzU1"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 6,
+        "cachedInputTokens": 44575,
+        "outputTokens": 322,
+        "totalCostUsd": 0.00214795,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 18169
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}

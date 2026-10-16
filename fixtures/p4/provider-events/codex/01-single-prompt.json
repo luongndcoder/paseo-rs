@@ -1,0 +1,67 @@
+{
+  "provider": "codex",
+  "fixture": "01-single-prompt",
+  "status": "ok",
+  "driver": "CodexAppServerAgentSession over a replay app-server child process: requests answered from recorded responses by method, notifications replayed in order gated on the adapter's own requests",
+  "notes": [
+    "process-1: startTurn(\"Reply with exactly the word: pong. No tools.\")"
+  ],
+  "eventCount": 6,
+  "events": [
+    {
+      "type": "thread_started",
+      "provider": "codex",
+      "sessionId": "01a145c6-9472-7202-b343-24090904ce5e",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_started",
+      "provider": "codex",
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly the word: pong. No tools.",
+        "messageId": "01a145c6-a1d0-7da0-a921-f0acfc013020"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "timeline",
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "messageId": "msg_094dc46a01532142016ad25feb39b481918d151f1bcda21d5c",
+        "text": "pong"
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "usage_updated",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23945,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 23950
+      },
+      "turnId": "codex-turn-0"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "codex",
+      "usage": {
+        "inputTokens": 23945,
+        "cachedInputTokens": 0,
+        "outputTokens": 5,
+        "contextWindowMaxTokens": 258400,
+        "contextWindowUsedTokens": 23950
+      },
+      "turnId": "codex-turn-0"
+    }
+  ]
+}

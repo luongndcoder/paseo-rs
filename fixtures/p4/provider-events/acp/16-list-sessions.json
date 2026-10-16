@@ -1,0 +1,14 @@
+{
+  "provider": "acp",
+  "fixture": "16-list-sessions",
+  "status": "failed",
+  "reason": "no session/update notifications (catalog/list-only fixture)",
+  "driver": null,
+  "notes": [
+    "provider id derived from argv[0]: acp",
+    "0 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 0,
+  "events": []
+}

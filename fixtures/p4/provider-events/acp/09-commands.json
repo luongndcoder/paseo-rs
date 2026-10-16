@@ -1,0 +1,48 @@
+{
+  "provider": "acp",
+  "fixture": "09-commands",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: copilot",
+    "1 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 2,
+  "events": [
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    }
+  ]
+}

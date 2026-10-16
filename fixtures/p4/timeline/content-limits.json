@@ -1,0 +1,1112 @@
+{
+  "note": "Inputs use {$gen:{parts:[{unit,count}]}} placeholders for strings; outputs replace strings > 1024 UTF-16 units with {$str:{length16,sha256Utf16le,tail16Hex}} (sha256 over UTF-16LE bytes, preserving lone surrogates). TS slices by UTF-16 code units and may leave a lone surrogate (PARITY-QUIRK surrogate-truncation).",
+  "cap": 65536,
+  "pluginDataMaxBytes": 65536,
+  "limitCases": [
+    {
+      "name": "shell_output_below_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "a",
+                  "count": 65535
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65535,
+              "sha256Utf16le": "60e6521c9ef5a6ec7476ba43dae0ff1ae6577d9a1a5f1a440baff807c8fd38b1",
+              "tail16Hex": [
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "shell_output_at_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "a",
+                  "count": 65536
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "5b41adadc03c099d646841b10db1f8898571c1864708aca120271d6fec1b5ad5",
+              "tail16Hex": [
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "shell_output_one_over_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "a",
+                  "count": 65537
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "5b41adadc03c099d646841b10db1f8898571c1864708aca120271d6fec1b5ad5",
+              "tail16Hex": [
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "shell_output_astral_pair_straddles_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "a",
+                  "count": 65535
+                },
+                {
+                  "unit": "😀",
+                  "count": 10
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "448277f96e1b1705081ea0ab654b979d895e5d1769ce462c07d5eaec8742e3a0",
+              "tail16Hex": [
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "d83d"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "shell_output_astral_pair_ends_at_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "a",
+                  "count": 65534
+                },
+                {
+                  "unit": "😀",
+                  "count": 10
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "d7f8a1984e1422712f11a6275c588da1c8e58e3e3f59e3f1742177af2f530bf8",
+              "tail16Hex": [
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "0061",
+                "d83d",
+                "de00"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "shell_output_cjk_over_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "中",
+                  "count": 65636
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "00f7029dac42dffb9d2be17ea18238bf451e7b0d2cfb8d7e9f50f39d9c904013",
+              "tail16Hex": [
+                "4e2d",
+                "4e2d",
+                "4e2d",
+                "4e2d",
+                "4e2d",
+                "4e2d",
+                "4e2d",
+                "4e2d"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "shell_output_not_string",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "big": "x"
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "big": "x"
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "failed_shell_error_content_over_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m",
+          "content": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "e",
+                  "count": 65541
+                }
+              ]
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m",
+          "content": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "781f88ed534cadd5fdaccf9ac5e06b26ac3c9b99abde4420a5daafd5a5cd6a10",
+              "tail16Hex": [
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065"
+              ]
+            }
+          }
+        }
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "failed_shell_error_content_astral_straddle",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m",
+          "content": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "e",
+                  "count": 65535
+                },
+                {
+                  "unit": "💥",
+                  "count": 4
+                }
+              ]
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m",
+          "content": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "6d4fd0a19ba1def1610f0294c4a47f39e58b2badecfeb7610dac9e448110e94d",
+              "tail16Hex": [
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "d83d"
+              ]
+            }
+          }
+        }
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "failed_shell_error_string",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "$gen": {
+            "parts": [
+              {
+                "unit": "e",
+                "count": 65541
+              }
+            ]
+          }
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "$str": {
+            "length16": 65541,
+            "sha256Utf16le": "839b935127a11aec932707152d13770b5ff4237dc63ffc1ce04d840a300f507f",
+            "tail16Hex": [
+              "0065",
+              "0065",
+              "0065",
+              "0065",
+              "0065",
+              "0065",
+              "0065",
+              "0065"
+            ]
+          }
+        }
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "failed_shell_error_without_content",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m"
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "ok"
+        },
+        "status": "failed",
+        "error": {
+          "message": "m"
+        }
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "failed_shell_both_error_and_output_over_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "o",
+                  "count": 65543
+                }
+              ]
+            }
+          }
+        },
+        "status": "failed",
+        "error": {
+          "content": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "e",
+                  "count": 65545
+                }
+              ]
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "6b6a0fa7f7c7b60f9ba16b4defb0c4e488631b0e44edfd8f89d1c4a6166c15f0",
+              "tail16Hex": [
+                "006f",
+                "006f",
+                "006f",
+                "006f",
+                "006f",
+                "006f",
+                "006f",
+                "006f"
+              ]
+            }
+          }
+        },
+        "status": "failed",
+        "error": {
+          "content": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "781f88ed534cadd5fdaccf9ac5e06b26ac3c9b99abde4420a5daafd5a5cd6a10",
+              "tail16Hex": [
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065"
+              ]
+            }
+          }
+        }
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "completed_shell_error_content_not_truncated",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "short"
+        },
+        "status": "completed",
+        "error": {
+          "content": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "e",
+                  "count": 65541
+                }
+              ]
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "shell",
+          "command": "cmd",
+          "output": "short"
+        },
+        "status": "completed",
+        "error": {
+          "content": {
+            "$str": {
+              "length16": 65541,
+              "sha256Utf16le": "839b935127a11aec932707152d13770b5ff4237dc63ffc1ce04d840a300f507f",
+              "tail16Hex": [
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065",
+                "0065"
+              ]
+            }
+          }
+        }
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "plain_text_over_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "label": "L",
+          "text": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "p",
+                  "count": 65546
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "label": "L",
+          "text": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "2cac1d4f614425ee270b105dc3bb4090660c95d55f4534d70b5b54dff35f7948",
+              "tail16Hex": [
+                "0075",
+                "006e",
+                "0063",
+                "0061",
+                "0074",
+                "0065",
+                "0064",
+                "005d"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": false
+    },
+    {
+      "name": "plain_text_at_cap",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "p",
+                  "count": 65536
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$str": {
+              "length16": 65536,
+              "sha256Utf16le": "7beadbb295a513e146c8cf9115a881eeaba840254034bf0a51efdb806685a6ed",
+              "tail16Hex": [
+                "0070",
+                "0070",
+                "0070",
+                "0070",
+                "0070",
+                "0070",
+                "0070",
+                "0070"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "plain_text_astral_straddle_before_notice",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "p",
+                  "count": 65514
+                },
+                {
+                  "unit": "🚀",
+                  "count": 10
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$str": {
+              "length16": 65534,
+              "sha256Utf16le": "402861570623214ac162f7af04466a1583be6f0b58f7323e40061f3bf419c7ab",
+              "tail16Hex": [
+                "d83d",
+                "de80",
+                "d83d",
+                "de80",
+                "d83d",
+                "de80",
+                "d83d",
+                "de80"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "plain_text_astral_pair_ends_before_notice",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "p",
+                  "count": 65513
+                },
+                {
+                  "unit": "🚀",
+                  "count": 10
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "custom",
+        "detail": {
+          "type": "plain_text",
+          "text": {
+            "$str": {
+              "length16": 65533,
+              "sha256Utf16le": "09a6dbea518de31e1523443c581fba8403a830e40a36072ec0e0c5ce124ba508",
+              "tail16Hex": [
+                "d83d",
+                "de80",
+                "d83d",
+                "de80",
+                "d83d",
+                "de80",
+                "d83d",
+                "de80"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "read_content_not_limited",
+      "input": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "read",
+          "filePath": "/a",
+          "content": {
+            "$gen": {
+              "parts": [
+                {
+                  "unit": "r",
+                  "count": 65586
+                }
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "output": {
+        "type": "tool_call",
+        "callId": "c1",
+        "name": "shell",
+        "detail": {
+          "type": "read",
+          "filePath": "/a",
+          "content": {
+            "$str": {
+              "length16": 65586,
+              "sha256Utf16le": "7f38ba7aeb2bcd18a6f0f97d98724a86bb34ab35550c25cbd775db7b32b0d443",
+              "tail16Hex": [
+                "0072",
+                "0072",
+                "0072",
+                "0072",
+                "0072",
+                "0072",
+                "0072",
+                "0072"
+              ]
+            }
+          }
+        },
+        "status": "completed",
+        "error": null
+      },
+      "outputIsSameReference": true
+    },
+    {
+      "name": "assistant_message_not_limited",
+      "input": {
+        "type": "assistant_message",
+        "text": {
+          "$gen": {
+            "parts": [
+              {
+                "unit": "m",
+                "count": 65586
+              }
+            ]
+          }
+        }
+      },
+      "output": {
+        "type": "assistant_message",
+        "text": {
+          "$str": {
+            "length16": 65586,
+            "sha256Utf16le": "0b1c42dc035671fe8cc4dffe25cfcf4d7ee3e32d31e82b6a6c013b8ab0fc5442",
+            "tail16Hex": [
+              "006d",
+              "006d",
+              "006d",
+              "006d",
+              "006d",
+              "006d",
+              "006d",
+              "006d"
+            ]
+          }
+        }
+      },
+      "outputIsSameReference": true
+    }
+  ],
+  "pluginCases": [
+    {
+      "name": "ascii_exactly_cap",
+      "data": {
+        "$gen": {
+          "parts": [
+            {
+              "unit": "a",
+              "count": 65534
+            }
+          ]
+        }
+      },
+      "utf8Bytes": 65536,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "name": "ascii_one_over_cap",
+      "data": {
+        "$gen": {
+          "parts": [
+            {
+              "unit": "a",
+              "count": 65535
+            }
+          ]
+        }
+      },
+      "utf8Bytes": 65537,
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Plugin timeline item data exceeds 65536 bytes"
+        }
+      }
+    },
+    {
+      "name": "two_byte_chars_at_cap",
+      "data": {
+        "$gen": {
+          "parts": [
+            {
+              "unit": "é",
+              "count": 32767
+            }
+          ]
+        }
+      },
+      "utf8Bytes": 65536,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "name": "two_byte_chars_over_cap",
+      "data": {
+        "$gen": {
+          "parts": [
+            {
+              "unit": "é",
+              "count": 32768
+            }
+          ]
+        }
+      },
+      "utf8Bytes": 65538,
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Plugin timeline item data exceeds 65536 bytes"
+        }
+      }
+    },
+    {
+      "name": "astral_over_cap",
+      "data": {
+        "$gen": {
+          "parts": [
+            {
+              "unit": "😀",
+              "count": 16384
+            }
+          ]
+        }
+      },
+      "utf8Bytes": 65538,
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "Error",
+          "message": "Plugin timeline item data exceeds 65536 bytes"
+        }
+      }
+    },
+    {
+      "name": "object_small",
+      "data": {
+        "a": 1,
+        "b": [
+          1,
+          2,
+          3
+        ],
+        "c": null
+      },
+      "utf8Bytes": 28,
+      "result": {
+        "ok": true
+      }
+    }
+  ]
+}

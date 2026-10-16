@@ -1,0 +1,770 @@
+{
+  "note": "Each scenario runs on a fresh VersionedCollection with getId=item.id and default JSON.stringify fingerprint.",
+  "scenarios": [
+    {
+      "name": "replace_and_fingerprint",
+      "description": "replace bumps only when JSON.stringify differs; remove of unknown id is a no-op.",
+      "maxTombstones": 5000,
+      "ops": [
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 1
+          },
+          "result": {
+            "kind": "upsert",
+            "seq": 1,
+            "value": {
+              "id": "a",
+              "v": 1
+            }
+          }
+        },
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 1
+          },
+          "result": null
+        },
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 2
+          },
+          "result": {
+            "kind": "upsert",
+            "seq": 2,
+            "value": {
+              "id": "a",
+              "v": 2
+            }
+          }
+        },
+        {
+          "op": "remove",
+          "id": "zzz",
+          "result": null
+        },
+        {
+          "op": "remove",
+          "id": "a",
+          "result": {
+            "kind": "remove",
+            "seq": 3,
+            "id": "a"
+          }
+        },
+        {
+          "op": "remove",
+          "id": "a",
+          "result": null
+        },
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 2
+          },
+          "result": {
+            "kind": "upsert",
+            "seq": 4,
+            "value": {
+              "id": "a",
+              "v": 2
+            }
+          }
+        },
+        {
+          "op": "sequenceFor",
+          "id": "a",
+          "result": 4
+        },
+        {
+          "op": "headSeq",
+          "result": 4
+        }
+      ]
+    },
+    {
+      "name": "tombstone_revival",
+      "description": "A removed id has a tombstone seq; replacing it drops the tombstone and bumps.",
+      "maxTombstones": 5000,
+      "ops": [
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 1
+          },
+          "result": {
+            "kind": "upsert",
+            "seq": 1,
+            "value": {
+              "id": "a",
+              "v": 1
+            }
+          }
+        },
+        {
+          "op": "remove",
+          "id": "a",
+          "result": {
+            "kind": "remove",
+            "seq": 2,
+            "id": "a"
+          }
+        },
+        {
+          "op": "sequenceFor",
+          "id": "a",
+          "result": 2
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 0,
+          "result": {
+            "mode": "changes",
+            "headSeq": 2,
+            "values": [],
+            "removals": [
+              {
+                "id": "a",
+                "seq": 2
+              }
+            ]
+          }
+        },
+        {
+          "op": "replace",
+          "value": {
+            "id": "a",
+            "v": 1
+          },
+          "result": {
+            "kind": "upsert",
+            "seq": 3,
+            "value": {
+              "id": "a",
+              "v": 1
+            }
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 0,
+          "result": {
+            "mode": "changes",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 3,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 2,
+          "result": {
+            "mode": "changes",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 3,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "tombstone_cap_3",
+      "description": "maxTombstones=3: the 4th removal evicts the oldest tombstone and advances expiredThroughSeq to its seq.",
+      "maxTombstones": 3,
+      "ops": [
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "a",
+              "v": 1
+            },
+            {
+              "id": "b",
+              "v": 1
+            },
+            {
+              "id": "c",
+              "v": 1
+            },
+            {
+              "id": "d",
+              "v": 1
+            },
+            {
+              "id": "e",
+              "v": 1
+            }
+          ],
+          "result": {
+            "headSeq": 5
+          }
+        },
+        {
+          "op": "remove",
+          "id": "a",
+          "result": {
+            "kind": "remove",
+            "seq": 6,
+            "id": "a"
+          }
+        },
+        {
+          "op": "remove",
+          "id": "b",
+          "result": {
+            "kind": "remove",
+            "seq": 7,
+            "id": "b"
+          }
+        },
+        {
+          "op": "remove",
+          "id": "c",
+          "result": {
+            "kind": "remove",
+            "seq": 8,
+            "id": "c"
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 5,
+          "result": {
+            "mode": "changes",
+            "headSeq": 8,
+            "values": [],
+            "removals": [
+              {
+                "id": "a",
+                "seq": 6
+              },
+              {
+                "id": "b",
+                "seq": 7
+              },
+              {
+                "id": "c",
+                "seq": 8
+              }
+            ]
+          }
+        },
+        {
+          "op": "remove",
+          "id": "d",
+          "result": {
+            "kind": "remove",
+            "seq": 9,
+            "id": "d"
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 5,
+          "result": {
+            "mode": "snapshot",
+            "reason": "cursor_expired",
+            "headSeq": 9,
+            "values": [
+              {
+                "seq": 5,
+                "value": {
+                  "id": "e",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 6,
+          "result": {
+            "mode": "changes",
+            "headSeq": 9,
+            "values": [],
+            "removals": [
+              {
+                "id": "b",
+                "seq": 7
+              },
+              {
+                "id": "c",
+                "seq": 8
+              },
+              {
+                "id": "d",
+                "seq": 9
+              }
+            ]
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 7,
+          "result": {
+            "mode": "changes",
+            "headSeq": 9,
+            "values": [],
+            "removals": [
+              {
+                "id": "c",
+                "seq": 8
+              },
+              {
+                "id": "d",
+                "seq": 9
+              }
+            ]
+          }
+        },
+        {
+          "op": "sequenceFor",
+          "id": "a",
+          "result": null
+        },
+        {
+          "op": "sequenceFor",
+          "id": "d",
+          "result": 9
+        },
+        {
+          "op": "remove",
+          "id": "a",
+          "result": null
+        },
+        {
+          "op": "headSeq",
+          "result": 9
+        }
+      ]
+    },
+    {
+      "name": "read_after_bounds",
+      "description": "afterSeq < expiredThrough or > headSeq -> cursor_expired snapshot; otherwise changes sorted by seq then removals by seq then id.",
+      "maxTombstones": 5000,
+      "ops": [
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "b",
+              "v": 1
+            },
+            {
+              "id": "a",
+              "v": 1
+            },
+            {
+              "id": "c",
+              "v": 1
+            }
+          ],
+          "result": {
+            "headSeq": 3
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 0,
+          "result": {
+            "mode": "changes",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 1,
+                "value": {
+                  "id": "b",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 1,
+          "result": {
+            "mode": "changes",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 3,
+          "result": {
+            "mode": "changes",
+            "headSeq": 3,
+            "values": [],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 4,
+          "result": {
+            "mode": "snapshot",
+            "reason": "cursor_expired",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 1,
+                "value": {
+                  "id": "b",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": -1,
+          "result": {
+            "mode": "snapshot",
+            "reason": "cursor_expired",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 1,
+                "value": {
+                  "id": "b",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readSnapshot",
+          "result": {
+            "mode": "snapshot",
+            "reason": "no_cursor",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 1,
+                "value": {
+                  "id": "b",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        },
+        {
+          "op": "readSnapshot",
+          "reason": "generation_changed",
+          "result": {
+            "mode": "snapshot",
+            "reason": "generation_changed",
+            "headSeq": 3,
+            "values": [
+              {
+                "seq": 1,
+                "value": {
+                  "id": "b",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 2,
+                "value": {
+                  "id": "a",
+                  "v": 1
+                }
+              },
+              {
+                "seq": 3,
+                "value": {
+                  "id": "c",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "replace_all_semantics",
+      "description": "replaceAll upserts in iteration order then removes ids not retained, in map insertion order.",
+      "maxTombstones": 5000,
+      "ops": [
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "x",
+              "v": 1
+            },
+            {
+              "id": "y",
+              "v": 1
+            },
+            {
+              "id": "z",
+              "v": 1
+            }
+          ],
+          "result": {
+            "headSeq": 3
+          }
+        },
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "z",
+              "v": 2
+            },
+            {
+              "id": "w",
+              "v": 1
+            }
+          ],
+          "result": {
+            "headSeq": 7
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 0,
+          "result": {
+            "mode": "changes",
+            "headSeq": 7,
+            "values": [
+              {
+                "seq": 4,
+                "value": {
+                  "id": "z",
+                  "v": 2
+                }
+              },
+              {
+                "seq": 5,
+                "value": {
+                  "id": "w",
+                  "v": 1
+                }
+              }
+            ],
+            "removals": [
+              {
+                "id": "x",
+                "seq": 6
+              },
+              {
+                "id": "y",
+                "seq": 7
+              }
+            ]
+          }
+        },
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "w",
+              "v": 1
+            },
+            {
+              "id": "w",
+              "v": 3
+            }
+          ],
+          "result": {
+            "headSeq": 9
+          }
+        },
+        {
+          "op": "readSnapshot",
+          "result": {
+            "mode": "snapshot",
+            "reason": "no_cursor",
+            "headSeq": 9,
+            "values": [
+              {
+                "seq": 8,
+                "value": {
+                  "id": "w",
+                  "v": 3
+                }
+              }
+            ],
+            "removals": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "same_seq_order_locale",
+      "description": "Values sharing a seq cannot exist via replace; removals tie-break with localeCompare after seq (tombstone seqs are unique, so ordering is by seq).",
+      "maxTombstones": 5000,
+      "ops": [
+        {
+          "op": "replaceAll",
+          "values": [
+            {
+              "id": "B",
+              "v": 1
+            },
+            {
+              "id": "a",
+              "v": 1
+            },
+            {
+              "id": "A",
+              "v": 1
+            },
+            {
+              "id": "b",
+              "v": 1
+            }
+          ],
+          "result": {
+            "headSeq": 4
+          }
+        },
+        {
+          "op": "replaceAll",
+          "values": [],
+          "result": {
+            "headSeq": 8
+          }
+        },
+        {
+          "op": "readAfter",
+          "afterSeq": 0,
+          "result": {
+            "mode": "changes",
+            "headSeq": 8,
+            "values": [],
+            "removals": [
+              {
+                "id": "B",
+                "seq": 5
+              },
+              {
+                "id": "a",
+                "seq": 6
+              },
+              {
+                "id": "A",
+                "seq": 7
+              },
+              {
+                "id": "b",
+                "seq": 8
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

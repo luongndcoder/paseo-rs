@@ -1,0 +1,653 @@
+{
+  "provider": "opencode",
+  "fixture": "03-permission-deny",
+  "status": "partial",
+  "driver": "translateOpenCodeEvent over recorded SSE payloads with one shared translation state",
+  "notes": [
+    "sessionId=ses_eba32f2e9ffeDOQawJHarIM2UY",
+    "142 SSE events seen, 32 sync/heartbeat events skipped",
+    "turn_started/turn_completed and prompt submission events come from the session controller, not translateOpenCodeEvent; user_message pending state is not primed"
+  ],
+  "eventCount": 75,
+  "events": [
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "user_message",
+        "text": "Use the bash tool to run exactly: echo denied > out.txt   Then reply done.",
+        "messageId": "msg_145cd0fba001YKBwMpgXhlU0mL"
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user wants"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " me to run exactly"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " `echo denied > out.txt"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "` using the bash tool,"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " then reply \""
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "done\". Simple"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " enough"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " — I'll execute"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " that"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " command as"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " given"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": ". I"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " need"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " to be"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " careful"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " explain"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " what"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " a"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " command does when"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " it makes"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " changes to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " the system, but"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " here the intent"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " is clear and"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " explicit"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": ", so I can"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " just run it ver"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "batim."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "1f868042-81ba-441b-af69-9c9e3af357a1",
+        "name": "bash",
+        "status": "running",
+        "detail": {
+          "type": "unknown",
+          "input": {},
+          "output": null
+        },
+        "error": null
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "1f868042-81ba-441b-af69-9c9e3af357a1",
+        "name": "bash",
+        "status": "running",
+        "detail": {
+          "type": "shell",
+          "command": "echo denied > out.txt"
+        },
+        "error": null
+      }
+    },
+    {
+      "type": "permission_requested",
+      "provider": "opencode",
+      "request": {
+        "id": "per_145cd2354001pddCfWXECBUFYE",
+        "provider": "opencode",
+        "name": "bash",
+        "kind": "tool",
+        "title": "Run shell command",
+        "description": "Scope: echo denied > out.txt",
+        "input": {
+          "patterns": [
+            "echo denied > out.txt"
+          ],
+          "metadata": {
+            "command": "echo denied > out.txt"
+          },
+          "tool": {
+            "messageID": "msg_145cd10b9001iNS4DD7rWeedAs",
+            "callID": "1f868042-81ba-441b-af69-9c9e3af357a1"
+          },
+          "command": "echo denied > out.txt"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "echo denied > out.txt"
+        },
+        "actions": [
+          {
+            "id": "deny",
+            "label": "Deny",
+            "behavior": "deny",
+            "variant": "danger",
+            "intent": "dismiss"
+          },
+          {
+            "id": "allow_always",
+            "label": "Allow always",
+            "behavior": "allow",
+            "variant": "secondary"
+          },
+          {
+            "id": "allow_once",
+            "label": "Allow once",
+            "behavior": "allow",
+            "variant": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "tool_call",
+        "callId": "1f868042-81ba-441b-af69-9c9e3af357a1",
+        "name": "bash",
+        "status": "failed",
+        "detail": {
+          "type": "shell",
+          "command": "echo denied > out.txt"
+        },
+        "error": "The user rejected permission to use this specific tool call with the following feedback: Denied by test"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 26989,
+        "outputTokens": 87,
+        "contextWindowUsedTokens": 27076
+      }
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "The"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " user denied the bash"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " tool"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " call. I should"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " not"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " attempt"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " to"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " circum"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "vent this"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " ("
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": "e.g., by"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " using another"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " tool like"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " write to create"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " file),"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " since the"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " permission"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " was explicitly denied. I'll"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " just report"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " what"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "reasoning",
+        "text": " happened."
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "The command",
+        "messageId": "msg_145cd2363001y7TdgkxJ0DO480"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": " was denied by you",
+        "messageId": "msg_145cd2363001y7TdgkxJ0DO480"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "r permission settings, so `",
+        "messageId": "msg_145cd2363001y7TdgkxJ0DO480"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "out.txt` was not creat",
+        "messageId": "msg_145cd2363001y7TdgkxJ0DO480"
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "opencode",
+      "item": {
+        "type": "assistant_message",
+        "text": "ed.",
+        "messageId": "msg_145cd2363001y7TdgkxJ0DO480"
+      }
+    },
+    {
+      "type": "usage_updated",
+      "provider": "opencode",
+      "usage": {
+        "inputTokens": 4626,
+        "outputTokens": 65,
+        "contextWindowUsedTokens": 27091,
+        "cachedInputTokens": 22400
+      }
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "thread_started",
+      "sessionId": "ses_eba32f2e9ffeDOQawJHarIM2UY",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "opencode"
+    },
+    {
+      "type": "provider_subagent",
+      "provider": "opencode",
+      "event": {
+        "type": "remove",
+        "id": "ses_eba32f2e9ffeDOQawJHarIM2UY"
+      }
+    }
+  ]
+}

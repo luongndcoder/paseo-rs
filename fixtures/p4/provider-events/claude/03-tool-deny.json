@@ -1,0 +1,144 @@
+{
+  "provider": "claude",
+  "fixture": "03-tool-deny",
+  "status": "ok",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Use the Bash tool to run `echo captured > out.txt` and then \")",
+    "respondToPermission(permission-00000000-0000-4000-8000-000000000003, deny)"
+  ],
+  "eventCount": 10,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Use the Bash tool to run `echo captured > out.txt` and then say done.",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "b97bc8b6-c71d-4c2f-89d1-c2aa5d29fa6b",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01H2kkQWhroLCxrxiHYGVJgh",
+        "name": "Bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "status": "running",
+        "error": null
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "permission_requested",
+      "provider": "claude",
+      "request": {
+        "id": "permission-00000000-0000-4000-8000-000000000003",
+        "provider": "claude",
+        "name": "Bash",
+        "kind": "tool",
+        "input": {
+          "command": "echo captured > out.txt",
+          "description": "Write captured to out.txt"
+        },
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "metadata": {
+          "toolUseId": "toolu_01H2kkQWhroLCxrxiHYGVJgh"
+        }
+      },
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01H2kkQWhroLCxrxiHYGVJgh",
+        "name": "Bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "status": "failed",
+        "error": {
+          "message": "Denied by capture script"
+        }
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "permission_resolved",
+      "provider": "claude",
+      "requestId": "permission-00000000-0000-4000-8000-000000000003",
+      "resolution": {
+        "behavior": "deny",
+        "message": "Denied by capture script"
+      },
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_01H2kkQWhroLCxrxiHYGVJgh",
+        "name": "Bash",
+        "detail": {
+          "type": "shell",
+          "command": "echo captured > out.txt"
+        },
+        "status": "failed",
+        "error": {
+          "type": "tool_result",
+          "content": "Denied by capture script",
+          "is_error": true,
+          "tool_use_id": "toolu_01H2kkQWhroLCxrxiHYGVJgh"
+        }
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "I couldn't run it. The Bash command `echo captured > out.txt` was denied with the message \"Denied by capture script\", so `out.txt` was not created. I haven't retried or tried another way to write the file, since the denial looks like a deliberate block. If you want the file written, you'll need to allow that command or tell me how to proceed.",
+        "messageId": "msg_011Cg6JxzNSxQYYNUh5Jc116"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 4,
+        "cachedInputTokens": 30044,
+        "outputTokens": 371,
+        "totalCostUsd": 0.00185854,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 19521
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}

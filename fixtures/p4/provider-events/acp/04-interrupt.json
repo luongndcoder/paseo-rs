@@ -1,0 +1,760 @@
+{
+  "provider": "acp",
+  "fixture": "04-interrupt",
+  "status": "partial",
+  "driver": "ACPAgentSession.translateSessionUpdate over recorded session/update notifications",
+  "notes": [
+    "provider id derived from argv[0]: copilot",
+    "session/prompt -> activeForegroundTurnId=turn-1",
+    "prompt response stopReason=\"end_turn\" -> turn cleared",
+    "72 session/update notifications translated",
+    "turn_started/turn_completed/permission events are produced by the prompt/permission controller, not by translateSessionUpdate"
+  ],
+  "eventCount": 73,
+  "events": [
+    {
+      "type": "mode_changed",
+      "provider": "copilot",
+      "currentModeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+      "availableModes": [
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#agent",
+          "label": "Agent"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#plan",
+          "label": "Plan"
+        },
+        {
+          "id": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+          "label": "Autopilot"
+        }
+      ]
+    },
+    {
+      "type": "model_changed",
+      "provider": "copilot",
+      "runtimeInfo": {
+        "provider": "copilot",
+        "sessionId": null,
+        "model": "gpt-4.1",
+        "thinkingOptionId": null,
+        "modeId": "https://agentclientprotocol.com/protocol/session-modes#agent",
+        "extra": {
+          "title": null,
+          "updatedAt": null
+        }
+      }
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "1",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " one",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "2",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " two",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "3",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " three",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "4",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " four",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "5",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " five",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "6",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " six",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "7",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " seven",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "8",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " eight",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "9",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " nine",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "10",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " This",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " is",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " number",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": " ten",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": ".\n",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    },
+    {
+      "type": "timeline",
+      "provider": "copilot",
+      "item": {
+        "type": "assistant_message",
+        "text": "Info: Operation cancelled by user",
+        "messageId": "00000000-0000-4000-8000-000000000001"
+      },
+      "turnId": "turn-1"
+    }
+  ]
+}

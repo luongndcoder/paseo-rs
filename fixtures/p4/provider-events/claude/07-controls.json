@@ -1,0 +1,127 @@
+{
+  "provider": "claude",
+  "fixture": "07-controls",
+  "status": "partial",
+  "driver": "ClaudeAgentSession pump over a replay Query iterator: out SDK messages yielded in order; user/interrupt/control_response in-lines drive startTurn/interrupt/respondToPermission; can_use_tool requests call the launch canUseTool callback",
+  "notes": [
+    "startTurn(\"Reply with exactly: ok\")",
+    "ignored in control_request subtype=set_permission_mode",
+    "ignored in control_request subtype=set_model",
+    "ignored in control_request subtype=set_permission_mode",
+    "ignored in control_request subtype=set_model",
+    "ignored in control_request subtype=mcp_status"
+  ],
+  "eventCount": 7,
+  "events": [
+    {
+      "type": "turn_started",
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly: ok",
+        "messageId": "00000000-0000-4000-8000-000000000002"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "thread_started",
+      "provider": "claude",
+      "sessionId": "71680578-090b-4ae7-af0d-f3986791f753",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "mode_changed",
+      "provider": "claude",
+      "currentModeId": "acceptEdits",
+      "availableModes": [
+        {
+          "id": "plan",
+          "label": "Plan Mode",
+          "description": "Analyze the codebase without executing tools or edits"
+        },
+        {
+          "id": "default",
+          "label": "Always Ask",
+          "description": "Prompts for permission the first time a tool is used"
+        },
+        {
+          "id": "acceptEdits",
+          "label": "Accept File Edits",
+          "description": "Automatically approves edit-focused tools without prompting"
+        },
+        {
+          "id": "auto",
+          "label": "Auto mode",
+          "description": "Uses a model classifier to review permission prompts automatically"
+        },
+        {
+          "id": "bypassPermissions",
+          "label": "Bypass",
+          "description": "Skip all permission prompts (use with caution)"
+        }
+      ],
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "mode_changed",
+      "provider": "claude",
+      "currentModeId": "default",
+      "availableModes": [
+        {
+          "id": "plan",
+          "label": "Plan Mode",
+          "description": "Analyze the codebase without executing tools or edits"
+        },
+        {
+          "id": "default",
+          "label": "Always Ask",
+          "description": "Prompts for permission the first time a tool is used"
+        },
+        {
+          "id": "acceptEdits",
+          "label": "Accept File Edits",
+          "description": "Automatically approves edit-focused tools without prompting"
+        },
+        {
+          "id": "auto",
+          "label": "Auto mode",
+          "description": "Uses a model classifier to review permission prompts automatically"
+        },
+        {
+          "id": "bypassPermissions",
+          "label": "Bypass",
+          "description": "Skip all permission prompts (use with caution)"
+        }
+      ],
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "timeline",
+      "item": {
+        "type": "assistant_message",
+        "text": "ok",
+        "messageId": "msg_011Cg6JyYq5t8isiWb4KvnTS"
+      },
+      "provider": "claude",
+      "turnId": "foreground-turn-1"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "claude",
+      "usage": {
+        "inputTokens": 2,
+        "cachedInputTokens": 11078,
+        "outputTokens": 4,
+        "totalCostUsd": 0.0011255800000000002,
+        "contextWindowMaxTokens": 1000000,
+        "contextWindowUsedTokens": 15530
+      },
+      "turnId": "foreground-turn-1"
+    }
+  ]
+}
