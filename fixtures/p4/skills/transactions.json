@@ -1,0 +1,1269 @@
+{
+  "previous": {
+    "mode": "custom",
+    "skills": [
+      "paseo",
+      "paseo-loop"
+    ]
+  },
+  "next": {
+    "mode": "custom",
+    "skills": [
+      "paseo",
+      "paseo-advisor"
+    ]
+  },
+  "planOps": [
+    "update:paseo",
+    "add:paseo-advisor",
+    "delete:paseo-loop"
+  ],
+  "before": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    }
+  ],
+  "crashed": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/0",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/0/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/0/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/0/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/0/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/1",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/1/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/1/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/backup/1/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/transaction.json",
+      "type": "file",
+      "content": "{\n  \"owner\": \"paseo-skills-transaction\",\n  \"version\": 1,\n  \"phase\": \"converging\",\n  \"previousSelection\": {\n    \"mode\": \"custom\",\n    \"skills\": [\n      \"paseo\",\n      \"paseo-loop\"\n    ]\n  },\n  \"nextSelection\": {\n    \"mode\": \"custom\",\n    \"skills\": [\n      \"paseo\",\n      \"paseo-advisor\"\n    ]\n  },\n  \"entries\": [\n    {\n      \"livePath\": \"{{ROOT}}/home/.agents/skills/paseo\",\n      \"kind\": \"update\",\n      \"backupPath\": \"backup/0/paseo\"\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.agents/skills/paseo-advisor\",\n      \"kind\": \"add\",\n      \"backupPath\": null\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.agents/skills/paseo-loop\",\n      \"kind\": \"delete\",\n      \"backupPath\": \"{{ROOT}}/home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop\"\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.claude/skills/paseo\",\n      \"kind\": \"update\",\n      \"backupPath\": \"backup/1/paseo\"\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.claude/skills/paseo-advisor\",\n      \"kind\": \"add\",\n      \"backupPath\": null\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.claude/skills/paseo-loop\",\n      \"kind\": \"delete\",\n      \"backupPath\": \"{{ROOT}}/home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop\"\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.codex/skills/paseo\",\n      \"kind\": \"update\",\n      \"backupPath\": null\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.codex/skills/paseo-advisor\",\n      \"kind\": \"add\",\n      \"backupPath\": null\n    },\n    {\n      \"livePath\": \"{{ROOT}}/home/.codex/skills/paseo-loop\",\n      \"kind\": \"delete\",\n      \"backupPath\": \"{{ROOT}}/home/.codex/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop\"\n    }\n  ]\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"43068a19519a6ae770105028fd7bc626cc81f66148260597ddf07c1308dba050\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"46e92d94f6978fc4af8324c541336733a21d57a5efd0d484abeacdb5f1352b4f\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"43068a19519a6ae770105028fd7bc626cc81f66148260597ddf07c1308dba050\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"46e92d94f6978fc4af8324c541336733a21d57a5efd0d484abeacdb5f1352b4f\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/.paseo-skills-transaction-{{TXID}}",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/.paseo-skills-transaction-{{TXID}}/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    }
+  ],
+  "recoveredToPrevious": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    }
+  ],
+  "recoveredToNext": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"43068a19519a6ae770105028fd7bc626cc81f66148260597ddf07c1308dba050\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"46e92d94f6978fc4af8324c541336733a21d57a5efd0d484abeacdb5f1352b4f\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"43068a19519a6ae770105028fd7bc626cc81f66148260597ddf07c1308dba050\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"46e92d94f6978fc4af8324c541336733a21d57a5efd0d484abeacdb5f1352b4f\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    }
+  ],
+  "capturing": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/.paseo-skills-transaction-{{TXID}}/transaction.json",
+      "type": "file",
+      "content": "{\n  \"owner\": \"paseo-skills-transaction\",\n  \"version\": 1,\n  \"phase\": \"capturing\",\n  \"previousSelection\": {\n    \"mode\": \"custom\",\n    \"skills\": [\n      \"paseo\",\n      \"paseo-loop\"\n    ]\n  },\n  \"nextSelection\": {\n    \"mode\": \"custom\",\n    \"skills\": [\n      \"paseo\",\n      \"paseo-advisor\"\n    ]\n  },\n  \"entries\": []\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    }
+  ],
+  "recoveredCapturing": [
+    {
+      "path": "bundle",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-advisor",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-advisor/SKILL.md",
+      "type": "file",
+      "content": "paseo-advisor-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v2",
+      "mode": 420
+    },
+    {
+      "path": "bundle/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "bundle/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v2",
+      "mode": 420
+    },
+    {
+      "path": "home",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo/my-context.md",
+      "type": "file",
+      "content": "user context",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.agents/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"0ba739107d555e5cb83e23819fa0665e2fd6f12f6dd06eb2237374a93e8f3abd\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo/SKILL.md",
+      "type": "file",
+      "content": "paseo-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/.paseo-managed-files.json",
+      "type": "file",
+      "content": "{\n  \"version\": 1,\n  \"files\": {\n    \"SKILL.md\": \"4385a0728bc3c93738669e8040eee754f3e91673e625b868d7d4d13788a360d6\",\n    \"references/guide.md\": \"54f7c036c70149510c8200446fa1c225275be30cea0b300238d220d77d5b349b\"\n  }\n}\n",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/SKILL.md",
+      "type": "file",
+      "content": "paseo-loop-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references",
+      "type": "dir"
+    },
+    {
+      "path": "home/.claude/skills/paseo-loop/references/guide.md",
+      "type": "file",
+      "content": "guide-v1",
+      "mode": 420
+    },
+    {
+      "path": "home/.codex",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes",
+      "type": "dir"
+    },
+    {
+      "path": "home/.codex/skills/paseo-loop/notes/mine.md",
+      "type": "file",
+      "content": "hand written",
+      "mode": 420
+    }
+  ]
+}

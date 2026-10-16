@@ -1,0 +1,108 @@
+{
+  "steps": [
+    {
+      "call": "status",
+      "text": "{\"type\":\"agent.skills.get_status.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"not-installed\",\"ops\":[{\"kind\":\"add\",\"name\":\"paseo\"},{\"kind\":\"add\",\"name\":\"paseo-advisor\"},{\"kind\":\"add\",\"name\":\"paseo-loop\"}],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[],\"selection\":{\"mode\":\"all\"}}}"
+    },
+    {
+      "call": "save",
+      "args": {
+        "selection": {
+          "mode": "custom",
+          "skills": [
+            "paseo-loop",
+            "paseo"
+          ]
+        },
+        "confirmedRemovals": []
+      },
+      "text": "{\"type\":\"agent.skills.save_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\",\"paseo-loop\"],\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\",\"paseo-loop\"]},\"confirmationRequired\":null}}"
+    },
+    {
+      "call": "status",
+      "text": "{\"type\":\"agent.skills.get_status.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\",\"paseo-loop\"],\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\",\"paseo-loop\"]}}}"
+    },
+    {
+      "call": "save",
+      "args": {
+        "selection": {
+          "mode": "all"
+        },
+        "confirmedRemovals": []
+      },
+      "text": "{\"type\":\"agent.skills.save_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"selection\":{\"mode\":\"all\"},\"confirmationRequired\":null}}"
+    },
+    {
+      "call": "save",
+      "args": {
+        "selection": {
+          "mode": "custom",
+          "skills": [
+            "paseo"
+          ]
+        },
+        "confirmedRemovals": []
+      },
+      "text": "{\"type\":\"agent.skills.save_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"selection\":{\"mode\":\"all\"},\"confirmationRequired\":{\"removals\":[\"paseo-advisor\",\"paseo-loop\"]}}}"
+    },
+    {
+      "call": "save",
+      "args": {
+        "selection": {
+          "mode": "custom",
+          "skills": [
+            "paseo"
+          ]
+        },
+        "confirmedRemovals": [
+          "paseo-advisor",
+          "paseo-loop"
+        ]
+      },
+      "text": "{\"type\":\"agent.skills.save_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\"],\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\"]},\"confirmationRequired\":null}}"
+    },
+    {
+      "call": "uninstall",
+      "text": "{\"type\":\"agent.skills.uninstall.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"not-installed\",\"ops\":[{\"kind\":\"add\",\"name\":\"paseo\"}],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[],\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\"]}}}"
+    },
+    {
+      "call": "reconcile",
+      "text": "{\"type\":\"agent.skills.reconcile.response\",\"payload\":{\"requestId\":\"req-1\",\"state\":\"up-to-date\",\"ops\":[],\"available\":[\"paseo\",\"paseo-advisor\",\"paseo-loop\"],\"installed\":[\"paseo\"],\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\"]}}}"
+    },
+    {
+      "call": "import",
+      "args": {
+        "selection": {
+          "mode": "custom",
+          "skills": [
+            "paseo"
+          ]
+        }
+      },
+      "text": "{\"type\":\"agent.skills.import_legacy_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"imported\":false,\"selection\":{\"mode\":\"custom\",\"skills\":[\"paseo\"]}}}"
+    },
+    {
+      "call": "import",
+      "args": {
+        "selection": {
+          "mode": "custom",
+          "skills": [
+            "b",
+            "a",
+            "a"
+          ]
+        }
+      },
+      "text": "{\"type\":\"agent.skills.import_legacy_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"imported\":true,\"selection\":{\"mode\":\"custom\",\"skills\":[\"a\",\"b\"]}}}"
+    },
+    {
+      "call": "import",
+      "args": {
+        "selection": {
+          "mode": "all"
+        }
+      },
+      "text": "{\"type\":\"agent.skills.import_legacy_selection.response\",\"payload\":{\"requestId\":\"req-1\",\"imported\":false,\"selection\":{\"mode\":\"custom\",\"skills\":[\"a\",\"b\"]}}}"
+    }
+  ]
+}
