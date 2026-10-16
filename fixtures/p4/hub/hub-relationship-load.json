@@ -1,0 +1,1508 @@
+[
+  {
+    "name": "golden-pending",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"token-1\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"token-1\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "reconnecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "offline"
+    },
+    "enrollAttempts": 1,
+    "socketAttempts": 0
+  },
+  {
+    "name": "golden-pending_fresh_token",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"fresh-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"fresh-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "reconnecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "offline"
+    },
+    "enrollAttempts": 1,
+    "socketAttempts": 0
+  },
+  {
+    "name": "golden-active",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "golden-active_updated_permissions",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\",\n      \"daemon.read\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\",\n      \"daemon.read\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute",
+        "daemon.read"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute",
+        "daemon.read"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "golden-active_revoked_execute",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"daemon.read\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"daemon.read\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "daemon.read"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "daemon.read"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "golden-disconnecting",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"disconnecting\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000007\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"PkVMU1phaG92fYSLkpmgp661vMPK0djf5u30-wIJEBc\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "golden-revoked_401",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "golden-revoked_4403",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub revoked this relationship\"\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub revoked this relationship\"\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub revoked this relationship"
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub revoked this relationship"
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "golden-reconnecting_after_close",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000019\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"m6KpsLe-xczT2uHo7_b9BAsSGSAnLjU8Q0pRWF9mbXQ\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000019\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"m6KpsLe-xczT2uHo7_b9BAsSGSAnLjU8Q0pRWF9mbXQ\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "v1-active-execution-scope",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "v1-active-other-scope",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"other\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": []\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "v1-active-no-scopes",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\"\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\"\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "v1-active-bad-scope-type",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      1\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      1\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "v1-pending",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "reconnecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "offline"
+    },
+    "enrollAttempts": 1,
+    "socketAttempts": 0
+  },
+  {
+    "name": "v1-unknown-state",
+    "text": "{\"version\":1,\"state\":\"unknown\"}",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\"version\":1,\"state\":\"unknown\"}",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "not-json",
+    "text": "{not-json",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{not-json",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "empty-file",
+    "text": "",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "version-3",
+    "text": "{\n  \"version\": 3,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 3,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "version-string",
+    "text": "{\n  \"version\": \"2\",\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": \"2\",\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "unknown-state",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"paused\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"paused\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "unknown-keys-stripped",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"s\",\n    \"more\": true\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"extra\": 1\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"s\",\n    \"more\": true\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"extra\": 1\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "permissions-wildcard",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "permissions-duplicates",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\",\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\",\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "permissions-not-array",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": \"hub.execute\"\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": \"hub.execute\"\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "permissions-all",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"daemon.read\",\n      \"daemon.manage\",\n      \"tunnel.manage\",\n      \"access.manage\",\n      \"workspace.read\",\n      \"workspace.write\",\n      \"workspace.manage\",\n      \"automation.manage\",\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"daemon.read\",\n      \"daemon.manage\",\n      \"tunnel.manage\",\n      \"access.manage\",\n      \"workspace.read\",\n      \"workspace.write\",\n      \"workspace.manage\",\n      \"automation.manage\",\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "daemon.read",
+        "daemon.manage",
+        "tunnel.manage",
+        "access.manage",
+        "workspace.read",
+        "workspace.write",
+        "workspace.manage",
+        "automation.manage",
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "daemon.read",
+        "daemon.manage",
+        "tunnel.manage",
+        "access.manage",
+        "workspace.read",
+        "workspace.write",
+        "workspace.manage",
+        "automation.manage",
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "origin-trailing-slash",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test/\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test/\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test/",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test/",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "origin-ftp",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"ftp://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"ftp://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "origin-credentials",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://user:password@hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://user:password@hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "origin-query",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test?token=secret\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test?token=secret\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "origin-empty-query",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test?\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test?\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test?",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "reconnecting",
+      "daemonId": "daemon-legacy",
+      "hubOrigin": "https://hub.test?",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "offline"
+    },
+    "enrollAttempts": 1,
+    "socketAttempts": 0
+  },
+  {
+    "name": "origin-fragment",
+    "text": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test#secret\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 1,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-legacy\",\n    \"idempotencyKey\": \"ceremony-legacy\",\n    \"hubOrigin\": \"https://hub.test#secret\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"scopes\": [\n      \"hub.execution.*\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"credential\"\n  },\n  \"enrollment\": {\n    \"token\": \"enrollment-token\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-1\",\n    \"daemonPublicKey\": \"public-key\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "origin-not-url",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "daemon-id-empty",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "idempotency-key-missing",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "created-at-any-string",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"yesterday\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"yesterday\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "secret-empty",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "credential-missing",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-ftp",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"ftp://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"ftp://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-fragment",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon#fragment\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon#fragment\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-empty-fragment",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon#\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon#\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "transport-other-host",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://other.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://other.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-ws-for-https-hub",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"ws://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"ws://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-explicit-default-port",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test:443/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test:443/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "connecting",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 1
+  },
+  {
+    "name": "transport-other-port",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test:8443/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test:8443/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-wrong-kind",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"tcp\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"transport\": {\n    \"kind\": \"tcp\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "transport-missing-on-active",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"active\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "pending-missing-identity",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"token-1\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"token-1\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "pending-empty-token",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"pending\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000001\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"HyYtNDtCSVBXXmVsc3qBiI-WnaSrsrnAx87V3OPq8fg\"\n  },\n  \"enrollment\": {\n    \"token\": \"\"\n  },\n  \"identity\": {\n    \"serverId\": \"server-fixture\",\n    \"daemonPublicKey\": \"public-key-fixture\"\n  }\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-without-transport",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-null-transport",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": null,\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": null,\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-without-reason",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-null-reason",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": null\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 1,
+    "quarantinedText": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": null\n}\n",
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-with-credential-stripped",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\",\n  \"credential\": {\n    \"secret\": \"leak\"\n  }\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\",\n  \"credential\": {\n    \"secret\": \"leak\"\n  }\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "revoked-with-idempotency-key-stripped",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ],\n    \"idempotencyKey\": \"kept?\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "fileAfterLoad": "{\n  \"version\": 2,\n  \"state\": \"revoked\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ],\n    \"idempotencyKey\": \"kept?\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  },\n  \"reason\": \"Hub rejected socket authentication (401)\"\n}\n",
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "statusAfterStart": {
+      "state": "revoked",
+      "daemonId": "daemon-fixture",
+      "hubOrigin": "https://hub.test",
+      "permissions": [
+        "hub.execute"
+      ],
+      "connectedAt": null,
+      "lastError": "Hub rejected socket authentication (401)"
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "disconnecting-with-transport",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"disconnecting\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000007\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"PkVMU1phaG92fYSLkpmgp661vMPK0djf5u30-wIJEBc\"\n  },\n  \"transport\": {\n    \"kind\": \"direct_websocket\",\n    \"webSocketUrl\": \"wss://hub.test/daemon\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  },
+  {
+    "name": "disconnecting-without-transport",
+    "text": "{\n  \"version\": 2,\n  \"state\": \"disconnecting\",\n  \"relationship\": {\n    \"daemonId\": \"daemon-fixture\",\n    \"idempotencyKey\": \"00000000-0000-4000-8000-000000000007\",\n    \"hubOrigin\": \"https://hub.test\",\n    \"createdAt\": \"2026-07-13T00:00:00.000Z\",\n    \"permissions\": [\n      \"hub.execute\"\n    ]\n  },\n  \"credential\": {\n    \"secret\": \"PkVMU1phaG92fYSLkpmgp661vMPK0djf5u30-wIJEBc\"\n  }\n}\n",
+    "fileAfterLoad": null,
+    "quarantined": 0,
+    "quarantinedText": null,
+    "statusAtConstruction": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "statusAfterStart": {
+      "state": "not_connected",
+      "daemonId": null,
+      "hubOrigin": null,
+      "permissions": [],
+      "connectedAt": null,
+      "lastError": null
+    },
+    "enrollAttempts": 0,
+    "socketAttempts": 0
+  }
+]
