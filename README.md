@@ -1,7 +1,24 @@
 # paseo-rs
 
-Rust implementation of the Paseo daemon, migrated strangler-style from the TS daemon in
-`../paseo-vietnamese-voice/packages/server`. Plan: `../paseo-vietnamese-voice/docs/refactors/rust-daemon-plan.md`.
+Rust implementation of the Paseo daemon, migrated strangler-style from the TypeScript daemon in
+[getpaseo/paseo](https://github.com/getpaseo/paseo) (`packages/server`).
+
+The TypeScript-side changes this port depends on (shims, Rust edge wiring, provider host, preview release)
+live in the fork [luongndcoder/paseo](https://github.com/luongndcoder/paseo), branches `feat/rust-shims`,
+`feat/rust-edge`, `feat/rust-provider-host` and `release/rust-preview`.
+
+## Status
+
+- [docs/STATUS-2026-10-17.md](docs/STATUS-2026-10-17.md) — current state and open items
+- [docs/benchmarks.md](docs/benchmarks.md) — performance numbers
+- [docs/p4-core-spec.md](docs/p4-core-spec.md) — core spec
+- Deploy: see `DEPLOY.md` on the `release/rust-preview` branch of the fork.
+
+## Running tests that need the TS checkout
+
+Some tests and capture scripts need a checkout of the TS repo. Set `PASEO_REPO` to its root
+(optionally `PASEO_PROVIDER_HOST_SERVER_DIR` to point at `packages/server`). Without it those tests print
+`SKIP: ...` and pass.
 
 Crates:
 - `paseo-protocol` — wire types generated from zod JSON Schema + golden conformance tests.

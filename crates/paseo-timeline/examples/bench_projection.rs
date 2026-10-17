@@ -7,14 +7,19 @@ use paseo_timeline::{project_rows, ProjectionMode, Row};
 
 fn main() {
     let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../bench/timeline-300.json");
-    let doc: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+    let doc: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
     let rows: Vec<Row> = doc
         .as_array()
         .unwrap()
         .iter()
         .map(|r| {
             let item = AgentTimelineItem::from_value(&r["item"]).unwrap();
-            Row::new(r["seq"].as_i64().unwrap(), r["timestamp"].as_str().unwrap(), item)
+            Row::new(
+                r["seq"].as_i64().unwrap(),
+                r["timestamp"].as_str().unwrap(),
+                item,
+            )
         })
         .collect();
     let n = 20_000;

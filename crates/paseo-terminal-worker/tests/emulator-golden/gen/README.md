@@ -9,7 +9,7 @@ random scripts.
 
 Regenerate from a checkout of the TS repo that has `node_modules` installed:
 
-    PASEO_TS_CHECKOUT=/path/to/paseo node gen/gen-golden.mjs
+    PASEO_TS_CHECKOUT=$PASEO_REPO node gen/gen-golden.mjs
 
 The `diff_*` files only keep scripts the Rust emulator already matches, so build the
 differential runner first (`cd gen/emudiff && cargo build --release`); without it every

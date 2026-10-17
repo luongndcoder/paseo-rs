@@ -2,7 +2,9 @@
 //   RELAY_RUST_OUT=<file> cargo test --test relay_vectors dump_rust_frames   (writes <file>)
 //   npx tsx verify-rust-output.mts <abs vectors dir> <file>                  (run from the TS worktree)
 import { readFileSync } from "node:fs";
-const WT = "/path/to/paseo/.claude/worktrees/rust-edge/packages";
+const REPO = process.env.PASEO_REPO;
+if (!REPO) { console.error("Set PASEO_REPO to the TS paseo checkout root"); process.exit(1); }
+const WT = `${REPO}/packages`;
 const crypto = await import(`${WT}/relay/src/crypto.ts`);
 const b64 = await import(`${WT}/relay/src/base64.ts`);
 const [dir, file] = process.argv.slice(2);

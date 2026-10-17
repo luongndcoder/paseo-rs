@@ -29,7 +29,6 @@ use serde_json::json;
 use tokio::time::timeout;
 
 const REPLY: &str = "scripted reply";
-const DEFAULT_SERVER_DIR: &str = "/path/to/paseo/.claude/worktrees/rust-provider-host/packages/server";
 
 /// How a variant configures its two kinds of agent.
 struct Variant {
@@ -98,10 +97,19 @@ fn mock_variant() -> Variant {
 /// `None` (with a SKIP message) when the TS host cannot run here.
 async fn host_variant() -> Option<(Variant, ProviderHostClient)> {
     let node = std::env::var("PASEO_PROVIDER_HOST_NODE").unwrap_or_else(|_| "node".into());
-    let server_dir = PathBuf::from(
-        std::env::var("PASEO_PROVIDER_HOST_SERVER_DIR")
-            .unwrap_or_else(|_| DEFAULT_SERVER_DIR.into()),
-    );
+    // PASEO_PROVIDER_HOST_SERVER_DIR points at packages/server; PASEO_REPO at the TS checkout root.
+    let server_dir = match std::env::var("PASEO_PROVIDER_HOST_SERVER_DIR") {
+        Ok(dir) => PathBuf::from(dir),
+        Err(_) => match std::env::var("PASEO_REPO") {
+            Ok(repo) => PathBuf::from(repo).join("packages/server"),
+            Err(_) => {
+                eprintln!(
+                    "SKIP: set PASEO_REPO (TS paseo checkout) or PASEO_PROVIDER_HOST_SERVER_DIR"
+                );
+                return None;
+            }
+        },
+    };
     if !server_dir.join("src/provider-host/main.ts").exists() {
         eprintln!(
             "SKIP: provider-host entry not found in {}",

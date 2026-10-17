@@ -1,6 +1,6 @@
 // Usage: tsx run-scenarios.mjs [scenario numbers...]   (default: all)
 // Drives the TS Copilot ACP adapter (packages/server .../acp-agent.ts) through a tee wrapper.
-// Env: PASEO_REPO (default /path/to/paseo), CAPTURE_SCRATCH, ACP_MODEL (default gpt-4.1)
+// Env: PASEO_REPO (required), CAPTURE_SCRATCH, ACP_MODEL (default gpt-4.1)
 import { mkdtempSync, mkdirSync, realpathSync, writeFileSync, existsSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
@@ -8,7 +8,8 @@ import { fileURLToPath } from "node:url";
 import { scrubFile } from "./scrub.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = process.env.PASEO_REPO || "/path/to/paseo";
+const repo = process.env.PASEO_REPO;
+if (!repo) { console.error("Set PASEO_REPO to the TS paseo checkout root"); process.exit(1); }
 const providers = `${repo}/packages/server/src/server/agent/providers`;
 const { CopilotACPAgentClient } = await import(`${providers}/copilot-acp-agent.ts`);
 const pino = (await import(`${repo}/node_modules/pino/pino.js`)).default;

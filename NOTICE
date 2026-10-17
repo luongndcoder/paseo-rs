@@ -1,0 +1,9 @@
+paseo-rs — Rust port of the Paseo daemon.
+Includes code and test fixtures derived from Paseo (https://github.com/getpaseo/paseo), Apache-2.0.
+
+Paseo
+Copyright (c) 2025-present Mohamed Boudra
+Licensed under the Apache License, Version 2.0.
+
+silero_vad.onnx (optional speech feature) is from https://github.com/snakers4/silero-vad,
+distributed under its upstream license (MIT).

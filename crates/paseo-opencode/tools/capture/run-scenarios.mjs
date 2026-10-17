@@ -8,7 +8,8 @@ import { fileURLToPath } from "node:url";
 import { scrubFile } from "./scrub.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = process.env.PASEO_REPO || "/path/to/paseo";
+const repo = process.env.PASEO_REPO;
+if (!repo) { console.error("Set PASEO_REPO to the TS paseo checkout root"); process.exit(1); }
 const scratch = realpathSync(process.env.CAPTURE_SCRATCH || tmpdir());
 process.env.PASEO_HOME = join(scratch, "paseo-home");
 mkdirSync(process.env.PASEO_HOME, { recursive: true });

@@ -131,9 +131,11 @@ fn run_golden(name: &str) {
             let mut streamed = Vec::new();
             let title = emulator.title().filter(|t| !t.is_empty());
             emulator.write_snapshot(&opts, title.as_deref(), &mut streamed);
+            // Compare as values: key order differs when another workspace crate enables
+            // serde_json/preserve_order (feature unification under `cargo test --workspace`).
             assert_eq!(
-                String::from_utf8(streamed).unwrap(),
-                serde_json::to_string(&actual).unwrap(),
+                serde_json::from_slice::<Value>(&streamed).unwrap(),
+                actual,
                 "{name} step {index} streamed snapshot differs from Value snapshot"
             );
             strip_false(&mut actual);

@@ -17,14 +17,21 @@ use paseo_provider_host::{
 use serde_json::{json, Value};
 use tokio::time::timeout;
 
-const DEFAULT_SERVER_DIR: &str = "/path/to/paseo/.claude/worktrees/rust-provider-host/packages/server";
-
 fn host_config() -> Option<HostConfig> {
     let node = std::env::var("PASEO_PROVIDER_HOST_NODE").unwrap_or_else(|_| "node".into());
-    let server_dir = PathBuf::from(
-        std::env::var("PASEO_PROVIDER_HOST_SERVER_DIR")
-            .unwrap_or_else(|_| DEFAULT_SERVER_DIR.into()),
-    );
+    // PASEO_PROVIDER_HOST_SERVER_DIR points at packages/server; PASEO_REPO at the TS checkout root.
+    let server_dir = match std::env::var("PASEO_PROVIDER_HOST_SERVER_DIR") {
+        Ok(dir) => PathBuf::from(dir),
+        Err(_) => match std::env::var("PASEO_REPO") {
+            Ok(repo) => PathBuf::from(repo).join("packages/server"),
+            Err(_) => {
+                eprintln!(
+                    "SKIP: set PASEO_REPO (TS paseo checkout) or PASEO_PROVIDER_HOST_SERVER_DIR"
+                );
+                return None;
+            }
+        },
+    };
     let entry = server_dir.join("src/provider-host/main.ts");
     if !entry.exists() {
         eprintln!("SKIP: {} not found", entry.display());

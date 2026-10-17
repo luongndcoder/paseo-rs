@@ -5,7 +5,9 @@ import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const WT = "/path/to/paseo/.claude/worktrees/rust-edge/packages";
+const REPO = process.env.PASEO_REPO;
+if (!REPO) { console.error("Set PASEO_REPO to the TS paseo checkout root"); process.exit(1); }
+const WT = `${REPO}/packages`;
 const OUT = process.argv[2];
 mkdirSync(OUT, { recursive: true });
 const req = createRequire(`${WT}/relay/src/crypto.ts`);

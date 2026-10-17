@@ -8,7 +8,9 @@ import { fileURLToPath } from "node:url";
 import { scrubFile } from "./scrub.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const DIST = "/path/to/paseo/packages/server/dist/server/server/agent/providers";
+const REPO = process.env.PASEO_REPO;
+if (!REPO) { console.error("Set PASEO_REPO to the TS paseo checkout root"); process.exit(1); }
+const DIST = `${REPO}/packages/server/dist/server/server/agent/providers`;
 const { CodexAppServerAgentClient } = await import(`${DIST}/codex-app-server-agent.js`);
 
 const fixturesDir = join(here, "..", "..", "fixtures");
