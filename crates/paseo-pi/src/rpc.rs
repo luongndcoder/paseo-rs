@@ -51,6 +51,14 @@ struct Inner {
 }
 
 impl Inner {
+    /// The error for a request against a dead client: the recorded exit (code + stderr tail)
+    /// when the process died on its own, so the cause survives a request that loses the race
+    /// against exit handling.
+    fn closed_error(&self) -> Error {
+        let exit = self.ready.lock().unwrap().exit.clone();
+        Error::Closed(exit.unwrap_or_else(|| format!("{} process is closed", self.name)))
+    }
+
     fn fail_all(&self, make: impl Fn() -> Error) {
         if self.disposed.swap(true, Ordering::SeqCst) {
             return;
@@ -168,10 +176,7 @@ impl PendingRequest {
         };
         match outcome {
             Ok(result) => result,
-            Err(()) => Err(Error::Closed(format!(
-                "{} process is closed",
-                self.inner.name
-            ))),
+            Err(()) => Err(self.inner.closed_error()),
         }
     }
 }
@@ -252,7 +257,7 @@ impl RpcClient {
     ) -> Result<PendingRequest> {
         let inner = &self.inner;
         if inner.disposed.load(Ordering::SeqCst) {
-            return Err(Error::Closed(format!("{} process is closed", inner.name)));
+            return Err(inner.closed_error());
         }
         let name = command
             .get("type")
