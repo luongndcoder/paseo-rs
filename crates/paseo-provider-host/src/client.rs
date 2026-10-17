@@ -260,6 +260,21 @@ impl Inner {
         }
     }
 
+    /// A host that died before our write surfaces as EPIPE before the reader task has recorded
+    /// the exit. Prefer the recorded exit (reason + stderr tail) once it lands.
+    async fn prefer_exit(&self, error: Error) -> Error {
+        if !matches!(&error, Error::Io(io) if io.kind() == std::io::ErrorKind::BrokenPipe) {
+            return error;
+        }
+        for _ in 0..100 {
+            if self.pending.lock().expect("pending lock").closed.is_some() {
+                return self.exited_error();
+            }
+            tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+        }
+        error
+    }
+
     async fn write_line(&self, message: &Value) -> Result<()> {
         let mut line = serde_json::to_string(message)?;
         line.push('\n');
@@ -300,7 +315,7 @@ impl Inner {
         let frame = json!({"id": id, "method": method, "params": params});
         if let Err(error) = self.write_line(&frame).await {
             self.pending.lock().expect("pending lock").map.remove(&id);
-            return Err(error);
+            return Err(self.prefer_exit(error).await);
         }
         Ok(Pending {
             id,
