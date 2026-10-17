@@ -32,7 +32,14 @@ class H(BaseHTTPRequestHandler):
                 self.wfile.flush()
         except Exception:
             pass
-srv = ThreadingHTTPServer(("127.0.0.1", port), H)
+class S(ThreadingHTTPServer):
+    # HTTPServer.server_bind calls getfqdn(), a reverse DNS lookup that can stall for tens of
+    # seconds on macOS CI runners.
+    def server_bind(self):
+        import socketserver
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = "127.0.0.1", self.server_address[1]
+srv = S(("127.0.0.1", port), H)
 srv.daemon_threads = True
 print("opencode server listening on http://127.0.0.1:%d" % port, flush=True)
 srv.serve_forever()
@@ -48,7 +55,7 @@ fn manager(dir: &Path) -> Arc<OpenCodeServerManager> {
             .prefix_args([script.to_str().unwrap()])
             .home_dir(&home)
             .unsecured()
-            .startup_timeout(Duration::from_secs(30)),
+            .startup_timeout(Duration::from_secs(10)),
     )
 }
 
