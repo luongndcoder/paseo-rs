@@ -125,6 +125,8 @@ impl Run {
     }
 
     async fn create(&self, n: u32, config: AgentSessionConfig, options: CreateAgentOptions) {
+        // The manager rejects a missing cwd; fresh CI runners have no such directory.
+        std::fs::create_dir_all(CWD).expect("create cwd");
         self.lc
             .manager
             .create_agent(config, Some(&id(n)), options)
