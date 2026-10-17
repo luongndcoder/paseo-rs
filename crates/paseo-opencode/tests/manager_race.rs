@@ -48,7 +48,7 @@ fn manager(dir: &Path) -> Arc<OpenCodeServerManager> {
             .prefix_args([script.to_str().unwrap()])
             .home_dir(&home)
             .unsecured()
-            .startup_timeout(Duration::from_secs(10)),
+            .startup_timeout(Duration::from_secs(30)),
     )
 }
 
