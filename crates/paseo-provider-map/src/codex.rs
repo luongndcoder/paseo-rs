@@ -402,10 +402,10 @@ impl CodexMapper {
             | AgentStreamEvent::TurnCanceled { turn_id, .. }
             | AgentStreamEvent::Timeline { turn_id, .. }
             | AgentStreamEvent::PermissionRequested { turn_id, .. }
-            | AgentStreamEvent::PermissionResolved { turn_id, .. } => {
-                if turn_id.is_none() {
-                    *turn_id = fg;
-                }
+            | AgentStreamEvent::PermissionResolved { turn_id, .. }
+                if turn_id.is_none() =>
+            {
+                *turn_id = fg;
             }
             _ => {}
         }

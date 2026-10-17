@@ -1,5 +1,6 @@
 //! `relationship-remote.test.ts`: the network remote against local servers, then the
 //! relationship actor driving the real remote.
+#![allow(clippy::result_large_err)] // tungstenite handshake callback signature fixes ErrorResponse
 
 mod support;
 

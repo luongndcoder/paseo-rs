@@ -1,4 +1,5 @@
 //! Proxy tests against an in-process fake backend (tokio-tungstenite server).
+#![allow(clippy::result_large_err)] // tungstenite handshake callback signature fixes ErrorResponse
 
 use std::future::Future;
 use std::net::SocketAddr;

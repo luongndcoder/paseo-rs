@@ -188,6 +188,8 @@ impl Inflight {
         self.pending.fetch_add(bytes, Ordering::Relaxed);
     }
 
+    // `try_update` (the 1.99 name) is not available on the 1.92 MSRV.
+    #[allow(deprecated)]
     fn release(&self, bytes: usize) {
         let _ = self
             .pending

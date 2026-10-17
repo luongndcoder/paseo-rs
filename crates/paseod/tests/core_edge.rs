@@ -4,6 +4,7 @@
 //! Covers routing (owned types answered in Rust, everything else forwarded byte for byte, frames
 //! before `hello` left to TS), the delivery gate at the socket writer, session lifetime across
 //! socket close, and `internal.delivery.*` over `GET /__paseo_edge/rpc` with a fake TS controller.
+#![allow(clippy::result_large_err)] // tungstenite handshake callback signature fixes ErrorResponse
 
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};

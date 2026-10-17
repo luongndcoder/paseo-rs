@@ -1,5 +1,6 @@
 //! End to end: real `RelayHandle` against an in-process fake relay server over loopback,
 //! with a test client speaking the E2EE protocol.
+#![allow(clippy::result_large_err)] // tungstenite handshake callback signature fixes ErrorResponse
 
 use std::future::Future;
 use std::pin::Pin;

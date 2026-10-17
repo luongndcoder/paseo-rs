@@ -298,7 +298,7 @@ pub fn resolve_stored_agent_updated_at(record: &StoredAgentRecord) -> String {
         return record.updated_at.clone();
     }
     // Stable sort by descending time: ties keep `updatedAt` first.
-    candidates.sort_by(|a, b| b.0.cmp(&a.0));
+    candidates.sort_by_key(|c| std::cmp::Reverse(c.0));
     candidates[0].1.clone()
 }
 
