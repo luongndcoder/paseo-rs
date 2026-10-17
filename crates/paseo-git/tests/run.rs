@@ -211,12 +211,15 @@ async fn throttles_concurrent_git_commands_and_prefers_high_priority() {
 
     // High priority jumps the queue.
     let order = std::sync::Arc::new(std::sync::Mutex::new(Vec::<&'static str>::new()));
-    let blockers: Vec<_> = (0..2)
-        .map(|_| {
+    // One short and one long blocker: when the short one finishes a single slot frees, so the
+    // queue order decides who runs first (two free slots would let both finish in any order).
+    let blockers: Vec<_> = ["0.4", "1.5"]
+        .into_iter()
+        .map(|nap| {
             let repo = f.repo.clone();
             tokio::spawn(async move {
                 run_git(
-                    &["-c", "alias.nap=!sleep 0.4", "nap"],
+                    &["-c", &format!("alias.nap=!sleep {nap}"), "nap"],
                     &GitOptions::new(&repo),
                 )
                 .await
@@ -224,7 +227,7 @@ async fn throttles_concurrent_git_commands_and_prefers_high_priority() {
             })
         })
         .collect();
-    tokio::time::sleep(Duration::from_millis(100)).await;
+    tokio::time::sleep(Duration::from_millis(250)).await;
     let (o1, r1) = (order.clone(), f.repo.clone());
     let normal = tokio::spawn(async move {
         run_git(&["status"], &GitOptions::new(&r1)).await.unwrap();
